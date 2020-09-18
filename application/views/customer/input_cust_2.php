@@ -120,81 +120,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="card-body">
 
-						<form action="<?php echo site_url('orders/addNewOrderCust ') ?>" method="post" enctype="multipart/form-data" >
+						<form action="<?php echo site_url('orders/addOrderCust2 ') ?>" method="post" enctype="multipart/form-data" >
 
-                            <div class="form-group">
-                                <label for="jenis">Nomo PO*</label>
-                                <input class="form-control <?php echo form_error('nomor_po') ? 'is-invalid':'' ?>"
-                                 type="text" name="nomor_po" placeholder="Jenis" />
-                                <div class="invalid-feedback">
-                                    <?php echo form_error('nomor_po') ?>
-                                </div>
-                            </div>
-
-							<div class="form-group">
-								<label for="jenis">Jenis Box*</label>
-								<input class="form-control <?php echo form_error('jenis') ? 'is-invalid':'' ?>"
-								 type="text" name="jenis" placeholder="Jenis" />
-								<div class="invalid-feedback">
-									<?php echo form_error('jenis') ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="jumlah">Jumlah*</label>
-								<input class="form-control <?php echo form_error('jumlah') ? 'is-invalid':'' ?>"
-								 type="number" name="jumlah" min="0" placeholder="Jumlah" />
-								<div class="invalid-feedback">
-									<?php echo form_error('jumlah') ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="alamat">Alamat*</label>
-								<input class="form-control <?php echo form_error('alamat') ? 'is-invalid':'' ?>"
-								 type="text" name="alamat" placeholder="Alamat" />
-								<div class="invalid-feedback">
-									<?php echo form_error('alamat') ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-                                <label for="tanggal">Tanggal*</label>
-                                <input class="form-control <?php echo form_error('tanggal') ? 'is-invalid':'' ?>"
-                                 type="date" name="tanggal" placeholder="Tanggal" />
-                                <div class="invalid-feedback">
-                                    <?php echo form_error('tanggal') ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="image">Drawing*</label>
-                                <input class="form-control <?php echo form_error('image') ? 'is-invalid':'' ?>"
-                                 type="file" name="image" placeholder="Image" />
-                                <div class="invalid-feedback">
-                                    <?php echo form_error('image') ?>
-                                </div>
-                            </div>
-
-							<div class="form-group">
-								<label for="spesifikasi">Spesifikasi*</label>
-								<input class="form-control <?php echo form_error('spesifikasi') ? 'is-invalid':'' ?>"
-								 type="text" name="spesifikasi" placeholder="Spesifikasi" />
-								<div class="invalid-feedback">
-									<?php echo form_error('spesifikasi') ?>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="dimensi">Dimensi*</label>
-								<input class="form-control <?php echo form_error('dimensi') ? 'is-invalid':'' ?>"
-								 type="text" name="dimensi" placeholder="Dimensi" />
-								<div class="invalid-feedback">
-									<?php echo form_error('dimensi') ?>
-								</div>
-							</div>
-
-                            <div class="form-group">
+                           <div class="form-group">
                                 <label for="kualitas">Kualitas*</label>
                                 <select class="form-control input-lg" name="kualitas" id="kualitas" required>
                                     <option value="">Pilih Kualitas</option>
@@ -216,15 +144,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <option value="">Pilih</option>
                                 </select>   
                             </div>
-
-							<div class="form-group">
-								<label for="deskripsi">Deskripsi*</label>
-								<textarea class="form-control <?php echo form_error('deskripsi') ? 'is-invalid':'' ?>"
-								 name="deskripsi" placeholder="Deskripsi pesanan..."></textarea>
-								<div class="invalid-feedback">
-									<?php echo form_error('deskripsi') ?>
-								</div>
-							</div>
 
 							<input class="btn btn-success" type="submit" name="btn" value="Save" />
 						</form>
@@ -303,9 +222,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </footer>
     <!-- Footer Area End -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script>
+    <script>
         $(document).ready(function(){
-
             $('#kualitas').change(function() {
                 var id_kualitas = $('#kualitas').val();
                 if(id_kualitas != '')
@@ -343,15 +261,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             });
 
         });
-        </script>  
+        </script>   
 
 
 
     <!-- All JS Files -->
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
-    <!-- Popper -->
-    <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
     <!-- Bootstrap -->
     <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
     <!-- All Plugins -->

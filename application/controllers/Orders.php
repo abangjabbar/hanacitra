@@ -8,7 +8,7 @@ class Orders extends CI_Controller
 		parent::__construct();
 		$this->load->model("order_model");
         $this->load->model("substance_model");
-        $this->load->model("kualitas_model");
+        $this->load->model("subkualitas_model");
 		$this->load->library('form_validation');
 	}
 
@@ -33,46 +33,34 @@ class Orders extends CI_Controller
 	public function addNewOrderCust()
 	{
 		$order = $this->order_model;
-        $data["substances"] = $this->substance_model->tampil_data();
-        $data["kualitas"] = $this->kualitas_model->get_kualitas();
+        $data["kualitas"] = $this->subkualitas_model->fetch_kualitas();
 		$validation = $this->form_validation;
 		$validation->set_rules($order->rules());
 
 		if ($validation->run()) {
             $order->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
-        }
+        }else{
+			ECHO 'GAGAL';
+		}
 
         $this->load->view('customer/new_input_cust', $data);
 	}
-
-    public function get_subkualitas()
+    
+    public function fetch_subkualitas()
     {
-        $id_kualitas = $this->input->post('id_kualitas');
-        $data = $this->kualitas_model->get_subkualitas($id_kualitas);
-        echo json_encode($data);
-    }
-
-    public function get_harga_subkualitas()
-    {
-        $id_subkualitas = $this->input->post('id_subkualitas');
-        $data = $this->kualitas_model->get_harga_subkualitas($id_subkualitas);
-        echo json_encode($data);
-    }
-
-    public function addOrderCust()
-    {
-        $order = $this->order_model;
-        $data["substances"] = $this->substance_model->tampil_data();
-        $validation = $this->form_validation;
-        $validation->set_rules($order->rules());
-
-        if ($validation->run()) {
-            $order->save();
-            $this->session->set_flashdata('success', 'Berhasil disimpan');
+        if ($this->input->post('id_kualitas'))
+        {
+            echo $this->subkualitas_model->fetch_subkualitas($this->input->post('id_kualitas'));
         }
+    }
 
-        $this->load->view("customer/input_cust");
+    public function fetch_harga_subkualitas()
+    {
+        if ($this->input->post('id_subkualitas'))
+        {
+            echo $this->subkualitas_model->fetch_harga_subkualitas($this->input->post('id_subkualitas'));
+        }
     }
 
     public function editOrderAdmin($id = null)
