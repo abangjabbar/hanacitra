@@ -125,7 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <th>Drawing</th>
                                         <th>Spesifikasi</th>
                                         <th>Dimensi</th>
-                                        <th>Substance</th>
+                                        <th>Kualitas</th>
+                                        <th>Subkualitas</th>
+                                        <th>Harga Subkualitas</th>
                                         <th>Deskripsi</th>
                                     </tr>
                                 </thead>
@@ -164,7 +166,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php echo $order->dimensi ?>
                                         </td>
                                         <td>
-                                            <?php echo $order->substances ?>
+                                            <?php echo $order->kualitas ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order->subkualitas ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order->harga_subkualitas     ?>
                                         </td>
                                         <td class="small">
                                             <?php echo substr($order->deskripsi, 0, 120) ?>...</td>

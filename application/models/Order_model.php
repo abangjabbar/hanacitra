@@ -15,7 +15,7 @@ class Order_model extends CI_Model
 	public $dimensi;
 	public $kualitas;
 	public $subkualitas;
-	public $substances;
+	public $harga_subkualitas;
 	public $deskripsi;
 
 	public function rules()
@@ -57,8 +57,8 @@ class Order_model extends CI_Model
 			'label' => 'Sub Kualitas',
 			'rules' => 'required'],
 
-			['field' => 'substances',
-			'label' => 'Substances',
+			['field' => 'harga_subkualitas',
+			'label' => 'Harga',
 			'rules' => 'required'],
 
 			['field' => 'deskripsi',
@@ -91,7 +91,7 @@ class Order_model extends CI_Model
 		$this->dimensi = $post["dimensi"];
 		$this->kualitas = $post["kualitas"];
 		$this->subkualitas = $post["subkualitas"];
-		$this->substances = $post["substances"];
+		$this->harga_subkualitas = $post["harga_subkualitas"];
 		$this->deskripsi = $post["deskripsi"];
 		return $this->db->insert($this->_table, $this);
 	}
