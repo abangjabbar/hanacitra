@@ -52,22 +52,6 @@ class Substance_model extends CI_Model
 		return $this->db->insert($this->_table, $this);
 	}
 
-	public function update()
-	{
-		$post = $this->input->post();
-		$this->id_substance = $post["id"];
-		$this->jenis = $post["jenis"];
-		$this->bf = $post["bf"];
-		$this->cf = $post["cf"];
-		$this->cbf = $post["cbf"];
-		return $this->db->update($this->_table, $this, array('id_substance' => $post['id']));
-	}
-
-	public function delete()
-	{
-		return $this->db->delete($this->_table, array("id_substance" => $id));
-	}
-
 	function tampil_data()
     {  
         $query = $this->db->get('substances');
