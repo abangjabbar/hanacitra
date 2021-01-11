@@ -6,7 +6,7 @@ class Order_model extends CI_Model
 
 	public $id_order;
 	public $nomor_po;
-	public $jenis;
+	public $jenis;	
 	public $jumlah;
 	public $alamat;
 	public $tanggal;
@@ -48,19 +48,7 @@ class Order_model extends CI_Model
 			['field' => 'dimensi',
 			'label' => 'Dimensi',
 			'rules' => 'required'],
-
-			['field' => 'kualitas',
-			'label' => 'Kualitas',
-			'rules' => 'required'],
-
-			['field' => 'subkualitas',
-			'label' => 'Sub Kualitas',
-			'rules' => 'required'],
-
-			['field' => 'harga_subkualitas',
-			'label' => 'Harga',
-			'rules' => 'required'],
-
+			
 			['field' => 'deskripsi',
 			'label' => 'Deskripsi',
 			'rules' => 'required']
@@ -95,6 +83,16 @@ class Order_model extends CI_Model
 		$this->deskripsi = $post["deskripsi"];
 		return $this->db->insert($this->_table, $this);
 	}
+
+	function get_kualitas(){
+        $this->db->select('nomor_po,jenis,jumlah,alamat,tanggal,image,spesifikasi,dimensi,kualitas_nama,subkualitas_nama,harga_subkualitas,deskripsi');
+        $this->db->from('orders');
+        $this->db->join('kualitas','kualitas = id_kualitas','left');
+		$this->db->join('subkualitas','subkualitas = id_subkualitas','left');
+        $query = $this->db->get();
+        return $query;
+    }
+
 
 	public function update()
 	{

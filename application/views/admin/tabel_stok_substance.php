@@ -1,13 +1,12 @@
 <?php $this->load->view('templates/header') ?>
 
-
 <div class="wrapper">
     <div class="sidebar" data-color="blue" data-image="<?php echo base_url() ?>template/BS3/assets/img/sidebar-5.jpg">
 
-    <!--   you can change the color of the sidebar using: pengirimans-color="blue | azure | green | orange | red | purple" -->
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
 
 
-        <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper">
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text">
                     Tim Produksi
@@ -39,13 +38,13 @@
                         <p>Kelola Kemajuan Pesanan</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="<?php echo site_url('pengiriman') ?>">
                         <i class="pe-7s-note2"></i>
                         <p>Kelola Pengiriman</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="<?php echo site_url('substances') ?>">
                         <i class="pe-7s-note2"></i>
                         <p>Kelola Stock</p>
@@ -66,7 +65,7 @@
 		<nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" pengirimans-toggle="collapse" pengirimans-target="#navigation-example-2">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -77,13 +76,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-dashboard"></i>
 								<p class="hidden-lg hidden-md">Dashboard</p>
                             </a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
                                     <span class="notification hidden-sm hidden-xs">5</span>
@@ -115,7 +114,7 @@
                             </a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <p>
 										Dropdown
 										<b class="caret"></b>
@@ -146,40 +145,48 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-plain">
+                <div class="col-md-12">
+                        <div class="card">
                             <div class="header">
-                                <h4 class="title">Daftar Pengiriman Pesanan</h4>
-                                <h3 class="category"><a href="<?php echo site_url('pengiriman/addpengiriman') ?>">Tambah</a></h3>
+                                <h3 class="title">Stok Substance</h3>
+                                <br>
+						        <a href="<?php echo site_url('substances/addStokSubstance') ?>"><i class="fas fa-plus"></i> Add New</a>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-striped">
                                     <thead>
-                                        <th>ID pengiriman</th>
-                                        <th>ID Order</th>
-                                        <th>Tanggal pengiriman</th>
-                                        <th>Alamat</th>
+                                        <th>Nomor</th>
+                                    	<th>Substance</th>
+                                    	<th>Kualitas</th>
+                                    	<th>Harga</th>
+                                    	<th>Jumlah Stok</th>
+                                        <th>Aksi</th>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        foreach ($pengirimans as $pengiriman): ?>
+                                    <?php 
+                                    $no = 0;
+                                    foreach ($substances->result() as $substance): 
+                                    $no++;
+                                    ?>
                                     <tr>
-                                        <td>
-                                            <?php echo $pengiriman->id_order ?>
+                                        <td width="150">
+                                            <?=$no ?>
+                                        </td>
+                                        <td width="150">
+                                            <?php echo $substance->kualitas_nama ?>
                                         </td>
                                         <td>
-                                            <?php echo $pengiriman->id_order ?>
+                                            <?php echo $substance->subkualitas_nama ?>
                                         </td>
                                         <td>
-                                            <?php echo $pengiriman->tanggal ?>
+                                            <?php echo $substance->harga_subkualitas ?>
                                         </td>
                                         <td>
-                                            <?php echo $pengiriman->alamat ?>
+                                            <?php echo $substance->stok_substance ?>
                                         </td>
-                                        <td width="250">
-                                            <a onclick="deleteConfirm('<?php echo site_url('pengiriman/delete/'.$pengirimans->id_order) ?>')"
-                                             href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
-                                        </td>
+                                        <td>
+											<a href="<?php echo site_url('substances/editSubstance/'.$substance->id_substance) ?>"
+											 class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
                                     </tr>
                                     <?php endforeach; ?>
                                     </tbody>
@@ -188,40 +195,11 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
+
             <?php $this->load->view('templates/footer') ?>
-            <?php $this->load->view('_partials/modal') ?> 
-    <script>
-    function deleteConfirm(url){
-    $('#btn-delete').attr('href', url);
-    $('#deleteModal').modal();
-    }
-    </script>
-
-    <script>
-    $(function () {
-    $('#btn-edit').click(function (e) {
-            e.preventDefault();
-            $('#modal').modal({
-                backdrop: 'static',
-                show: true
-            });
-            id = $(this).data('id_order');
-            // mengambil nilai data-id yang di click
-            $.ajax({
-                url: 'profile/edit/' + id_order,
-                success: function (data) {
-                    $("input[name='id_order']").val(data.id_order);
-                }
-            });
-       });
-    }
-    </script>
-
     </body>
 
     </html>

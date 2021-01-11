@@ -44,13 +44,5 @@
     <!--  Notifications Plugin    -->
     <script src="<?php echo base_url() ?>template/BS3/assets/js/bootstrap-notify.js"></script>
 
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-
-    <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-    <script src="<?php echo base_url() ?>template/BS3/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
-
-    <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-    <script src="<?php echo base_url() ?>template/BS3/assets/js/demo.js"></script>
 
     

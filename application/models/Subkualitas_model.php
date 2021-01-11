@@ -4,7 +4,7 @@ class Subkualitas_model extends CI_Model
 {
     public function fetch_kualitas()
     {
-        $this->db->order_by('kualitas_name', 'ASC');
+        $this->db->order_by('kualitas_nama', 'ASC');
         $query = $this->db->get('kualitas');
         return $query->result();
     }
@@ -30,7 +30,7 @@ class Subkualitas_model extends CI_Model
         $output = '';
         foreach($query->result() as $row)
         {
-            $output .= '<option value="'.$row->id_harga.'">'.$row->harga.'</option>';
+            $output .= '<option value="'.$row->harga.'">'.$row->harga.'</option>';
         }
         return $output;
     }

@@ -7,14 +7,13 @@ class Orders extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("order_model");
-        $this->load->model("substance_model");
         $this->load->model("subkualitas_model");
 		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{  
-		$data["orders"] = $this->order_model->getAll();
+		$data["orders"] = $this->order_model->get_kualitas();
 		$this->load->view("customer/order_cust", $data);
 	}
 
@@ -30,6 +29,12 @@ class Orders extends CI_Controller
         $this->load->view("manager/order_manager", $data);
     }
 
+    public function orderCustomer()
+	{  
+		$data["orders"] = $this->order_model->get_kualitas();
+		$this->load->view("customer/order_cust", $data);
+	}
+
 	public function addNewOrderCust()
 	{
 		$order = $this->order_model;
@@ -40,9 +45,8 @@ class Orders extends CI_Controller
 		if ($validation->run()) {
             $order->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
-        }else{
-			ECHO 'GAGAL';
-		}
+            redirect('orders/orderCustomer');
+        }
 
         $this->load->view('customer/new_input_cust', $data);
 	}

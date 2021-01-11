@@ -1,13 +1,12 @@
 <?php $this->load->view('templates/header') ?>
 
-
 <div class="wrapper">
     <div class="sidebar" data-color="blue" data-image="<?php echo base_url() ?>template/BS3/assets/img/sidebar-5.jpg">
 
-    <!--   you can change the color of the sidebar using: pengirimans-color="blue | azure | green | orange | red | purple" -->
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
 
 
-        <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper">
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text">
                     Tim Produksi
@@ -39,13 +38,13 @@
                         <p>Kelola Kemajuan Pesanan</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="<?php echo site_url('pengiriman') ?>">
                         <i class="pe-7s-note2"></i>
                         <p>Kelola Pengiriman</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="<?php echo site_url('substances') ?>">
                         <i class="pe-7s-note2"></i>
                         <p>Kelola Stock</p>
@@ -66,7 +65,7 @@
 		<nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" pengirimans-toggle="collapse" pengirimans-target="#navigation-example-2">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -77,13 +76,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-dashboard"></i>
 								<p class="hidden-lg hidden-md">Dashboard</p>
                             </a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
                                     <span class="notification hidden-sm hidden-xs">5</span>
@@ -115,7 +114,7 @@
                             </a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" pengirimans-toggle="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <p>
 										Dropdown
 										<b class="caret"></b>
@@ -144,84 +143,106 @@
         </nav>
 
         <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-plain">
-                            <div class="header">
-                                <h4 class="title">Daftar Pengiriman Pesanan</h4>
-                                <h3 class="category"><a href="<?php echo site_url('pengiriman/addpengiriman') ?>">Tambah</a></h3>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th>ID pengiriman</th>
-                                        <th>ID Order</th>
-                                        <th>Tanggal pengiriman</th>
-                                        <th>Alamat</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        foreach ($pengirimans as $pengiriman): ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo $pengiriman->id_order ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $pengiriman->id_order ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $pengiriman->tanggal ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $pengiriman->alamat ?>
-                                        </td>
-                                        <td width="250">
-                                            <a onclick="deleteConfirm('<?php echo site_url('pengiriman/delete/'.$pengirimans->id_order) ?>')"
-                                             href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-
-
+        <div class="center">
+            <?php if ($this->session->flashdata('success')): ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo $this->session->flashdata('success'); ?>
                 </div>
-            </div>
+                <?php endif; ?>
+
+				<div class="card mb-3">
+					<div class="card-header">
+						<a href="<?php echo site_url('substances') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+					</div>
+					<div class="card-body">
+
+						<form action="<?php echo site_url('substances/addStokSubstance') ?>" method="post" enctype="multipart/form-data" >
+
+                            <div class="form-group">
+                                <label for="kualitas">Kualitas*</label>
+                                <select class="form-control" name="kualitas" id="kualitas" required>
+                                    <option value="">Pilih Kualitas</option>
+                                    <?php 
+                                    foreach($kualitas as $row)
+                                    echo '<option value="'.$row->id_kualitas.'">'.$row->kualitas_nama.'</option>';
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="subkualitas" name="subkualitas" id="subkualitas" class="form-control">
+                                    <option value="">Pilih Subkualitas</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="harga_subkualitas" name="harga_subkualitas" id="harga_subkualitas" class="form-control">
+                                    <option value="">Harga</option>
+                                </select>   
+                            </div>
+
+                            <div class="form-group">
+                                <label for="jenis">Jumlah Stok</label>
+                                <input class="form-control <?php echo form_error('stok_substance') ? 'is-invalid':'' ?>"
+                                 type="number" name="stok_substance" placeholder="Jumlah Stok" />
+                                <div class="invalid-feedback">
+                                    <?php echo form_error('stok_substance') ?>
+                                </div>
+                            </div>
+
+							<input class="btn btn-success" type="submit" name="btn" value="Save" />
+						</form>
+
+					</div>
+
+					<div class="card-footer small text-muted">
+						* required fields
+					</div>
+        </div>
         </div>
             <?php $this->load->view('templates/footer') ?>
-            <?php $this->load->view('_partials/modal') ?> 
-    <script>
-    function deleteConfirm(url){
-    $('#btn-delete').attr('href', url);
-    $('#deleteModal').modal();
-    }
-    </script>
-
-    <script>
-    $(function () {
-    $('#btn-edit').click(function (e) {
-            e.preventDefault();
-            $('#modal').modal({
-                backdrop: 'static',
-                show: true
-            });
-            id = $(this).data('id_order');
-            // mengambil nilai data-id yang di click
-            $.ajax({
-                url: 'profile/edit/' + id_order,
-                success: function (data) {
-                    $("input[name='id_order']").val(data.id_order);
-                }
-            });
-       });
-    }
-    </script>
-
     </body>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script>
+        $(document).ready(function(){
+
+            $('#kualitas').change(function() {
+                var id_kualitas = $('#kualitas').val();
+                if(id_kualitas != '')
+                {
+                    $.ajax({
+                        url:"<?php echo base_url();?>index.php/substances/fetch_subkualitas",
+                        method:"POST",
+                        data:{
+                            id_kualitas: id_kualitas
+                        },
+                        success:function(data)
+                        {
+                            $('#subkualitas').html(data);
+                        }
+                    })
+                }
+            });
+            
+            $('#subkualitas').change(function(){
+                var id_subkualitas = $('#subkualitas').val();
+                if(id_subkualitas != '')
+                {
+                    $.ajax({
+                        url:"<?php echo base_url();?>index.php/substances/fetch_harga_subkualitas",
+                        method:"POST",
+                        data:{
+                            id_subkualitas:id_subkualitas
+                        },
+                        success:function(data)
+                        {
+                            $('#harga_subkualitas').html(data);
+                        }
+                    })
+                }
+            });
+
+        });
+        </script> 
     </html>

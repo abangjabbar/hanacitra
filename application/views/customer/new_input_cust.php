@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label for="jenis">Nomo PO*</label>
                                 <input class="form-control <?php echo form_error('nomor_po') ? 'is-invalid':'' ?>"
-                                 type="text" name="nomor_po" placeholder="Jenis" />
+                                 type="text" name="nomor_po" placeholder="Nomor PO" />
                                 <div class="invalid-feedback">
                                     <?php echo form_error('nomor_po') ?>
                                 </div>
@@ -200,20 +200,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <option value="">Pilih Kualitas</option>
                                     <?php 
                                     foreach($kualitas as $row)
-                                    echo '<option value="'.$row->id_kualitas.'">'.$row->kualitas_name.'</option>';
+                                    echo '<option value="'.$row->id_kualitas.'">'.$row->kualitas_nama.'</option>';
                                     ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <select name="subkualitas" id="subkualitas" class="form-control input-lg">
+                                <select name="subkualitas" name="subkualitas" id="subkualitas" class="form-control input-lg">
                                     <option value="">Pilih Subkualitas</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <select name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
-                                    <option value="">Pilih</option>
+                                <select name="harga_subkualitas" name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
+                                    <option value="">Harga</option>
                                 </select>   
                             </div>
 

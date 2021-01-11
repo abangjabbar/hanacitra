@@ -134,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <tbody>
                                     <?php 
                                     $no = 0;
-                                    foreach ($orders as $order): 
+                                    foreach ($orders->result() as $order): 
                                     $no++;
                                     ?>
                                     <tr>
@@ -166,22 +166,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php echo $order->dimensi ?>
                                         </td>
                                         <td>
-                                            <?php echo $order->kualitas ?>
+                                            <?php echo $order->kualitas_nama ?>
                                         </td>
                                         <td>
-                                            <?php echo $order->subkualitas ?>
+                                            <?php echo $order->subkualitas_nama ?>
                                         </td>
                                         <td>
                                             <?php echo $order->harga_subkualitas     ?>
                                         </td>
                                         <td class="small">
                                             <?php echo substr($order->deskripsi, 0, 120) ?>...</td>
-                                        <td width="250">
-                                            <a href="<?php echo site_url('orders/edit/'.$order->id_order) ?>"
-                                             class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
-                                            <a onclick="deleteConfirm('<?php echo site_url('customer/products/delete/'.$order->id_order) ?>')"
-                                             href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
-                                        </td>
                                         <td>
 
                                     </tr>

@@ -1,46 +1,56 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Substances extends CI_Controller
-{
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model("substance_model");
-		$this->load->library('form_validation');
-	}
-
-	public function index()
-	{  
-		$data["substances"] = $this->substance_model->getAll();
-		$this->load->view("admin/substance_admin", $data);
-	}
-
-    public function substanceCust()
-    {  
-        $data["substances"] = $this->substance_model->getAll();
-        $this->load->view("customer/substance_cust", $data);
+ 
+class Substances extends CI_Controller {
+    function __construct(){
+        parent::__construct();
+        $this->load->model("substance_model");
+        $this->load->model("subkualitas_model");
+        $this->load->library('form_validation');
+    }
+ 
+    public function index(){
+        $data["substances"] = $this->substance_model->get_kualitas();
+        $this->load->view("admin/tabel_stok_substance", $data);
+    }
+ 
+    public function fetch_subkualitas()
+    {
+        if ($this->input->post('id_kualitas'))
+        {
+            echo $this->subkualitas_model->fetch_subkualitas($this->input->post('id_kualitas'));
+        }
     }
 
-    public function addSubstance()
+    public function fetch_harga_subkualitas()
     {
-        $substance = $this->substance_model;
-        $validation = $this->form_validation;
-        $validation->set_rules($substance->rules());
+        if ($this->input->post('id_subkualitas'))
+        {
+            echo $this->subkualitas_model->fetch_harga_subkualitas($this->input->post('id_subkualitas'));
+        }
+    }
 
-        if ($validation->run()) {
+    public function addStokSubstance()
+	{
+		$substance = $this->substance_model;
+        $data["kualitas"] = $this->subkualitas_model->fetch_kualitas();
+		$validation = $this->form_validation;
+		$validation->set_rules($substance->rules());
+
+		if ($validation->run()) {
             $substance->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
         }
 
-        $this->load->view("admin/input_substance");
+        $this->load->view('admin/tambah_stok_substance', $data);
     }
 
-	public function edit($id = null)
+    public function editSubstance($id = null)
     {
-        if (!isset($id)) redirect('admin/substance_admin');
+        if (!isset($id)) redirect('admin/tabel_stok_substance');
        
         $substance = $this->substance_model;
+        $data["kualitas"] = $this->subkualitas_model->fetch_kualitas();
         $validation = $this->form_validation;
         $validation->set_rules($substance->rules());
 
@@ -52,35 +62,8 @@ class Substances extends CI_Controller
         $data["substance"] = $substance->getById($id);
         if (!$data["substance"]) show_404();
         
-        $this->load->view("admin/edit_substance", $data);
+        $this->load->view("admin/edit_stok_substance", $data);
     }
 
-
-    public function delete($id=null)
-    {
-        if (!isset($id)) show_404();
-        
-        if ($this->order_model->delete($id)) {
-            redirect(site_url('hanacitra'));
-        }
-    }
-
-    public function substanceManager()
-    {  
-        $data["substances"] = $this->substance_model->getAll();
-        $this->load->view("manager/substance_manager", $data);
-    }
-
-    public function jenisBahan()
-    {  
-        $data["substances"] = $this->substance_model->getAll();
-        $this->load->view("jenis_bahan", $data);
-    }
-
-    public function jenisBahanCust()
-    {  
-        $data["substances"] = $this->substance_model->getAll();
-        $this->load->view("customer/jenis_bahan_cust", $data);
-    }
-
+ 
 }
