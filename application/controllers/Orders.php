@@ -7,6 +7,10 @@ class Orders extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("order_model");
+<<<<<<< HEAD
+=======
+        $this->load->model("substance_model");
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
         $this->load->model("subkualitas_model");
 		$this->load->library('form_validation');
 	}
@@ -45,8 +49,14 @@ class Orders extends CI_Controller
 		if ($validation->run()) {
             $order->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
+<<<<<<< HEAD
             redirect('orders/orderCustomer');
         }
+=======
+        }else{
+			ECHO 'GAGAL';
+		}
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
 
         $this->load->view('customer/new_input_cust', $data);
 	}

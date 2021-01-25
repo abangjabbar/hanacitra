@@ -191,20 +191,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <option value="">Pilih Kualitas</option>
                                     <?php 
                                     foreach($kualitas as $row)
+<<<<<<< HEAD
                                     echo '<option value="'.$row->id_kualitas.'">'.$row->kualitas_nama.'</option>';
+=======
+                                    echo '<option value="'.$row->id_kualitas.'">'.$row->kualitas_name.'</option>';
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
                                     ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
+<<<<<<< HEAD
                                 <select name="subkualitas" name="subkualitas" id="subkualitas" class="form-control input-lg">
+=======
+                                <select name="subkualitas" id="subkualitas" class="form-control input-lg">
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
                                     <option value="">Pilih Subkualitas</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
+<<<<<<< HEAD
                                 <select name="harga_subkualitas" name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
                                     <option value="">Harga</option>
+=======
+                                <select name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
+                                    <option value="">Pilih</option>
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
                                 </select>   
                             </div>
 

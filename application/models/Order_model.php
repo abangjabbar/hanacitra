@@ -44,7 +44,23 @@ class Order_model extends CI_Model
 			['field' => 'dimensi',
 			'label' => 'Dimensi',
 			'rules' => 'required'],
+<<<<<<< HEAD
 			
+=======
+
+			['field' => 'kualitas',
+			'label' => 'Kualitas',
+			'rules' => 'required'],
+
+			['field' => 'subkualitas',
+			'label' => 'Sub Kualitas',
+			'rules' => 'required'],
+
+			['field' => 'harga_subkualitas',
+			'label' => 'Harga',
+			'rules' => 'required'],
+
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
 			['field' => 'deskripsi',
 			'label' => 'Deskripsi',
 			'rules' => 'required']

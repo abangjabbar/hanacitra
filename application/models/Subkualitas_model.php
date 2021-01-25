@@ -4,7 +4,11 @@ class Subkualitas_model extends CI_Model
 {
     public function fetch_kualitas()
     {
+<<<<<<< HEAD
         $this->db->order_by('kualitas_nama', 'ASC');
+=======
+        $this->db->order_by('kualitas_name', 'ASC');
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
         $query = $this->db->get('kualitas');
         return $query->result();
     }
@@ -30,7 +34,11 @@ class Subkualitas_model extends CI_Model
         $output = '';
         foreach($query->result() as $row)
         {
+<<<<<<< HEAD
             $output .= '<option value="'.$row->harga.'">'.$row->harga.'</option>';
+=======
+            $output .= '<option value="'.$row->id_harga.'">'.$row->harga.'</option>';
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
         }
         return $output;
     }

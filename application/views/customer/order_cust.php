@@ -166,10 +166,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php echo $order->dimensi ?>
                                         </td>
                                         <td>
+<<<<<<< HEAD
                                             <?php echo $order->kualitas_nama ?>
                                         </td>
                                         <td>
                                             <?php echo $order->subkualitas_nama ?>
+=======
+                                            <?php echo $order->kualitas ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order->subkualitas ?>
+>>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
                                         </td>
                                         <td>
                                             <?php echo $order->harga_subkualitas     ?>
