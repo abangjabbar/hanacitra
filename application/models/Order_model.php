@@ -37,10 +37,6 @@ class Order_model extends CI_Model
 			'label' => 'Alamat',
 			'rules' => 'required'],
 
-			['field]' => 'tanggal',
-			'label' => 'Tanggal',
-			'rules' => 'required'],
-
 			['field' => 'spesifikasi',
 			'label' => 'Spesifikasi',
 			'rules' => 'required'],

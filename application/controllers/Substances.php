@@ -65,5 +65,14 @@ class Substances extends CI_Controller {
         $this->load->view("admin/edit_stok_substance", $data);
     }
 
+    public function delete($id=null)
+    {
+        if (!isset($id)) show_404();
+        
+        if ($this->substance_model->delete($id)) {
+            redirect(site_url('substances'));
+        }
+    }
+
  
 }

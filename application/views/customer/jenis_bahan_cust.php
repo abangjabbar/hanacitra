@@ -189,29 +189,27 @@
                                     <tr class="w3-red">
                                         <th>No<th>
                                         <th>Substance</th>
-                                        <th>B/F</th>
-                                        <th>C/F</th>
-                                        <th>CBF</th>
+                                        <th>Kualitas</th>
+                                        <th>Harga</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $no=1; ?>
-                                    <?php foreach ($substances as $substance): ?>
+                                    <?php $no=0;
+                                    foreach ($substances->result() as $substance): 
+                                    $no++;
+                                    ?>
                                     <tr>
                                         <td>
-                                            <?php echo $no;$no++; ?>
+                                        <?=$no ?>
                                         <td>
                                         <td>
-                                            <?php echo $substance->jenis ?>
+                                            <?php echo $substance->kualitas_nama ?>
                                         </td>
                                         <td>
-                                            <?php echo $substance->bf ?>
+                                            <?php echo $substance->subkualitas_nama ?>
                                         </td>
                                         <td>
-                                            <?php echo $substance->cf ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $substance->cbf ?>
+                                            <?php echo $substance->harga_subkualitas ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

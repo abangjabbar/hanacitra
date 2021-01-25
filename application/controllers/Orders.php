@@ -19,7 +19,7 @@ class Orders extends CI_Controller
 
     public function orderAdmin()
     {  
-        $data["orders"] = $this->order_model->getAll();
+        $data["orders"] = $this->order_model->get_kualitas();
         $this->load->view("admin/order_admin", $data);
     }
 

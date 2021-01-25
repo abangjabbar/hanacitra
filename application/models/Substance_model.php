@@ -58,6 +58,11 @@ class Substance_model extends CI_Model
         $this->harga_subkualitas = $post["harga_subkualitas"];
         $this->stok_substance = $post["stok_substance"];
         return $this->db->update($this->_table, $this, array('id_substance' => $post['id']));
-    }
+	}
+	
+	public function delete($id)
+    {
+        return $this->db->delete($this->_table, array("id_substance" => $id));
+	}
 
 }

@@ -158,15 +158,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 							</div>
 
-							<div class="form-group">
-                                <label for="tanggal">Tanggal*</label>
-                                <input class="form-control <?php echo form_error('tanggal') ? 'is-invalid':'' ?>"
-                                 type="date" name="tanggal" placeholder="Tanggal" />
-                                <div class="invalid-feedback">
-                                    <?php echo form_error('tanggal') ?>
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <label for="image">Drawing*</label>
                                 <input class="form-control <?php echo form_error('image') ? 'is-invalid':'' ?>"

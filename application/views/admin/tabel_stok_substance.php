@@ -187,6 +187,8 @@
                                         <td>
 											<a href="<?php echo site_url('substances/editSubstance/'.$substance->id_substance) ?>"
 											 class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
+                                             <a onclick="deleteConfirm('<?php echo site_url('substances/delete/'.$substance->id_substance) ?>')"
+											 href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
                                     </tr>
                                     <?php endforeach; ?>
                                     </tbody>
@@ -198,6 +200,32 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Logout Delete Confirmation-->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Data yang dihapus tidak akan bisa dikembalikan.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a id="btn-delete" class="btn btn-danger" href="#">Delete</a>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <script>
+        function deleteConfirm(url){
+            $('#btn-delete').attr('href', url);
+            $('#deleteModal').modal();
+        }
+        </script>
 
             <?php $this->load->view('templates/footer') ?>
     </body>

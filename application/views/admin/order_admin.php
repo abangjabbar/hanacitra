@@ -155,7 +155,8 @@
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover">
                                     <thead>
-                                        <th>ID Pesanan</th>
+                                    <th>No</th>
+                                        <th>Nomor PO</th>
                                         <th>Jenis Box</th>
                                         <th>Jumlah</th>
                                         <th>Alamat</th>
@@ -163,14 +164,23 @@
                                         <th>Drawing</th>
                                         <th>Spesifikasi</th>
                                         <th>Dimensi</th>
-                                        <th>Substance</th>
-                                        <th>Deskripsi</th>                                    
+                                        <th>Kualitas</th>
+                                        <th>Subkualitas</th>
+                                        <th>Harga Subkualitas</th>
+                                        <th>Deskripsi</th>                                   
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($orders as $order): ?>
+                                    <?php 
+                                    $no = 0;
+                                    foreach ($orders->result() as $order): 
+                                    $no++;
+                                    ?>
                                     <tr>
-                                        <td>
-                                            <?php echo $order->id_order ?>
+                                        <td width="150">
+                                            <?=$no ?>
+                                        </td>
+                                        <td width="150">
+                                            <?php echo $order->nomor_po ?>
                                         </td>
                                         <td>
                                             <?php echo $order->jenis ?>
@@ -185,7 +195,7 @@
                                             <?php echo $order->tanggal ?>
                                         </td>
                                         <td>
-                                            <img src="<?php echo base_url('upload/order/'.$order->image ) ?>" width="64" />
+                                            <img src="<?php echo base_url('upload/order/'.$order->image) ?>" width="64" />
                                         </td>
                                         <td>
                                             <?php echo $order->spesifikasi ?>
@@ -194,19 +204,22 @@
                                             <?php echo $order->dimensi ?>
                                         </td>
                                         <td>
-                                            <?php echo $order->substances ?>
+                                            <?php echo $order->kualitas_nama ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order->subkualitas_nama ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $order->harga_subkualitas     ?>
                                         </td>
                                         <td class="small">
                                             <?php echo substr($order->deskripsi, 0, 120) ?>...</td>
-                                        <td width="250">
-                                            <a href="<?php echo site_url('orders/editOrderAdmin/'.$order->id_order) ?>"
-                                             class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
-                                            <a onclick="deleteConfirm('<?php echo site_url('orders/delete/'.$order->id_order) ?>')"
-                                             href="#!" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Hapus</a>
-                                        </td>
+                                        <td>
+
                                     </tr>
                                     <?php endforeach; ?>
-                                    </tbody>
+
+                                </tbody>
                                 </table>
 
                             </div>

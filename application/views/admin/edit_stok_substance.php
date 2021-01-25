@@ -186,7 +186,7 @@
                             <div class="form-group">
                                 <label for="jenis">Jumlah Stok</label>
                                 <input class="form-control <?php echo form_error('stok_substance') ? 'is-invalid':'' ?>"
-                                 type="number" name="stok_substance" placeholder="Jumlah Stok" vale="<?php echo $substance->stok_substance;?>" />
+                                 type="number" name="stok_substance" placeholder="Jumlah Stok" value="<?php echo $substance->stok_substance;?>" />
                                 <div class="invalid-feedback">
                                     <?php echo form_error('stok_substance') ?>
                                 </div>
