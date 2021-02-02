@@ -1,14 +1,10 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Subkualitas_model extends CI_Model
 {
     public function fetch_kualitas()
     {
-<<<<<<< HEAD
         $this->db->order_by('kualitas_nama', 'ASC');
-=======
-        $this->db->order_by('kualitas_name', 'ASC');
->>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
         $query = $this->db->get('kualitas');
         return $query->result();
     }
@@ -19,9 +15,8 @@ class Subkualitas_model extends CI_Model
         $this->db->order_by('subkualitas_nama', 'ASC');
         $query = $this->db->get('subkualitas');
         $output = '<option value="">Pilih Subkualitas</option>';
-        foreach($query->result() as $row)
-        {
-            $output .= '<option value="'.$row->id_subkualitas.'">'.$row->subkualitas_nama.'</option>';
+        foreach ($query->result() as $row) {
+            $output .= '<option value="' . $row->id_subkualitas . '">' . $row->subkualitas_nama . '</option>';
         }
         return $output;
     }
@@ -32,15 +27,9 @@ class Subkualitas_model extends CI_Model
         $this->db->order_by('harga', 'ASC');
         $query = $this->db->get('harga_subkualitas');
         $output = '';
-        foreach($query->result() as $row)
-        {
-<<<<<<< HEAD
-            $output .= '<option value="'.$row->harga.'">'.$row->harga.'</option>';
-=======
-            $output .= '<option value="'.$row->id_harga.'">'.$row->harga.'</option>';
->>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
+        foreach ($query->result() as $row) {
+            $output .= '<option value="' . $row->id_harga . '">' . $row->harga . '</option>';
         }
         return $output;
     }
-
 }

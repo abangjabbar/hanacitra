@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Order_model extends CI_Model
 {
@@ -6,7 +6,7 @@ class Order_model extends CI_Model
 
 	public $id_order;
 	public $nomor_po;
-	public $jenis;	
+	public $jenis;
 	public $jumlah;
 	public $alamat;
 	public $tanggal;
@@ -21,51 +21,58 @@ class Order_model extends CI_Model
 	public function rules()
 	{
 		return [
-			['field' => 'nomor_po',
-			'label' => 'nomor_po',
-			'rules' => 'required'],
-
-			['field' => 'jenis',
-			'label' => 'Jenis',
-			'rules' => 'required'],
-
-			['field' => 'jumlah',
-			'label' => 'Jumlah',
-			'rules' => 'required'],
-
-			['field' => 'alamat',
-			'label' => 'Alamat',
-			'rules' => 'required'],
-
-			['field' => 'spesifikasi',
-			'label' => 'Spesifikasi',
-			'rules' => 'required'],
-
-			['field' => 'dimensi',
-			'label' => 'Dimensi',
-			'rules' => 'required'],
-<<<<<<< HEAD
-			
-=======
-
-			['field' => 'kualitas',
-			'label' => 'Kualitas',
-			'rules' => 'required'],
-
-			['field' => 'subkualitas',
-			'label' => 'Sub Kualitas',
-			'rules' => 'required'],
-
-			['field' => 'harga_subkualitas',
-			'label' => 'Harga',
-			'rules' => 'required'],
-
->>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
-			['field' => 'deskripsi',
-			'label' => 'Deskripsi',
-			'rules' => 'required']
-			];
-		}
+			[
+				'field' => 'nomor_po',
+				'label' => 'nomor_po',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'jenis',
+				'label' => 'Jenis',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'jumlah',
+				'label' => 'Jumlah',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'alamat',
+				'label' => 'Alamat',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'spesifikasi',
+				'label' => 'Spesifikasi',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'dimensi',
+				'label' => 'Dimensi',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'kualitas',
+				'label' => 'Kualitas',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'subkualitas',
+				'label' => 'Sub Kualitas',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'harga_subkualitas',
+				'label' => 'Harga',
+				'rules' => 'required'
+			],
+			[
+				'field' => 'deskripsi',
+				'label' => 'Deskripsi',
+				'rules' => 'required'
+			]
+		];
+	}
 
 	public function getAll()
 	{
@@ -76,7 +83,7 @@ class Order_model extends CI_Model
 	{
 		return $this->db->get_where($this->_table, ["id_order" => $id])->row();
 	}
- 	
+
 	public function save()
 	{
 		$post = $this->input->post();
@@ -96,14 +103,15 @@ class Order_model extends CI_Model
 		return $this->db->insert($this->_table, $this);
 	}
 
-	function get_kualitas(){
-        $this->db->select('nomor_po,jenis,jumlah,alamat,tanggal,image,spesifikasi,dimensi,kualitas_nama,subkualitas_nama,harga_subkualitas,deskripsi');
-        $this->db->from('orders');
-        $this->db->join('kualitas','kualitas = id_kualitas','left');
-		$this->db->join('subkualitas','subkualitas = id_subkualitas','left');
-        $query = $this->db->get();
-        return $query;
-    }
+	function get_kualitas()
+	{
+		$this->db->select('nomor_po,jenis,jumlah,alamat,tanggal,image,spesifikasi,dimensi,kualitas_nama,subkualitas_nama,harga_subkualitas,deskripsi');
+		$this->db->from('orders');
+		$this->db->join('kualitas', 'kualitas = id_kualitas', 'left');
+		$this->db->join('subkualitas', 'subkualitas = id_subkualitas', 'left');
+		$query = $this->db->get();
+		return $query;
+	}
 
 
 	public function update()
@@ -117,12 +125,12 @@ class Order_model extends CI_Model
 		$this->tanggal = $post["tanggal"];
 
 		if (!empty($_FILES["image"]["name"])) {
-		    $this->image = $this->_uploadImage();
+			$this->image = $this->_uploadImage();
 		} else {
-		    $this->image = $post["old_image"];
+			$this->image = $post["old_image"];
 		}
 
-		$this->spesifikasi =$post["spesifikasi"];
+		$this->spesifikasi = $post["spesifikasi"];
 		$this->dimensi = $post["dimensi"];
 		$this->substances = $post["substances"];
 		$this->deskripsi = $post["deskripsi"];
@@ -134,30 +142,28 @@ class Order_model extends CI_Model
 		return $this->db->delete($this->_table, array("id_order" => $id));
 	}
 
-    private function _uploadImage()
-    {
-        $config['upload_path']          = './upload/order/';
-        $config['allowed_types']        = 'gif|jpg|png';
-        $config['file_name']            = $this->id_order;
-        $config['overwrite']            = true;
-        $config['max_size']             = 1024; // 1MB
-        // $config['max_width']            = 1024;
-        // $config['max_height']           = 768;
+	private function _uploadImage()
+	{
+		$config['upload_path']          = './upload/order/';
+		$config['allowed_types']        = 'gif|jpg|png';
+		$config['file_name']            = $this->id_order;
+		$config['overwrite']            = true;
+		$config['max_size']             = 1024; // 1MB
+		// $config['max_width']            = 1024;
+		// $config['max_height']           = 768;
 
-        $this->load->library('upload', $config);
+		$this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('image')) {
-            return $this->upload->data("file_name");
-        }
-        
-        return "default.jpg";
-    }
+		if ($this->upload->do_upload('image')) {
+			return $this->upload->data("file_name");
+		}
 
-    function tampilData()
-    {  
-        $query = $this->db->get('orders');
-        return $query;
-    }
+		return "default.jpg";
+	}
 
-
+	function tampilData()
+	{
+		$query = $this->db->get('orders');
+		return $query;
+	}
 }

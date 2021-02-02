@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +14,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>Hana Citra Buana</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="<?php echo base_url('assets/./img/core-img/favicon.ico')?>">
+    <link rel="icon" href="<?php echo base_url('assets/./img/core-img/favicon.ico') ?>">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/style.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/style.css') ?>">
 
 </head>
 
@@ -106,96 +106,89 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </header>
     <!-- Header Area End -->
 
-<!-- DataTables -->
-                <div class="container">
-                    <div class="card-header">
-                        <a href="<?php echo site_url('orders/addNewOrderCust') ?>"><i class="fas fa-plus"></i>Add New</a>
-                    </div>
-                    <div class="card strpied-tabled-with-hover">
-                        <div class="card-body table-full-width table-responsive">
-                            <table class="table table-hover table-stripedr" width="200" align="center">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nomor PO</th>
-                                        <th>Jenis Box</th>
-                                        <th>Jumlah</th>
-                                        <th>Alamat</th>
-                                        <th>Tanggal</th>
-                                        <th>Drawing</th>
-                                        <th>Spesifikasi</th>
-                                        <th>Dimensi</th>
-                                        <th>Kualitas</th>
-                                        <th>Subkualitas</th>
-                                        <th>Harga Subkualitas</th>
-                                        <th>Deskripsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    $no = 0;
-                                    foreach ($orders->result() as $order): 
-                                    $no++;
-                                    ?>
-                                    <tr>
-                                        <td width="150">
-                                            <?=$no ?>
-                                        </td>
-                                        <td width="150">
-                                            <?php echo $order->nomor_po ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->jenis ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->jumlah ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->alamat ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->tanggal ?>
-                                        </td>
-                                        <td>
-                                            <img src="<?php echo base_url('upload/order/'.$order->image) ?>" width="64" />
-                                        </td>
-                                        <td>
-                                            <?php echo $order->spesifikasi ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->dimensi ?>
-                                        </td>
-                                        <td>
-<<<<<<< HEAD
-                                            <?php echo $order->kualitas_nama ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->subkualitas_nama ?>
-=======
-                                            <?php echo $order->kualitas ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $order->subkualitas ?>
->>>>>>> e71d269df797fa5f628505963f2c2dc2b557274d
-                                        </td>
-                                        <td>
-                                            <?php echo $order->harga_subkualitas     ?>
-                                        </td>
-                                        <td class="small">
-                                            <?php echo substr($order->deskripsi, 0, 120) ?>...</td>
-                                        <td>
+    <!-- DataTables -->
+    <div class="container">
+        <div class="card-header">
+            <a href="<?php echo site_url('orders/addNewOrderCust') ?>"><i class="fas fa-plus"></i>Add New</a>
+        </div>
+        <div class="card strpied-tabled-with-hover">
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover table-stripedr" width="200" align="center">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nomor PO</th>
+                            <th>Jenis Box</th>
+                            <th>Jumlah</th>
+                            <th>Alamat</th>
+                            <th>Tanggal</th>
+                            <th>Drawing</th>
+                            <th>Spesifikasi</th>
+                            <th>Dimensi</th>
+                            <th>Kualitas</th>
+                            <th>Subkualitas</th>
+                            <th>Harga Subkualitas</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 0;
+                        foreach ($orders->result() as $order) :
+                            $no++;
+                        ?>
+                            <tr>
+                                <td width="150">
+                                    <?= $no ?>
+                                </td>
+                                <td width="150">
+                                    <?php echo $order->nomor_po ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->jenis ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->jumlah ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->alamat ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->tanggal ?>
+                                </td>
+                                <td>
+                                    <img src="<?php echo base_url('upload/order/' . $order->image) ?>" width="64" />
+                                </td>
+                                <td>
+                                    <?php echo $order->spesifikasi ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->dimensi ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->kualitas_nama ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->subkualitas_nama ?>
+                                </td>
+                                <td>
+                                    <?php echo $order->harga_subkualitas     ?>
+                                </td>
+                                <td class="small">
+                                    <?php echo substr($order->deskripsi, 0, 120) ?>...</td>
+                                <td>
 
-                                    </tr>
-                                    <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
+                    </tbody>
+                </table>
             </div>
-            <!-- /.container-fluid -->
+        </div>
+    </div>
+
+    </div>
+    <!-- /.container-fluid -->
 
 
     <!-- Footer Area Start -->
@@ -213,9 +206,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <!-- Copywrite Text -->
                         <div class="copywrite-text">
-                            <p> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by 
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>
+                                    document.write(new Date().getFullYear());
+                                </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -265,15 +262,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <!-- All JS Files -->
     <!-- jQuery -->
-    <script src="<?php echo base_url('assets/js/jquery.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
     <!-- Popper -->
-    <script src="<?php echo base_url('assets/js/popper.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/popper.min.js') ?>"></script>
     <!-- Bootstrap -->
-    <script src="<?php echo base_url('assets/js/bootstrap.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
     <!-- All Plugins -->
-    <script src="<?php echo base_url('assets/js/akame.bundle.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/akame.bundle.js') ?>"></script>
     <!-- Active -->
-    <script src="<?php echo base_url('assets/js/default-assets/active.js')?>"></script>
+    <script src="<?php echo base_url('assets/js/default-assets/active.js') ?>"></script>
 
 </body>
 
