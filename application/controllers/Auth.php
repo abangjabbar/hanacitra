@@ -102,16 +102,40 @@ class Auth extends CI_Controller
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'role_id' => 2,
-                'is_active' => 1,
+                'is_active' => 0,
                 'date_created' => time()
             ];
 
             $this->db->insert('user', $data);
+
+            $this->_sendEmail();
+
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Selamat! Akun anda sudah dibuat
             </div>');
             redirect('auth');
         }
+    }
+
+    private function _sendEmail()
+    {
+        $config = [
+            'protocol'  => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => 'jakasyari13o@gmail.com',
+            'smtp_pass' => '102030',
+            'smtp_port' => 465,
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'newline'   => '\r\n'
+        ];
+
+        $this->load->library('email', $config);
+
+        $this->email->from('jakasyarif13o@gmail.com', 'Hana Citra Buana');
+        $this->email->to('abangjabbarrr@gmail.com');
+        $this->email->subject('Testing');
+        $this->email->message('Hello gess!');
     }
 
     public function logout()
