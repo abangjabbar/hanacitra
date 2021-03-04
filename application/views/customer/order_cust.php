@@ -187,6 +187,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
     </div>
 
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= site_url('auth/logout'); ?>">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Log Out</span></a>
+    </li>
+
     </div>
     <!-- /.container-fluid -->
 
