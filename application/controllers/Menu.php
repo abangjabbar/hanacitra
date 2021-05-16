@@ -69,4 +69,54 @@ class Menu extends CI_Controller
             redirect('menu/submenu');
         }
     }
+
+    public function jenisbox()
+    {
+        $data['title'] = 'Jenis Box Manangement';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+
+        $data['box'] = $this->db->get('jenis_box')->result_array();
+
+        $this->form_validation->set_rules('jenis', 'Nama Jenis Box', 'required|trim');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/admin_header', $data);
+            $this->load->view('templates/admin_sidebar', $data);
+            $this->load->view('templates/admin_topbar', $data);
+            $this->load->view('menu/jenis_box.php', $data);
+            $this->load->view('templates/admin_footer');
+        } else {
+            $jenis = $this->input->post('jenis');
+            $keterangan = $this->input->post('keterangan');
+
+            // cek kalo ada gambar yg diupload
+            $upload_image = $_FILES['image'];
+
+            if ($upload_image) {
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['max_size'] = '2048';
+                $config['upload_path'] = './assets/img/jenisbox/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+                    $this->db->set('image', $new_image);
+                } else {
+                    echo $this->upload->display_errors();
+                }
+            }
+
+            $this->db->set('jenis', $jenis);
+            $this->db->set('keterangan', $keterangan);
+            $this->db->insert('jenis_box');
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Profil anda sudah diperbarui
+            </div>');
+            redirect('menu/jenisbox');
+        }
+    }
 }

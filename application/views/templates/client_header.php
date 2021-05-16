@@ -19,6 +19,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Stylesheet -->
     <link rel="stylesheet" href="<?php echo base_url('assets/style.css') ?>">
 
+    <script src="https://kit.fontawesome.com/e590c2247f.js" crossorigin="anonymous"></script>
+
+    <style>
+        .bg-custom-1 {
+            background-color: #85144b;
+        }
+
+        .bg-custom-2 {
+            background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+        }
+    </style>
+
 </head>
 
 <body>
@@ -80,25 +92,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     </li>
                                     <li class="dropdown <?= $this->uri->segment(2) == 'jenisBentuk' ? 'active' : '' ?>"><a href="#">Produk</a>
                                         <ul class="dropdown">
-                                            <li <?= $this->uri->segment(2) == 'jenisBentuk' ? 'active' : '' ?>><a href="<?php echo site_url('home/jenisBentuk') ?>">- Jenis Bentuk Box</a></li>
-                                            <li <?= $this->uri->segment(2) == 'jenisBahan' ? 'class="active"' : '' ?>><a href="<?php echo site_url('home/jenisBahan') ?>">- Jenis Bahan Box</a></li>
+                                            <li><a href="<?php echo site_url('home/cetakCustom') ?>">- Cetak Custom</a></li>
+                                            <li><a href="<?php echo site_url('home/jenisBentuk') ?>">- Jenis Bentuk Box</a></li>
+                                            <li><a href="<?php echo site_url('home/jenisBahan') ?>">- Jenis Bahan Box</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="#">Customer Kami</a></li>
-                                    <li><a href="#">Galeri</a></li>
-                                    <li <?= $this->uri->segment(2) == 'tentangkami' ? 'class="active"' : '' ?>>
-                                        <a href="<?php echo site_url('home/tentangkami') ?>">Tentang Kami</a>
+                                    <li><a href="#">Pesanan</a></li>
+                                    <li><a href="#">Transaksi</a></li>
+                                    <li><a href="#">Kemajuan Pesanan</a></li>
+                                    <li> <a href="#">Tentang Kami</a></li>
+                                    <li class="dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="40" height="40" class="rounded-circle">
+                                        </a>
+                                        <ul class="dropdown">
+                                            <a class="dropdown-item" href="<?php echo site_url('client/profil') ?>">Profil</a>
+                                            <a class="dropdown-item" href="#">Edit Profile</a>
+                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#logingoutModal">Log Out</a>
+                                        </ul>
                                     </li>
-                                </ul>
-
-                                <!-- Book Icon -->
-                                <ul id="nav">
-                                    <li class="book-now-btn ml-5 mt-4 mt-lg-0 ml-md-4">
-                                        <a href="<?php echo site_url('home/jenisBox') ?>" class="btn akame-btn">Pesan Sekarang</a>
-                                    </li>
-                                    <li class="book-now-btn ml-5 mt-4 mt-lg-0 ml-md-4">
-                                        <a href="<?= site_url('auth') ?>" class="btn akame-btn">Log In</a>
-                                    </li>
+                                    <!-- Nav Item - User Information -->
                                 </ul>
                             </div>
                             <!-- Nav End -->

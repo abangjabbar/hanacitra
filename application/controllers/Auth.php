@@ -55,8 +55,10 @@ class Auth extends CI_Controller
                         redirect('produksi');
                     } else  if ($user['role_id'] == 4) {
                         redirect('sales');
-                    } else {
+                    } else if ($user['role_id'] == 5) {
                         redirect('manager');
+                    } else {
+                        redirect('client');
                     }
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
