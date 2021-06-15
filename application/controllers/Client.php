@@ -8,6 +8,7 @@ class Client extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Multipleupload_model');
     }
 
     public function index()
@@ -122,5 +123,81 @@ class Client extends CI_Controller
                 }
             }
         }
+    }
+
+    public function cetakCustom()
+    {
+        $data['title'] = 'Cetak Custom';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['box'] = $this->db->get('jenis_box')->result_array();
+
+        $this->form_validation->set_rules('projek_pesanan', 'Nama Jenis Box', 'required|trim');
+        $this->form_validation->set_rules('jenis_box', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('spesifikasi', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('jumlah_pesanan', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('alamat_pengiriman', 'Keterangan', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/client_header', $data);
+            $this->load->view('client/cetak_custom.php', $data);
+            $this->load->view('templates/client_footer', $data);
+        } else {
+            $projek_pesanan = $this->input->post('projek_pesanan');
+            $jenis_box = $this->input->post('jenis_box');
+            $spesifikasi = $this->input->post('spesifikasi');
+            $jumlah_pesanan = $this->input->post('jumlah_pesanan');
+            $alamat_pengiriman = $this->input->post('alamat_pengiriman');
+
+            // cek kalo ada gambar yg diupload
+            $upload_image = $_FILES['image'];
+
+            if ($upload_image) {
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['max_size'] = '2048';
+                $config['upload_path'] = './assets/drawing_client/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+                    $this->db->set('image', $new_image);
+                } else {
+                    echo $this->upload->display_errors();
+                }
+            }
+
+            $this->db->set('projek_pesanan', $projek_pesanan);
+            $this->db->set('jenis_box', $jenis_box);
+            $this->db->set('spesifikasi', $spesifikasi);
+            $this->db->set('jumlah_pesanan', $jumlah_pesanan);
+            $this->db->set('alamat_pengiriman', $alamat_pengiriman);
+            $this->db->insert('pesanan');
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Pesanan berhasil dibuat
+            </div>');
+            redirect('client/cetakCustom');
+        }
+    }
+
+    public function multipleupload()
+    {
+        $data['title'] = 'Multiple upload';
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/multipleupload_view', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
+    public function newtemplate()
+    {
+        $data['title'] = 'New Template';
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
     }
 }

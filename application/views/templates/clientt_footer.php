@@ -90,6 +90,18 @@
     </div>
 </div>
 
+<!-- Dropzone -->
+<script type="text/javascript">
+    Dropzone.options.fileupload = {
+        acceptedFiles: '.jpeg,.jpg,.png,.gif',
+        maxFilesize: 1
+    };
+</script>
+
+<script>
+    $('.file-upload').file_upload();
+</script>
+
 <!-- All JS Files -->
 <!-- jQuery -->
 <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
@@ -101,6 +113,8 @@
 <script src="<?php echo base_url('assets/js/akame.bundle.js') ?>"></script>
 <!-- Active -->
 <script src="<?php echo base_url('assets/js/default-assets/active.js') ?>"></script>
+<!-- Dropzone -->
+<script src="<?php echo base_url('assets/dropzone/dist/dropzone.js') ?>"></script>
 
 </body>
 
