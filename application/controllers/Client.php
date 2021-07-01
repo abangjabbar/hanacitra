@@ -130,8 +130,6 @@ class Client extends CI_Controller
         $data['title'] = 'Cetak Custom';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['box'] = $this->db->get('jenis_box')->result_array();
-
         $this->form_validation->set_rules('projek_pesanan', 'Nama Jenis Box', 'required|trim');
         $this->form_validation->set_rules('jenis_box', 'Keterangan', 'required|trim');
         $this->form_validation->set_rules('spesifikasi', 'Keterangan', 'required|trim');
@@ -139,9 +137,9 @@ class Client extends CI_Controller
         $this->form_validation->set_rules('alamat_pengiriman', 'Keterangan', 'required|trim');
 
         if ($this->form_validation->run() == false) {
-            $this->load->view('templates/client_header', $data);
+            $this->load->view('templates/clientt_header', $data);
             $this->load->view('client/cetak_custom.php', $data);
-            $this->load->view('templates/client_footer', $data);
+            $this->load->view('templates/clientt_footer', $data);
         } else {
             $projek_pesanan = $this->input->post('projek_pesanan');
             $jenis_box = $this->input->post('jenis_box');
@@ -181,15 +179,71 @@ class Client extends CI_Controller
         }
     }
 
-    public function multipleupload()
+    public function multipleUpload()
     {
         $data['title'] = 'Multiple upload';
+        $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/multipleupload_view', $data);
         $this->load->view('templates/client_footer', $data);
+    }
+
+    public function upload()
+    {
+        $upload = $_FILES['image']['name'];
+        if ($upload) {
+            $numberOfFiles = sizeof($upload);
+            $files = $_FILES['image'];
+            $config['allowed_types'] = 'gif|png|jpg|jpeg';
+            $config['max_size'] = '2048';
+            $config['upload_path'] = './assets/drawing_client/';
+            $this->load->library('upload', $config);
+
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['image']['name'] = $files['name'][$i];
+                $_FILES['image']['type'] = $files['type'][$i];
+                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['image']['error'] = $files['error'][$i];
+                $_FILES['image']['size'] = $files['size'][$i];
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('image')) {
+                    $data = $this->upload->data();
+                    $imageName = $data['file_name'];
+                    $cek = $this->Multipleupload_model->cekData();
+                    if (!$cek) {
+                        $groupImage = 1;
+                    } else {
+                        $groupImage = $cek['group_image'] + 1;
+                    }
+                    $insert[$i]['image'] = $imageName;
+                    $insert[$i]['group_image'] = $groupImage;
+                    $insert[$i]['date_created'] = time();
+                }
+            }
+            if (!$insert && !$data) {
+                $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
+                redirect('client/multipleupload');
+            } else {
+                if ($this->Multipleupload_model->upload($insert, $data['file_name']) > 0) {
+                    $this->session->set_flashdata('status', 'data berhasil disimpan');
+                    redirect('client/multipleupload');
+                } else {
+                    $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
+                    redirect('client/multipleupload');
+                }
+            }
+        }
+    }
+
+    public function detail($group)
+    {
+        $data['title'] = 'Group Image';
+        $this->load->view('client/detail', $data);
     }
 
     public function newtemplate()
@@ -199,5 +253,6 @@ class Client extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/client_header', $data);
+        $this->load->view('templates/client_footer', $data);
     }
 }

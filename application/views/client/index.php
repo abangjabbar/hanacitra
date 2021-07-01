@@ -5,49 +5,21 @@
 </div>
 
 <!-- Welcome Area Start -->
-<section class="welcome-area">
-    <div class="welcome-slides owl-carousel">
-        <!-- Single Welcome Slide -->
-        <div class="single-welcome-slide bg-img" style="background-image: url(<?php echo base_url('assets/images/1.jpg'); ?>);">
-            <!-- Welcome Content -->
-            <div class="welcome-content h-100">
-                <div class="container h-100">
-                    <div class="row h-100 align-items-center">
-                        <!-- Welcome Text -->
-                        <div class="col-12 col-md-9 col-lg-6">
-                            <div class="welcome-text">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">Jasa Cetak Karton Box</h2>
-                                <p data-animation="fadeInUp" data-delay="400ms">"Kami menyediakan jasa pembuatan karton box untuk kemasan. Dengan berbagai jenis dan bentuk"</p>
-                                <a href="#" class="btn akame-btn" data-animation="fadeInUp" data-delay="700ms">About Us</a>
-                            </div>
-                        </div>
+<section id="hero" class="d-flex align-items-center">
+    <div class="welcome-content h-100">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <!-- Welcome Text -->
+                <div class="col-12 col-md-9 col-lg-6">
+                    <div class="welcome-text">
+                        <h2 data-animation="fadeInUp" data-delay="100ms">Jasa Cetak Karton Box</h2>
+                        <p data-animation="fadeInUp" data-delay="400ms">"Kami menyediakan jasa pembuatan karton box untuk kemasan. Dengan berbagai jenis dan bentuk"</p>
+                        <a href="#" class="btn akame-btn" data-animation="fadeInUp" data-delay="700ms">About Us</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Single Welcome Slide -->
-        <div class="single-welcome-slide bg-img" style="background-image: url(<?php echo base_url('assets/images/1.jpg'); ?>);">
-            <!-- Welcome Content -->
-            <div class="welcome-content h-100">
-                <div class="container h-100">
-                    <div class="row h-100 align-items-center">
-                        <!-- Welcome Text -->
-                        <div class="col-12 col-md-9 col-lg-6">
-                            <div class="welcome-text">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">We Do The Best For You</h2>
-                                <p data-animation="fadeInUp" data-delay="400ms">“Kami tidak membatasi order yang diberikan kepada kami dari yang sedikit (satu) sampai yang terbanyak. Untuk beberapa tipe cetakan per hari bisa kami kerjakan cepat berdasarkan desain yang kami terima.”</p>
-                                <a href="#" class="btn akame-btn active" data-animation="fadeInUp" data-delay="700ms">About Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Welcome Area End -->
-
+</section><!-- End Hero -->
 <!-- Our Service Area Start -->
 <section class="akame-service-area section-padding-80-0">
     <div class="container">

@@ -5,107 +5,80 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Title -->
     <title><?= $title; ?></title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Favicon -->
-    <link rel="icon" href="<?php echo base_url('assets/./img/core-img/favicon.ico') ?>">
+    <!-- Favicons -->
+    <link rel="icon" href="<?= base_url('assets/'); ?>images/logo-hana.png">
+    <link href="<?= base_url('assets/'); ?>/arsha/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/style.css') ?>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
+    <!-- Vendor CSS Files -->
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/aos/aos.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>/arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="<?= base_url('assets/'); ?>/arsha/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: Arsha - v4.3.0
+  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
-    <!-- /Preloader -->
 
-    <!-- Header Area Start -->
-    <header class="header-area">
-        <!-- Top Header Area Start -->
-        <div class="top-header-area">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-5">
-                        <div class="top-header-content">
-                            <p>Welcome to Hana Citra Buana Site!</p>
-                        </div>
-                    </div>
-                    <div class="col-7">
-                        <div class="top-header-content text-right">
-                            <p><i class="fa fa-clock-o" aria-hidden="true"></i> Senin-Jumat: 8.00 to 16.00 <span class="mx-2"></span> | <span class="mx-2"></span> <i class="fa fa-phone" aria-hidden="true"></i> Call us: 02187753730 / 02187753577 </p>
-                        </div>
-                    </div>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center">
 
-                </div>
-            </div>
-        </div>
-        <!-- Top Header Area End -->
+            <h1 class="logo me-auto"><a href="index.html">HANA CITRA BUANA</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-
-        <!-- Main Header Start -->
-        <div class="main-header-area">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Classy Menu -->
-                    <nav class="classy-navbar justify-content-between" id="akameNav">
-
-                        <!-- Logo -->
-                        <a class="nav-brand" href=""><img Src="<?php echo base_url() ?>assets/images/logo-hcb.png" width="250"></a>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-                            <!-- Menu Close Button -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul id="nav">
-                                    <li <?= $this->uri->segment(2) == 'index' || $this->uri->segment(2) == '' ? 'class="active"' : '' ?>>
-                                        <a href=" <?php echo site_url('home') ?>">Beranda</a>
-                                    </li>
-                                    <li class="dropdown <?= $this->uri->segment(2) == 'jenisBentuk' ? 'active' : '' ?>"><a href="#">Produk</a>
-                                        <ul class="dropdown">
-                                            <li <?= $this->uri->segment(2) == 'jenisBentuk' ? 'active' : '' ?>><a href="<?php echo site_url('home/jenisBentuk') ?>">- Jenis Bentuk Box</a></li>
-                                            <li <?= $this->uri->segment(2) == 'jenisBahan' ? 'class="active"' : '' ?>><a href="<?php echo site_url('home/jenisBahan') ?>">- Jenis Bahan Box</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Customer Kami</a></li>
-                                    <li><a href="#">Galeri</a></li>
-                                    <li <?= $this->uri->segment(2) == 'tentangkami' ? 'class="active"' : '' ?>>
-                                        <a href="<?php echo site_url('home/tentangkami') ?>">Tentang Kami</a>
-                                    </li>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
+                    <li><a class="nav-link scrollto" href="#about">Tentang Kami</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                    <li><a class="nav-link   scrollto" href="#portfolio">Portfolio</a></li>
+                    <li><a class="nav-link scrollto" href="#team">Team</a></li>
+                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">Drop Down 1</a></li>
+                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                                <ul>
+                                    <li><a href="#">Deep Drop Down 1</a></li>
+                                    <li><a href="#">Deep Drop Down 2</a></li>
+                                    <li><a href="#">Deep Drop Down 3</a></li>
+                                    <li><a href="#">Deep Drop Down 4</a></li>
+                                    <li><a href="#">Deep Drop Down 5</a></li>
                                 </ul>
+                            </li>
+                            <li><a href="#">Drop Down 2</a></li>
+                            <li><a href="#">Drop Down 3</a></li>
+                            <li><a href="#">Drop Down 4</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li><a class="getstarted scrollto" href="<?= site_url("auth") ?>">Log In</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
 
-                                <!-- Book Icon -->
-                                <ul id="nav">
-                                    <li class="book-now-btn ml-5 mt-4 mt-lg-0 ml-md-4">
-                                        <a href="<?php echo site_url('home/jenisBox') ?>" class="btn akame-btn">Pesan Sekarang</a>
-                                    </li>
-                                    <li class="book-now-btn ml-5 mt-4 mt-lg-0 ml-md-4">
-                                        <a href="<?= site_url('auth') ?>" class="btn akame-btn">Log In</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
         </div>
-    </header>
-    <!-- Header Area End -->
+    </header><!-- End Header -->
