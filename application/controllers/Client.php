@@ -240,19 +240,93 @@ class Client extends CI_Controller
         }
     }
 
-    public function detail($group)
+    public function multiplesave()
     {
-        $data['title'] = 'Group Image';
-        $this->load->view('client/detail', $data);
-    }
+        $data['title'] = 'Multiple save';
 
-    public function newtemplate()
-    {
-        $data['title'] = 'New Template';
+        $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->load->view('templates/client_header', $data);
+        $this->load->view('client/multiplesave_view', $data);
         $this->load->view('templates/client_footer', $data);
+    }
+
+    public function tambah()
+    {
+        $this->db->trans_start();
+
+        $pesanan = array(
+            'projek_pesanan' => $this->input->post('projek_pesanan'),
+            'jenis_box' => ($this->input->post('jenis_box')),
+            'spesifikasi' => ($this->input->post('spesifikasi')),
+            'jumlah_pesanan' => ($this->input->post('jumlah_pesanan')),
+            'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
+            'tgl_pesanan' => ($this->input->post('tgl_pesanan'))
+        );
+        $this->db->insert('pesanan', $pesanan);
+
+        $id_pesanan = $this->db->insert_id();
+
+        $upload = $_FILES['image']['name'];
+        if ($upload) {
+            $numberOfFiles = sizeof($upload);
+            $files = $_FILES['image'];
+            $config['allowed_types'] = 'gif|png|jpg|jpeg';
+            $config['max_size'] = '2048';
+            $config['upload_path'] = './assets/drawing_client/';
+            $this->load->library('upload', $config);
+
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['image']['name'] = $files['name'][$i];
+                $_FILES['image']['type'] = $files['type'][$i];
+                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['image']['error'] = $files['error'][$i];
+                $_FILES['image']['size'] = $files['size'][$i];
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('image')) {
+                    $data = $this->upload->data();
+                    $imageName = $data['file_name'];
+                    $cek = $this->Multipleupload_model->cekData();
+                    if (!$cek) {
+                        $groupImage = 1;
+                    } else {
+                        $groupImage = $cek['group_image'] + 1;
+                    }
+                    $insert[$i]['id_pesanan'] = $id_pesanan;
+                    $insert[$i]['image'] = $imageName;
+                    $insert[$i]['group_image'] = $groupImage;
+                    $insert[$i]['date_created'] = time();
+                }
+            }
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            echo 'rollback';
+        } else {
+            if (!$insert && !$data) {
+                $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
+                redirect('client/multiplesave');
+            } else {
+                if ($this->Multipleupload_model->upload($insert, $data['file_name']) > 0) {
+                    $this->session->set_flashdata('status', 'data berhasil disimpan');
+                    redirect('client/multiplesave');
+                } else {
+                    $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
+                    redirect('client/multiplesave');
+                }
+            }
+        }
+    }
+
+    public function detail($group)
+    {
+        $data['title'] = 'Group Image';
+        $this->load->view('client/detail', $data);
     }
 }

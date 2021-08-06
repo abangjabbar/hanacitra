@@ -13,6 +13,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <meta content="" name="keywords">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <!--- Selesct2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Favicons -->
     <link rel="icon" href="<?= base_url('assets/'); ?>images/logo-hana.png">
     <link href="<?= base_url('assets/'); ?>/arsha/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -43,39 +46,40 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" style="background: #008B8B;">
+    <header id="header" style="background: #20B2AA;">
         <div class="container d-flex align-items-center">
 
-            <h1 class=" logo me-auto"><a href="index.html">HANA CITRA BUANA</a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <a href="index.html" class="logo me-auto"><img src="<?= base_url("assets/images/logo-hana.png"); ?>" alt="" class="img-fluid"></a>
+            <h3 class="logo me-auto"><a href="<?= site_url('client'); ?>">HANA CITRA</a></h3>
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a href="#hero">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                    <li><a href="#hero">Beranda</a></li>
+                    <li class="dropdown"><a href="#"><span>Produk</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Drop Down 1</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
-                                    <li><a href="#">Deep Drop Down 3</a></li>
-                                    <li><a href="#">Deep Drop Down 4</a></li>
-                                    <li><a href="#">Deep Drop Down 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Drop Down 2</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
+                            <li><a href="#">Jenis Bentuk Box</a></li>
+                            <li><a href="#">Jenis Bahan Box</a></li>
                         </ul>
                     </li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#about">Get Started</a></li>
+                    <li><a href="#services">Pesanan</a></li>
+                    <li><a href="#portfolio">Transaksi</a></li>
+                    <li><a href="#team">Pengiriman</a></li>
+                    <li><a href="#team">Stok Bahan</a></li>
+                    <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">Profil Perusahaan</a></li>
+                            <li><a href="#">Kontak Kami</a></li>
+                            <li><a href="#">Customer Kami</a></li>
+                            <li><a href="#">Galeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>
+                            <li><a href="<?= site_url('auth/logout'); ?>">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

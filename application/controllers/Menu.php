@@ -72,7 +72,7 @@ class Menu extends CI_Controller
 
     public function jenisbox()
     {
-        $data['title'] = 'Jenis Box Manangement';
+        $data['title'] = 'Jenis Box Management';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
 
