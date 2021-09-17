@@ -92,6 +92,9 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'Email ini sudah pernah didaftarkan!'
         ]);
+        $this->form_validation->set_rules('telp', 'Telp', 'required|trim');
+        $this->form_validation->set_rules('company_name', 'Company Name', 'required|trim');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[8]|matches[password2]', [
             'matches' => 'Password tidak sama!',
             'min_length' => 'Password terlalu singkat'
@@ -108,9 +111,12 @@ class Auth extends CI_Controller
             $data = [
                 'name' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($email),
+                'telp' => htmlspecialchars($this->input->post('telp', true)),
+                'company_name' => htmlspecialchars($this->input->post('company_name', true)),
+                'alamat' => htmlspecialchars($this->input->post('alamat', true)),
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 2,
+                'role_id' => 6,
                 'is_active' => 0,
                 'date_created' => time()
             ];
@@ -141,7 +147,7 @@ class Auth extends CI_Controller
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => 'jakasyarif13o@gmail.com',
-            'smtp_pass' => 'baras123',
+            'smtp_pass' => 'kzkhveiikwdiolzu',
             'smtp_port' => 465,
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
@@ -150,6 +156,7 @@ class Auth extends CI_Controller
 
         $this->load->library('email', $config);
         $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
 
         $this->email->from('jakasyarif13o@gmail.com', 'Hana Citra Buana');
         $this->email->to($this->input->post('email'));

@@ -13,8 +13,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <meta content="" name="keywords">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!--- Selesct2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Fontawesome -->
+    <link href="<?= base_url('assets/'); ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Favicons -->
     <link rel="icon" href="<?= base_url('assets/'); ?>images/logo-hana.png">
@@ -55,17 +55,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a href="#hero">Beranda</a></li>
+                    <li><a href="<?= site_url('client/index'); ?>">Beranda</a></li>
                     <li class="dropdown"><a href="#"><span>Produk</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Jenis Bentuk Box</a></li>
                             <li><a href="#">Jenis Bahan Box</a></li>
+                            <li><a href="#">Stok Bahan Box</a></li>
                         </ul>
                     </li>
-                    <li><a href="#services">Pesanan</a></li>
-                    <li><a href="#portfolio">Transaksi</a></li>
+                    <li><a href="#portfolio">Daftar Transaksi</a></li>
                     <li><a href="#team">Pengiriman</a></li>
-                    <li><a href="#team">Stok Bahan</a></li>
                     <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Profil Perusahaan</a></li>
@@ -74,6 +73,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Galeri</a></li>
                         </ul>
                     </li>
+                    <li><a href="#team">Pesan!</a></li>
                     <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>

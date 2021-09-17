@@ -46,7 +46,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputCity">Jumlah yang ini dipesan</label>
-                    <input type="text" class="form-control" id="jumlah_pesanan" name="jumlah_pesanan">
+                    <input type="number" class="form-control" id="jumlah_pesanan" name="jumlah_pesanan">
                 </div>
             </div>
             <div class="form-group row">

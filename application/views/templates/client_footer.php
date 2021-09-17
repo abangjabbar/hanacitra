@@ -65,10 +65,8 @@
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
         </div>
-
-
-
     </div>
+
 </footer><!-- End Footer -->
 
 <div id="preloader"></div>
@@ -87,6 +85,14 @@
 <script src="<?= base_url('assets/'); ?>/arsha/js/main.js"></script>
 <!-- Select 2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Script untuk nama file ketika upload gambar -->
+<script>
+    $('.form-control').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
 
 </body>
 

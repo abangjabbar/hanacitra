@@ -45,6 +45,9 @@ class Client extends CI_Controller
         } else {
             $name = $this->input->post('name');
             $email = $this->input->post('email');
+            $telp = $this->input->post('telp');
+            $company_name = $this->input->post('company_name');
+            $alamat = $this->input->post('alamat');
 
             // cek kalo ada gambar yg diupload
             $upload_image = $_FILES['image']['name'];
@@ -69,6 +72,9 @@ class Client extends CI_Controller
             }
 
             $this->db->set('name', $name);
+            $this->db->set('telp', $telp);
+            $this->db->set('company_name', $company_name);
+            $this->db->set('alamat', $alamat);
             $this->db->where('email', $email);
             $this->db->update('user');
 

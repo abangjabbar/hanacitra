@@ -34,6 +34,7 @@
                 <p class="lead text-gray-800 mb-5">Access forbidden</p>
                 <p class="text-gray-500 mb-0">It looks like you found a glitch in the matrix...</p>
                 <a href="<?= site_url('user'); ?>">&larr; Back to Dashboard</a>
+                <a href="<?= site_url('auth/logout'); ?>">Logout</a>
             </div>
 
         </div>

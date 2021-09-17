@@ -1,8 +1,8 @@
 <!-- Begin Page Content -->
 <style>
     .card {
-        width: 80%;
-        height: 500px;
+        width: 50%;
+        height: 100px;
         margin: auto;
         position: relative;
     }

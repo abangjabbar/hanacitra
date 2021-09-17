@@ -1,6 +1,10 @@
-<!-- Begin Page Content -->
-<div class="container-fluid">
+<style>
+    .card-body {
+        text-align: center;
+    }
+</style>
 
+<section>
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -11,95 +15,140 @@
         </div>
     </div>
 
-    <hr>
-</div>
+    <div class="container">
+        <div class="main-body">
 
-<div class="container emp-profile">
-    <form method="post">
-        <div class="row">
-            <div class="col-md-4">
-                <?= $this->session->flashdata('message'); ?>
-                <div class="profile-img">
-                    <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="150" />
-                </div>
-            </div>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="main-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+            <!-- /Breadcrumb -->
 
-            <div class="col-md-6">
-                <div class="profile-head">
-                    <h3>
-                        <?= $user['name']; ?>
-                    </h3>
-                    <p class="proile-rating"><?= $user['email']; ?></p>
-                    <h5>
-                        Member sejak <?= date('d F Y', $user['date_created']) ?>
-                    </h5>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li role="presentation" class="active"><a href="#track" aria-controls="track" role="tab" data-toggle="tab">Data Profil</a></li>
-                        <li role="presentation"><a href="#albums" aria-controls="albums" role="tab" data-toggle="tab">Data Pesanan</a></li>
-                    </ul>
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column text-center">
+                                <img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" alt="Admin" width="200">
+                                <div class="mt-3">
+                                    <h4><?= $user['name']; ?></h4>
+                                    <p class="text-secondary mb-1"><?= $user['company_name']; ?></p>
+                                    <p class="text-muted font-size-sm"><?= $user['alamat']; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a class="nav-link pb-0" href="<?= site_url('client/editprofil'); ?>">
+                                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                                    <span>Edit Profil</span></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a class="nav-link pb-0" href="<?= site_url('client/editprofil'); ?>">
+                                    <i class="fas fa-fw fa-key"></i>
+                                    <span>Ganti Password</span></a>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <a class="nav-link pb-0" href="<?= site_url('auth/logout'); ?>">
+                                    <i class="fas fa-fw fa-door-open"></i>
+                                    <span>Log Out</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <a class="btn btn-primary" href="<?= site_url('client/editprofil'); ?>" role="button">Edit Profil</a>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Nama</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <?= $user['name']; ?>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <?= $user['email']; ?>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Perusahan</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <?= $user['company_name']; ?>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Nomor Telepon</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <?= $user['telp']; ?>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Alamat</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <?= $user['alamat']; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="col-md-8">
+                        <div class="breadcrumb-content">
+                            <h2>Daftar Transaksi</h2>
+                        </div>
+                    </div>
+
+                    <div class="row gutters-sm">
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="d-flex flex-column align-items-center text-center mb-3">Menunggu Pembayaran</h6>
+                                    <a href="#"><i class="fas fa-7x fa-clock"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="d-flex flex-column align-items-center text-center mb-3">Transaksi berlangsung</h6>
+                                    <a href="#"><i class="fas fa-7x fa-money-check-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="d-flex flex-column align-items-center text-center mb-3">Semua Transaksi</h6>
+                                    <a href="#"><i class="fas fa-7x fa-money-check-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <ul class="navbar-nav">
-                    <div class="profile-work">
-                        <p>PROFIL</p>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= site_url('client/editprofil'); ?>">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Edit Profil</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Ganti Password</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= site_url('auth/logout'); ?>">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Log Out</span></a>
-                        </li>
-                    </div>
-                </ul>
-            </div>
-            <div class="col-md-8">
-                <br>
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="track">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nama</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p><?= $user['name']; ?></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Email</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p><?= $user['email']; ?></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="albums">
-                        <div class="related-artist">
-                            <div class="col-md-12">
-                                <a class="col-md-4 artist-next" href="#"><i class="fas fa-money-check fa-3x"></i><br>Pesanan</a>
-                                <div class="col-md-4 artist-next" href="#"><i class="fas fa-money-check-alt fa-3x"></i><br>Transaksi</div>
-                                <div class="col-md-4 artist-next" href="#"><i class="fas fa-truck fa-3x"></i><br>Pengiriman</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+</section>
 <!-- /.container-fluid -->

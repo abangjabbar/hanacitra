@@ -11,12 +11,24 @@
                         </div>
                         <form class="user" method="post" action="<?= site_url('auth/registration'); ?>">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="name" name="name" placeholder="Nama Lengkap" value="<?= set_value('name'); ?>">
+                                <input type="text" class="form-control form-control-user" id="name" name="name" placeholder="Nama Lengkap" value="<?= set_value('name'); ?>" onkeyup="myFunction()">
                                 <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Alamat Email" value="<?= set_value('email'); ?>">
                                 <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" min="1" step="1" class="form-control form-control-user" id="telp" name="telp" placeholder="Nomor Telepon" value="<?= set_value('telp'); ?>">
+                                <?= form_error('telp', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" id="company_name" name="company_name" placeholder="Nama Perusahaan" value="<?= set_value('company_name'); ?>" onkeyup="myFunction()">
+                                <?= form_error('company_name', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" id="alamat" name="alamat" placeholder="Alamat" value="<?= set_value('alamat'); ?>" onkeyup="myFunction()">
+                                <?= form_error('alamat', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -45,3 +57,13 @@
     </div>
 
 </div>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById('name');
+        x.value = x.value.toUpperCase();
+        if (y = document.getElementById('company_name')) {
+            y.value = y.value.toUpperCase();
+        }
+    }
+</script>
