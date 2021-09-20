@@ -73,16 +73,16 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/aos/aos.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/php-email-form/validate.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="<?= base_url('assets/'); ?>/arsha/vendor/waypoints/noframework.waypoints.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/aos/aos.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/php-email-form/validate.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/vendor/waypoints/noframework.waypoints.js"></script>
 
 <!-- Template Main JS File -->
-<script src="<?= base_url('assets/'); ?>/arsha/js/main.js"></script>
+<script src="<?= base_url('assets/'); ?>arsha/js/main.js"></script>
 <!-- Select 2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 

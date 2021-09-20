@@ -15,22 +15,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- Favicons -->
     <link rel="icon" href="<?= base_url('assets/'); ?>images/logo-hana.png">
-    <link href="<?= base_url('assets/'); ?>/arsha/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="<?= base_url('assets/'); ?>arsha/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/aos/aos.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/aos/aos.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="<?= base_url('assets/'); ?>/arsha/css/style.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/css/style.css" rel="stylesheet">
 
     <!-- =======================================================
   * Template Name: Arsha - v4.3.0
@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top ">
+    <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
 
             <h1 class="logo me-auto"><a href="index.html">HANA CITRA BUANA</a></h1>

@@ -24,16 +24,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/aos/aos.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="<?= base_url('assets/'); ?>/arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/aos/aos.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="<?= base_url('assets/'); ?>/arsha/css/style.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>arsha/css/style.css" rel="stylesheet">
 
     <!-- =======================================================
   * Template Name: Arsha - v4.3.0
@@ -46,9 +46,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" style="background: #20B2AA;">
+    <header id="header" class="fixed-top" style="background: #20B2AA;">
         <div class="container d-flex align-items-center">
-
 
             <a href="index.html" class="logo me-auto"><img src="<?= base_url("assets/images/logo-hana.png"); ?>" alt="" class="img-fluid"></a>
             <h3 class="logo me-auto"><a href="<?= site_url('client'); ?>">HANA CITRA</a></h3>
@@ -73,7 +72,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Galeri</a></li>
                         </ul>
                     </li>
-                    <li><a href="#team">Pesan!</a></li>
+                    <li><a href="<?= site_url('menuProduk'); ?>"><strong>Pesan Disini!</strong></a></li>
                     <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>

@@ -330,6 +330,21 @@ class Client extends CI_Controller
         }
     }
 
+    public function menuProduk()
+    {
+        $data['title'] = 'Multiple save';
+
+        $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
+
+        $data['box'] = $this->db->get('jenis_box')->result_array();
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/menu_produk', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
     public function detail($group)
     {
         $data['title'] = 'Group Image';
