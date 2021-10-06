@@ -25,4 +25,18 @@ class Multipleupload_model extends CI_Model
         $this->db->group_by('group_image');
         return $this->db->get('multiple_image')->result_array();
     }
+
+    public function getDataImage($group)
+    {
+        return $this->db->get_where('multiple_image', ['group_image' => $group])->result_array();
+    }
+
+    public function detail_image($id)
+    {
+        $this->db->select('*');
+        $this->db->from('multiple_image');
+        $this->db->join('pesanan', 'pesanan.id = multiple_image.id_pesanan', 'left');
+        $this->db->where('pesanan.id', $id);
+        return $this->db->get()->result();
+    }
 }

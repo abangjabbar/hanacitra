@@ -6,9 +6,6 @@
                 <h1>Pesan Sesuai Dengan Kebutuhan Anda</h1>
                 <h2>Kami menyediakan berbagai macam corrugated box sesusai dengan
                     yang anda butuhkan</h2>
-                <div class="d-flex justify-content-center justify-content-lg-start">
-                    <a href="<?= site_url("auth") ?>" class="btn-get-started scrollto">Pesan Sekarang</a>
-                </div>
             </div>
         </div>
     </div>

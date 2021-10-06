@@ -246,11 +246,23 @@ class Client extends CI_Controller
         }
     }
 
+    public function detail($group)
+    {
+        $data['title'] = 'Group Image';
+        $data['images'] = $this->Multipleupload_model->getDataImage($group);
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/multipleupload_detail', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
     public function multiplesave()
     {
         $data['title'] = 'Multiple save';
 
-        $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
+        $data['groupImage'] = $this->Multipleupload_model->getDataGroup();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -265,11 +277,12 @@ class Client extends CI_Controller
 
         $pesanan = array(
             'projek_pesanan' => $this->input->post('projek_pesanan'),
-            'jenis_box' => ($this->input->post('jenis_box')),
-            'spesifikasi' => ($this->input->post('spesifikasi')),
-            'jumlah_pesanan' => ($this->input->post('jumlah_pesanan')),
+            'material' => ($this->input->post('material')),
+            'deskripsi' => ($this->input->post('deskripsi')),
+            'kuantitas' => ($this->input->post('kuantitas')),
             'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
-            'tgl_pesanan' => ($this->input->post('tgl_pesanan'))
+            'po_tgl' => ($this->input->post('po_tgl')),
+            'deliv_tgl' => ($this->input->post('deliv_tgl'))
         );
         $this->db->insert('pesanan', $pesanan);
 
@@ -332,7 +345,7 @@ class Client extends CI_Controller
 
     public function menuProduk()
     {
-        $data['title'] = 'Multiple save';
+        $data['title'] = 'Produk';
 
         $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
 
@@ -345,9 +358,25 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
-    public function detail($group)
+    public function daftarPesanan()
     {
-        $data['title'] = 'Group Image';
-        $this->load->view('client/detail', $data);
+        $data['title'] = 'Daftar Pesanan';
+
+        $data['pesanan'] = $this->db->get('pesanan')->result_array();
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/daftar_pesanan', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
+    public function detailImagePesanan($id)
+    {
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['drawing'] = $this->Multipleupload_model->detail_image($id);
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/detail_image', $data);
+        $this->load->view('templates/client_footer', $data);
     }
 }

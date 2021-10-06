@@ -8,6 +8,7 @@ class Sales extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Multipleupload_model');
     }
 
     public function index()
@@ -116,5 +117,32 @@ class Sales extends CI_Controller
                 }
             }
         }
+    }
+
+    public function daftarPesanan()
+    {
+        $data['title'] = 'Daftar Pesanan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['pesanan'] = $this->db->get('pesanan')->result_array();
+
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('sales/daftar_pesanan1', $data);
+        $this->load->view('templates/admin_footer');
+    }
+
+    public function detailImagePesanan($id)
+    {
+        $data['title'] = 'Detail Drawing';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['drawing'] = $this->Multipleupload_model->detail_image($id);
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('sales/detail_image', $data);
+        $this->load->view('templates/admin_footer');
     }
 }

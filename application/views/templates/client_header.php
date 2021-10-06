@@ -72,7 +72,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Galeri</a></li>
                         </ul>
                     </li>
-                    <li><a href="<?= site_url('menuProduk'); ?>"><strong>Pesan Disini!</strong></a></li>
+                    <li><a href="<?= site_url('client/menuProduk'); ?>"><strong>Pesan Disini!</strong></a></li>
                     <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>
