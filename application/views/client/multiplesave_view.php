@@ -33,7 +33,7 @@
         <!-- /Breadcrumb -->
 
         <div class="main-body">
-
+            <?= $this->session->flashdata('message'); ?>
             <div class="row gutters-sm">
                 <div class="col-md-12">
                     <div class="card border-info mb-3">
@@ -43,8 +43,36 @@
                             <hr>
                             <?= form_open_multipart('client/tambah'); ?>
                             <div class="col-md-12 mb-3">
-                                <label for="inputAddress">Nama Projek Cetakan</label>
-                                <input type="text" class="form-control" id="projek_pesanan" name="projek_pesanan" placeholder="Nama Projek">
+                                <label for="inputAddress">Nama Barang</label>
+                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="inputAddress">Ukuran</label>
+                                <p>*ukuran dalam cm</p>
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" id="panjang" name="panjang" placeholder="Panjang">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" id="lebar" name="lebar" placeholder="Lebar">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="number" class="form-control" id="tinggi" name="tinggi" placeholder="Tinggi">
+                                </div>
+                            </div>
+                            <div class="col-md-10 mb-3">
+                                <label for="kualitas">Kualitas</label>
+                                <select class="form-control input-lg" name="kualitas" id="kualitas" required>
+                                    <option value="">Pilih Kualitas</option>
+                                    <?php
+                                    foreach ($kualitas as $row)
+                                        echo '<option value="' . $row->id_kualitas . '">' . $row->kualitas_nama . '</option>';
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-10 mb-3">
+                                <select name="subkualitas" id="subkualitas" class="form-control input-lg">
+                                    <option value="">Pilih Subkualitas</option>
+                                </select>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="inputAddress">Material</label>
@@ -87,3 +115,27 @@
     </div>
     </div>
 </section>
+
+<!-- Script untuk Kualitas dan Subkualitas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $('#kualitas').change(function() {
+            var id_kualitas = $('#kualitas').val();
+            if (id_kualitas != '') {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>client/fetch_subkualitas",
+                    method: "POST",
+                    data: {
+                        id_kualitas: id_kualitas
+                    },
+                    success: function(data) {
+                        $('#subkualitas').html(data);
+                    }
+                })
+            }
+        });
+
+    });
+</script>

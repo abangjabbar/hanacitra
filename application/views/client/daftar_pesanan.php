@@ -13,8 +13,8 @@
 </section><!-- End top2 -->
 
 <section>
+    <?= $this->session->flashdata('message'); ?>
     <div class="container">
-        <h2 class="mb-5">Table #4</h2>
 
         <div class="table-responsive custom-table-responsive">
 
@@ -39,7 +39,7 @@
                                 <?= $i; ?>
                             </td>
                             <td><?= $order['id']; ?></td>
-                            <td><?= $order['projek_pesanan']; ?></td>
+                            <td><?= $order['nama_barang']; ?></td>
                             <td>
                                 <?= $order['material'] ?>
                             </td>

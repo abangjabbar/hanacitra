@@ -190,13 +190,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
 
                         <div class="form-group">
-                            <select name="subkualitas" name="subkualitas" id="subkualitas" class="form-control input-lg">
+                            <select name="subkualitas" id="subkualitas" class="form-control input-lg">
                                 <option value="">Pilih Subkualitas</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <select name="harga_subkualitas" name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
+                            <select name="harga_subkualitas" id="harga_subkualitas" class="form-control input-lg">
                                 <option value="">Harga</option>
                             </select>
                         </div>

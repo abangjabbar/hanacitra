@@ -62,7 +62,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Stok Bahan Box</a></li>
                         </ul>
                     </li>
-                    <li><a href="#portfolio">Daftar Transaksi</a></li>
+                    <li><a href="<?= site_url('client/daftarPesanan'); ?>">Daftar Transaksi</a></li>
                     <li><a href="#team">Pengiriman</a></li>
                     <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>

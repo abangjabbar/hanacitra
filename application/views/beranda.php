@@ -140,11 +140,11 @@
 
             <div class="row">
                 <div class="col-lg-9 text-center text-lg-start">
-                    <h3>Call Untuk Memesan</h3>
+                    <h3>Klik Untuk Memesan</h3>
                     <p>Penjelasan lebih lanjut ada disini</p>
                 </div>
                 <div class="col-lg-3 cta-btn-container text-center">
-                    <a class="cta-btn align-middle" href="#">Call Untuk Memesan</a>
+                    <a class="cta-btn align-middle" href="#">Klik Untuk Memesan</a>
                 </div>
             </div>
 

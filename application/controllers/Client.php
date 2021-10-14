@@ -9,6 +9,7 @@ class Client extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Multipleupload_model');
+        $this->load->model("subkualitas_model");
     }
 
     public function index()
@@ -263,6 +264,7 @@ class Client extends CI_Controller
         $data['title'] = 'Multiple save';
 
         $data['groupImage'] = $this->Multipleupload_model->getDataGroup();
+        $data['kualitas'] = $this->subkualitas_model->fetch_kualitas();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
@@ -276,7 +278,12 @@ class Client extends CI_Controller
         $this->db->trans_start();
 
         $pesanan = array(
-            'projek_pesanan' => $this->input->post('projek_pesanan'),
+            'nama_barang' => $this->input->post('nama_barang'),
+            'panjang' => $this->input->post('panjang'),
+            'lebar' => $this->input->post('lebar'),
+            'tinggi' => $this->input->post('tinggi'),
+            'kualitas' => $this->input->post('kualitas'),
+            'subkualitas' => $this->input->post('subkualitas'),
             'material' => ($this->input->post('material')),
             'deskripsi' => ($this->input->post('deskripsi')),
             'kuantitas' => ($this->input->post('kuantitas')),
@@ -330,16 +337,23 @@ class Client extends CI_Controller
         } else {
             if (!$insert && !$data) {
                 $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
-                redirect('client/multiplesave');
+                redirect('client/daftarPesanan');
             } else {
                 if ($this->Multipleupload_model->upload($insert, $data['file_name']) > 0) {
                     $this->session->set_flashdata('status', 'data berhasil disimpan');
-                    redirect('client/multiplesave');
+                    redirect('client/daftarPesanan');
                 } else {
                     $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
-                    redirect('client/multiplesave');
+                    redirect('client/daftarPesanan');
                 }
             }
+        }
+    }
+
+    public function fetch_subkualitas()
+    {
+        if ($this->input->post('id_kualitas')) {
+            echo $this->subkualitas_model->fetch_subkualitas($this->input->post('id_kualitas'));
         }
     }
 
@@ -373,6 +387,7 @@ class Client extends CI_Controller
 
     public function detailImagePesanan($id)
     {
+        $data['title'] = 'Detail Drawing';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['drawing'] = $this->Multipleupload_model->detail_image($id);
         $this->load->view('templates/client_header', $data);
