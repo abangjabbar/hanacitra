@@ -13,8 +13,8 @@
 </section><!-- End top2 -->
 
 <section>
-    <?= $this->session->flashdata('message'); ?>
     <div class="container">
+        <?= $this->session->flashdata('message'); ?>
 
         <div class="table-responsive custom-table-responsive">
 
@@ -29,6 +29,7 @@
                         <th scope="col">Kuantitas</th>
                         <th scope="col">Alamat Pengiriman</th>
                         <th scope="col">Desain Box</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +48,10 @@
                             <td><?= $order['kuantitas']; ?></td>
                             <td><?= $order['alamat_pengiriman']; ?></td>
                             <td>
-                                <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary btn-sm">Detail</a>
+                                <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
+                            </td>
+                            <td>
+                                <a href="<?= site_url('sales/status' . $order->id) ?>" class="btn btn-success">Status</a>
                             </td>
                         </tr>
                         <?php $i++; ?>

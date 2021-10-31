@@ -10,6 +10,7 @@ class Client extends CI_Controller
         is_logged_in();
         $this->load->model('Multipleupload_model');
         $this->load->model("subkualitas_model");
+        $this->load->model("Pesanan_model");
     }
 
     public function index()
@@ -268,88 +269,85 @@ class Client extends CI_Controller
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $this->load->view('templates/client_header', $data);
-        $this->load->view('client/multiplesave_view', $data);
-        $this->load->view('templates/client_footer', $data);
-    }
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
+        $this->form_validation->set_rules('panjang', 'Panjang', 'required');
+        $this->form_validation->set_rules('lebar', 'Lebar', 'required');
+        $this->form_validation->set_rules('tinggi', 'Tinggi', 'required');
+        $this->form_validation->set_rules('material', 'Material', 'required');
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+        $this->form_validation->set_rules('kuantitas', 'Kuantitas', 'required');
+        $this->form_validation->set_rules('alamat_pengiriman', 'Alamat Tujuan Pengriman', 'required');
 
-    public function tambah()
-    {
-        $this->db->trans_start();
-
-        $pesanan = array(
-            'nama_barang' => $this->input->post('nama_barang'),
-            'panjang' => $this->input->post('panjang'),
-            'lebar' => $this->input->post('lebar'),
-            'tinggi' => $this->input->post('tinggi'),
-            'kualitas' => $this->input->post('kualitas'),
-            'subkualitas' => $this->input->post('subkualitas'),
-            'material' => ($this->input->post('material')),
-            'deskripsi' => ($this->input->post('deskripsi')),
-            'kuantitas' => ($this->input->post('kuantitas')),
-            'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
-            'po_tgl' => ($this->input->post('po_tgl')),
-            'deliv_tgl' => ($this->input->post('deliv_tgl'))
-        );
-        $this->db->insert('pesanan', $pesanan);
-
-        $id_pesanan = $this->db->insert_id();
-
-        $upload = $_FILES['image']['name'];
-        if ($upload) {
-            $numberOfFiles = sizeof($upload);
-            $files = $_FILES['image'];
-            $config['allowed_types'] = 'gif|png|jpg|jpeg';
-            $config['max_size'] = '2048';
-            $config['upload_path'] = './assets/drawing_client/';
-            $this->load->library('upload', $config);
-
-            for ($i = 0; $i < $numberOfFiles; $i++) {
-                $_FILES['image']['name'] = $files['name'][$i];
-                $_FILES['image']['type'] = $files['type'][$i];
-                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
-                $_FILES['image']['error'] = $files['error'][$i];
-                $_FILES['image']['size'] = $files['size'][$i];
-
-                $this->upload->initialize($config);
-
-                if ($this->upload->do_upload('image')) {
-                    $data = $this->upload->data();
-                    $imageName = $data['file_name'];
-                    $cek = $this->Multipleupload_model->cekData();
-                    if (!$cek) {
-                        $groupImage = 1;
-                    } else {
-                        $groupImage = $cek['group_image'] + 1;
-                    }
-                    $insert[$i]['id_pesanan'] = $id_pesanan;
-                    $insert[$i]['image'] = $imageName;
-                    $insert[$i]['group_image'] = $groupImage;
-                    $insert[$i]['date_created'] = time();
-                }
-            }
-        }
-
-        $this->db->trans_complete();
-
-        if ($this->db->trans_status() === FALSE) {
-            echo 'rollback';
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/client_header', $data);
+            $this->load->view('client/multiplesave_view', $data);
+            $this->load->view('templates/client_footer', $data);
         } else {
-            if (!$insert && !$data) {
-                $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
-                redirect('client/daftarPesanan');
-            } else {
-                if ($this->Multipleupload_model->upload($insert, $data['file_name']) > 0) {
-                    $this->session->set_flashdata('status', 'data berhasil disimpan');
-                    redirect('client/daftarPesanan');
-                } else {
-                    $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
-                    redirect('client/daftarPesanan');
+            //validasinya sukses
+            $this->db->trans_start();
+
+            $pesanan = array(
+                'nama_barang' => $this->input->post('nama_barang'),
+                'panjang' => $this->input->post('panjang'),
+                'lebar' => $this->input->post('lebar'),
+                'tinggi' => $this->input->post('tinggi'),
+                'material' => ($this->input->post('material')),
+                'deskripsi' => ($this->input->post('deskripsi')),
+                'kuantitas' => ($this->input->post('kuantitas')),
+                'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
+                'po_tgl' => ($this->input->post('po_tgl')),
+                'deliv_tgl' => ($this->input->post('deliv_tgl'))
+            );
+            $this->db->insert('pesanan', $pesanan);
+
+            $id_pesanan = $this->db->insert_id();
+
+            $upload = $_FILES['image']['name'];
+            if ($upload) {
+                $numberOfFiles = sizeof($upload);
+                $files = $_FILES['image'];
+                $config['allowed_types'] = 'gif|png|jpg|jpeg';
+                $config['max_size'] = '2048';
+                $config['upload_path'] = './assets/drawing_client/';
+                $this->load->library('upload', $config);
+
+                for ($i = 0; $i < $numberOfFiles; $i++) {
+                    $_FILES['image']['name'] = $files['name'][$i];
+                    $_FILES['image']['type'] = $files['type'][$i];
+                    $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                    $_FILES['image']['error'] = $files['error'][$i];
+                    $_FILES['image']['size'] = $files['size'][$i];
+
+                    $this->upload->initialize($config);
+
+                    if ($this->upload->do_upload('image')) {
+                        $data = $this->upload->data();
+                        $imageName = $data['file_name'];
+                        $cek = $this->Multipleupload_model->cekData();
+                        if (!$cek) {
+                            $groupImage = 1;
+                        } else {
+                            $groupImage = $cek['group_image'] + 1;
+                        }
+                        $insert[$i]['id_pesanan'] = $id_pesanan;
+                        $insert[$i]['image'] = $imageName;
+                        $insert[$i]['group_image'] = $groupImage;
+                        $insert[$i]['date_created'] = time();
+                    }
                 }
+                $this->Multipleupload_model->upload($insert, $data['file_name']) > 0;
             }
+
+            $transaksi = [
+                'id_pesanan' => $id_pesanan
+            ];
+            $this->db->insert('transaksi', $transaksi);
+
+            $this->db->trans_complete();
+            $this->session->set_flashdata('status', 'data berhasil disimpan');
+            redirect('client/daftarPesanan');
         }
     }
-
     public function fetch_subkualitas()
     {
         if ($this->input->post('id_kualitas')) {
@@ -392,6 +390,19 @@ class Client extends CI_Controller
         $data['drawing'] = $this->Multipleupload_model->detail_image($id);
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/detail_image', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
+    public function detailPesanan()
+    {
+        $data['title'] = 'Purchased Order';
+
+        $data['pesanan'] = $this->db->get('pesanan')->result_array();
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/po_view', $data);
         $this->load->view('templates/client_footer', $data);
     }
 }

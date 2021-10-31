@@ -22,6 +22,8 @@
                             <th scope="col">Kuantitas</th>
                             <th scope="col">Alamat Pengiriman</th>
                             <th scope="col">Desain Box</th>
+                            <th scope="col">Invoice</th>
+                            <th scope="col">Harga</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,8 +33,8 @@
                                 <td>
                                     <?= $i; ?>
                                 </td>
-                                <td><?= $order['po_tgl']; ?></td>
-                                <td><?= $order['projek_pesanan']; ?></td>
+                                <td><?= $order['id']; ?></td>
+                                <td><?= $order['nama_barang']; ?></td>
                                 <td>
                                     <?= $order['material'] ?>
                                 </td>
@@ -40,8 +42,12 @@
                                 <td><?= $order['kuantitas']; ?></td>
                                 <td><?= $order['alamat_pengiriman']; ?></td>
                                 <td>
-                                    <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary btn-sm">Detail</a>
+                                    <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
                                 </td>
+                                <td>
+                                    <a href="<?php echo base_url(); ?>sales/detailHarga/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
+                                </td>
+                                <td></td>
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>

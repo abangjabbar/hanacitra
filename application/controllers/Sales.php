@@ -9,6 +9,7 @@ class Sales extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Multipleupload_model');
+        $this->load->model('Pesanan_model');
     }
 
     public function index()
@@ -129,7 +130,7 @@ class Sales extends CI_Controller
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
-        $this->load->view('sales/daftar_pesanan1', $data);
+        $this->load->view('sales/daftar_pesanan', $data);
         $this->load->view('templates/admin_footer');
     }
 
@@ -144,5 +145,56 @@ class Sales extends CI_Controller
         $this->load->view('templates/admin_topbar', $data);
         $this->load->view('sales/detail_image', $data);
         $this->load->view('templates/admin_footer');
+    }
+
+    public function detailHarga($id)
+    {
+        $data['title'] = 'Detail Harga Transaksi';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['transaksi'] = $this->db->get('transaksi')->result_array();
+
+        $data['detail'] = $this->Pesanan_model->detail_harga($id);
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('sales/detail_harga', $data);
+        $this->load->view('templates/admin_footer');
+    }
+
+    public function transaksii()
+    {
+        $data['title'] = 'Submenu Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Menu_model', 'menu');
+
+        $data['subMenu'] = $this->menu->getSubMenu();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('menu_id', 'Menu', 'required');
+        $this->form_validation->set_rules('url', 'URL', 'required');
+        $this->form_validation->set_rules('icon', 'Icon', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/admin_header', $data);
+            $this->load->view('templates/admin_sidebar', $data);
+            $this->load->view('templates/admin_topbar', $data);
+            $this->load->view('menu/submenu', $data);
+            $this->load->view('templates/admin_footer');
+        } else {
+            $data = [
+                'title' => $this->input->post('title'),
+                'menu_id' => $this->input->post('menu_id'),
+                'url' => $this->input->post('url'),
+                'icon' => $this->input->post('icon'),
+                'is_active' => $this->input->post('is_active')
+            ];
+            $this->db->insert('user_sub_menu', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                    Submenu Baru Berhasil Ditambahkan
+                    </div>');
+            redirect('menu/submenu');
+        }
     }
 }

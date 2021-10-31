@@ -8,6 +8,11 @@
         max-width: 700px;
         margin: auto;
     }
+
+    .alert-danger {
+        max-width: 300px;
+        margin: auto;
+    }
 </style>
 
 <section id="top">
@@ -33,7 +38,7 @@
         <!-- /Breadcrumb -->
 
         <div class="main-body">
-            <?= $this->session->flashdata('message'); ?>
+
             <div class="row gutters-sm">
                 <div class="col-md-12">
                     <div class="card border-info mb-3">
@@ -41,67 +46,63 @@
                         <div class="card-body">
                             <h4 class="card-title">Pemesanan Custom</h4>
                             <hr>
-                            <?= form_open_multipart('client/tambah'); ?>
+                            <?= form_open_multipart('client/multiplesave'); ?>
                             <div class="col-md-12 mb-3">
                                 <label for="inputAddress">Nama Barang</label>
-                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+                                <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= set_value('nama_barang'); ?>" placeholder="Nama Barang">
+                                <?= form_error('nama_barang', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="inputAddress">Ukuran</label>
                                 <p>*ukuran dalam cm</p>
                                 <div class="col-md-6 mb-3">
-                                    <input type="number" class="form-control" id="panjang" name="panjang" placeholder="Panjang">
+                                    <input type="number" class="form-control" id="panjang" name="panjang" value="<?= set_value('panjang'); ?>" placeholder="Panjang">
+                                    <?= form_error('panjang', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <input type="number" class="form-control" id="lebar" name="lebar" placeholder="Lebar">
+                                    <input type="number" class="form-control" id="lebar" name="lebar" value="<?= set_value('lebar'); ?>" placeholder="Lebar">
+                                    <?= form_error('lebar', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <input type="number" class="form-control" id="tinggi" name="tinggi" placeholder="Tinggi">
+                                    <input type="number" class="form-control" id="tinggi" name="tinggi" value="<?= set_value('tinggi'); ?>" placeholder="Tinggi">
+                                    <?= form_error('tinggi', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
-                            </div>
-                            <div class="col-md-10 mb-3">
-                                <label for="kualitas">Kualitas</label>
-                                <select class="form-control input-lg" name="kualitas" id="kualitas" required>
-                                    <option value="">Pilih Kualitas</option>
-                                    <?php
-                                    foreach ($kualitas as $row)
-                                        echo '<option value="' . $row->id_kualitas . '">' . $row->kualitas_nama . '</option>';
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-10 mb-3">
-                                <select name="subkualitas" id="subkualitas" class="form-control input-lg">
-                                    <option value="">Pilih Subkualitas</option>
-                                </select>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="inputAddress">Material</label>
-                                <input type="text" class="form-control" id="material" name="material" placeholder="Material Box">
+                                <input type="text" class="form-control" id="material" name="material" value="<?= set_value('material'); ?>" placeholder="Material Box">
+                                <?= form_error('material', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="floatingTextarea2">Deskripsi Cetakan yang Anda Inginkan</label>
-                                <textarea class="form-control" placeholder="Deskripsi" id="deskripsi" name="deskripsi" style="height: 100px"></textarea>
+                                <textarea class="form-control" placeholder="Deskripsi" id="deskripsi" name="deskripsi" value="<?= set_value('deskripsi'); ?>" style="height: 100px"></textarea>
+                                <?= form_error('deskripsi', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label for="image" class="col-sm-2 col-form-label">Gambar</label>
+                                <label for="image" class="col-sm-2 col-form-label">Desain</label>
+                                <p>Upload desain atau logo anda, apabila ingin berwarna</p>
                                 <div class="col-sm-8">
                                     <input type="hidden" name="id" value="">
                                     <div class="input-group mb-3">
-                                        <input type="file" for="image" class="form-control" id="image" name="image[]" multiple>
+                                        <input type="file" for="image" class="form-control" id="image" name="image[]" value="<?= set_value('image[]'); ?>" multiple required>
+                                        <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="input">Kuantitas</label>
-                                <input type="number" class="form-control" placeholder="Kuantitas" id="kuantitas" name="kuantitas"></input>
+                                <input type="number" class="form-control" placeholder="Kuantitas" id="kuantitas" value="<?= set_value('kuantitas'); ?>" name="kuantitas"></input>
+                                <?= form_error('kuantitas', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="inputCity">Tanggal Pengiriman</label>
-                                <input type="date" class="form-control" id="deliv_tgl" name="deliv_tgl">
+                                <input type="date" class="form-control" id="deliv_tgl" value="<?= set_value('deliv_tgl'); ?>" name="deliv_tgl">
+                                <?= form_error('deliv_tgl', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="inputAddress">Alamat Pengiriman</label>
-                                <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" placeholder="1234 Main St">
+                                <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" value="<?= set_value('alamat_pengiriman'); ?>" placeholder="Alamat Lengkap">
+                                <?= form_error('alamat_pengiriman', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <button type="submit" class="btn btn-primary">Pesan</button>
