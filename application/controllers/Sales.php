@@ -126,6 +126,7 @@ class Sales extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['pesanan'] = $this->db->get('pesanan')->result_array();
+        $data['transaksi'] = $this->db->get('transaksi')->result_array();
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -144,57 +145,25 @@ class Sales extends CI_Controller
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
         $this->load->view('sales/detail_image', $data);
-        $this->load->view('templates/admin_footer');
+        $this->load->view('templates/admin_footer', $data);
     }
 
-    public function detailHarga($id)
+    public function editHarga($id)
     {
         $data['title'] = 'Detail Harga Transaksi';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['harga'] = $this->Pesanan_model->get_id_transaksi($id);
 
-        $data['transaksi'] = $this->db->get('transaksi')->result_array();
-
-        $data['detail'] = $this->Pesanan_model->detail_harga($id);
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
-        $this->load->view('sales/detail_harga', $data);
-        $this->load->view('templates/admin_footer');
+        $this->load->view('sales/edit_harga', $data);
+        $this->load->view('templates/admin_footer', $data);
     }
 
-    public function transaksii()
+    public function proses_edit_harga()
     {
-        $data['title'] = 'Submenu Management';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $this->load->model('Menu_model', 'menu');
-
-        $data['subMenu'] = $this->menu->getSubMenu();
-        $data['menu'] = $this->db->get('user_menu')->result_array();
-
-        $this->form_validation->set_rules('title', 'Title', 'required');
-        $this->form_validation->set_rules('menu_id', 'Menu', 'required');
-        $this->form_validation->set_rules('url', 'URL', 'required');
-        $this->form_validation->set_rules('icon', 'Icon', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/admin_header', $data);
-            $this->load->view('templates/admin_sidebar', $data);
-            $this->load->view('templates/admin_topbar', $data);
-            $this->load->view('menu/submenu', $data);
-            $this->load->view('templates/admin_footer');
-        } else {
-            $data = [
-                'title' => $this->input->post('title'),
-                'menu_id' => $this->input->post('menu_id'),
-                'url' => $this->input->post('url'),
-                'icon' => $this->input->post('icon'),
-                'is_active' => $this->input->post('is_active')
-            ];
-            $this->db->insert('user_sub_menu', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                    Submenu Baru Berhasil Ditambahkan
-                    </div>');
-            redirect('menu/submenu');
-        }
+        $this->Pesanan_model->proses_edit_harga();
+        redirect('sales/daftarPesanan');
     }
 }

@@ -11,4 +11,22 @@ class Pesanan_model extends CI_Model
         $this->db->where('pesanan.id', $id);
         return $this->db->get()->result();
     }
+
+    public function get_id_transaksi($id)
+    {
+        return  $this->db->get_where('transaksi', ['id' => $id])->row_array();
+    }
+
+    public function proses_edit_harga()
+    {
+        $data = [
+            "harga_item" => $this->input->post('harga_item'),
+            "total_harga" => $this->input->post('total_harga'),
+            "ppn" => $this->input->post('ppn'),
+            "diskon" => $this->input->post('diskon'),
+            "grand_total" => $this->input->post('grand_total')
+        ];
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('transaksi', $data);
+    }
 }

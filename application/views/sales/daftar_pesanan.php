@@ -44,8 +44,53 @@
                                 <td>
                                     <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
                                 </td>
+                                <td></td>
+                            </tr>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <div class="container">
+
+        <div class="scroll">
+            <div class="table-responsive custom-table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Pesanan</th>
+                            <th scope="col">Kuantitas</th>
+                            <th scope="col">Harga Per Item</th>
+                            <th scope="col">Total Harga</th>
+                            <th scope="col">PPN</th>
+                            <th scope="col">Diskon</th>
+                            <th scope="col">Grand Total</th>
+                            <th scope="col">Invoice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1; ?>
+                        <?php foreach ($transaksi as $row) : ?>
+                            <tr scope="row">
                                 <td>
-                                    <a href="<?php echo base_url(); ?>sales/detailHarga/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
+                                    <?= $i; ?>
+                                </td>
+                                <td><?= $row['id_pesanan']; ?></td>
+                                <td><?= $row['kuantitas']; ?></td>
+                                <td><?= $row['harga_item']; ?></td>
+                                <td><?= $row['total_harga'] ?></td>
+                                <td><?= $row['ppn']; ?></td>
+                                <td><?= $row['diskon']; ?></td>
+                                <td><?= $row['grand_total']; ?></td>
+                                <td>
+                                    <a href="<?php echo base_url(); ?>sales/editHarga/<?php echo $row['id']; ?>" class="btn btn-primary">Detail</a>
                                 </td>
                                 <td></td>
                             </tr>

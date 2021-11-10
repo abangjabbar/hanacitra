@@ -339,7 +339,8 @@ class Client extends CI_Controller
             }
 
             $transaksi = [
-                'id_pesanan' => $id_pesanan
+                'id_pesanan' => $id_pesanan,
+                'kuantitas' => ($this->input->post('kuantitas'))
             ];
             $this->db->insert('transaksi', $transaksi);
 

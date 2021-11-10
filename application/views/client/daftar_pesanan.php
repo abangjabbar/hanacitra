@@ -29,7 +29,6 @@
                         <th scope="col">Kuantitas</th>
                         <th scope="col">Alamat Pengiriman</th>
                         <th scope="col">Desain Box</th>
-                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,9 +48,6 @@
                             <td><?= $order['alamat_pengiriman']; ?></td>
                             <td>
                                 <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
-                            </td>
-                            <td>
-                                <a href="<?= site_url('sales/status' . $order->id) ?>" class="btn btn-success">Status</a>
                             </td>
                         </tr>
                         <?php $i++; ?>
