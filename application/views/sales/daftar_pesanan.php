@@ -18,6 +18,7 @@
                             <th scope="col">Order</th>
                             <th scope="col">Nama Projek Pesanan</th>
                             <th scope="col">Material</th>
+                            <th scope="col">Substance</th>
                             <th scope="col">Deskripsi</th>
                             <th scope="col">Kuantitas</th>
                             <th scope="col">Alamat Pengiriman</th>
@@ -33,16 +34,15 @@
                                 <td>
                                     <?= $i; ?>
                                 </td>
-                                <td><?= $order['id']; ?></td>
-                                <td><?= $order['nama_barang']; ?></td>
+                                <td><?= $order->id; ?></td>
+                                <td><?= $order->nama_barang; ?></td>
+                                <td><?= $order->kualitas_nama; ?></td>
+                                <td><?= $order->subkualitas_nama; ?></td>
+                                <td><?= $order->deskripsi; ?></td>
+                                <td><?= $order->kuantitas; ?></td>
+                                <td><?= $order->alamat_pengiriman; ?></td>
                                 <td>
-                                    <?= $order['material'] ?>
-                                </td>
-                                <td><?= $order['deskripsi']; ?></td>
-                                <td><?= $order['kuantitas']; ?></td>
-                                <td><?= $order['alamat_pengiriman']; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
+                                    <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail</a>
                                 </td>
                                 <td></td>
                             </tr>
@@ -65,6 +65,7 @@
                 <table class="table custom-table">
                     <thead>
                         <tr>
+                            <th scope="col">No</th>
                             <th scope="col">ID Pesanan</th>
                             <th scope="col">Kuantitas</th>
                             <th scope="col">Harga Per Item</th>
@@ -82,13 +83,13 @@
                                 <td>
                                     <?= $i; ?>
                                 </td>
-                                <td><?= $row['id_pesanan']; ?></td>
+                                <td id="dengan-rupiah"><?= $row['id_pesanan']; ?></td>
                                 <td><?= $row['kuantitas']; ?></td>
-                                <td><?= $row['harga_item']; ?></td>
-                                <td><?= $row['total_harga'] ?></td>
-                                <td><?= $row['ppn']; ?></td>
-                                <td><?= $row['diskon']; ?></td>
-                                <td><?= $row['grand_total']; ?></td>
+                                <td><?= "Rp " . number_format($row['harga_item'], 2, ",", "."); ?></td>
+                                <td><?= "Rp " . number_format($row['total_harga'], 2, ",", "."); ?></td>
+                                <td><?= "Rp " . number_format($row['ppn'], 2, ",", "."); ?></td>
+                                <td><?= "Rp " . number_format($row['diskon'], 2, ",", "."); ?></td>
+                                <td><?= "Rp " . number_format($row['grand_total'], 2, ",", "."); ?></td>
                                 <td>
                                     <a href="<?php echo base_url(); ?>sales/editHarga/<?php echo $row['id']; ?>" class="btn btn-primary">Detail</a>
                                 </td>

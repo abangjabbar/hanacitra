@@ -69,9 +69,21 @@
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label for="inputAddress">Material</label>
-                                <input type="text" class="form-control" id="material" name="material" value="<?= set_value('material'); ?>" placeholder="Material Box">
-                                <?= form_error('material', '<small class="text-danger pl-3">', '</small>'); ?>
+                                <label for="kualitas">Material</label>
+                                <select class="form-control input-lg" name="kualitas" id="kualitas" value="<?= set_value('kualitas'); ?>" required>
+                                    <option value="">Pilih Material</option>
+                                    <?php
+                                    foreach ($kualitas as $row)
+                                        echo '<option value="' . $row->id_kualitas . '">' . $row->kualitas_nama . '</option>';
+                                    ?>
+                                </select>
+                                <?= form_error('kualitas', '<small class="text-danger pl-3">', '</small>'); ?>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="kualitas">Substance</label>
+                                <select name="subkualitas" id="subkualitas" value="<?= set_value('subkualitas'); ?>" class="form-control input-lg">
+                                    <option value="">Pilih Substance</option>
+                                </select>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="floatingTextarea2">Deskripsi Cetakan yang Anda Inginkan</label>
@@ -84,7 +96,7 @@
                                 <div class="col-sm-8">
                                     <input type="hidden" name="id" value="">
                                     <div class="input-group mb-3">
-                                        <input type="file" for="image" class="form-control" id="image" name="image[]" value="<?= set_value('image[]'); ?>" multiple required>
+                                        <input type="file" for="image" class="form-control" id="image" name="image[]" value="<?= set_value('image'); ?>" multiple required>
                                         <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                 </div>

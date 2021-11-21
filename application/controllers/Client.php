@@ -273,7 +273,8 @@ class Client extends CI_Controller
         $this->form_validation->set_rules('panjang', 'Panjang', 'required');
         $this->form_validation->set_rules('lebar', 'Lebar', 'required');
         $this->form_validation->set_rules('tinggi', 'Tinggi', 'required');
-        $this->form_validation->set_rules('material', 'Material', 'required');
+        $this->form_validation->set_rules('kualitas', 'Material', 'required');
+        $this->form_validation->set_rules('subkualitas', 'Material', 'required');
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
         $this->form_validation->set_rules('kuantitas', 'Kuantitas', 'required');
         $this->form_validation->set_rules('alamat_pengiriman', 'Alamat Tujuan Pengriman', 'required');
@@ -291,7 +292,8 @@ class Client extends CI_Controller
                 'panjang' => $this->input->post('panjang'),
                 'lebar' => $this->input->post('lebar'),
                 'tinggi' => $this->input->post('tinggi'),
-                'material' => ($this->input->post('material')),
+                'kualitas' => ($this->input->post('kualitas')),
+                'subkualitas' => ($this->input->post('subkualitas')),
                 'deskripsi' => ($this->input->post('deskripsi')),
                 'kuantitas' => ($this->input->post('kuantitas')),
                 'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
@@ -374,8 +376,7 @@ class Client extends CI_Controller
     public function daftarPesanan()
     {
         $data['title'] = 'Daftar Pesanan';
-
-        $data['pesanan'] = $this->db->get('pesanan')->result_array();
+        $data['pesanan'] = $this->Pesanan_model->get_kualitas();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 

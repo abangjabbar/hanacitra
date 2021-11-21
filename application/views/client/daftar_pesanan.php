@@ -25,6 +25,7 @@
                         <th scope="col">Order</th>
                         <th scope="col">Nama Projek Pesanan</th>
                         <th scope="col">Material</th>
+                        <th scope="col">Substance</th>
                         <th scope="col">Deskripsi</th>
                         <th scope="col">Kuantitas</th>
                         <th scope="col">Alamat Pengiriman</th>
@@ -38,16 +39,15 @@
                             <td>
                                 <?= $i; ?>
                             </td>
-                            <td><?= $order['id']; ?></td>
-                            <td><?= $order['nama_barang']; ?></td>
+                            <td><?= $order->id; ?></td>
+                            <td><?= $order->nama_barang; ?></td>
+                            <td><?= $order->kualitas_nama; ?></td>
+                            <td><?= $order->subkualitas_nama; ?></td>
+                            <td><?= $order->deskripsi; ?></td>
+                            <td><?= $order->kuantitas; ?></td>
+                            <td><?= $order->alamat_pengiriman; ?></td>
                             <td>
-                                <?= $order['material'] ?>
-                            </td>
-                            <td><?= $order['deskripsi']; ?></td>
-                            <td><?= $order['kuantitas']; ?></td>
-                            <td><?= $order['alamat_pengiriman']; ?></td>
-                            <td>
-                                <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order['id']; ?>" class="btn btn-primary">Detail</a>
+                                <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         <?php $i++; ?>

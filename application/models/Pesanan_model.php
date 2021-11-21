@@ -29,4 +29,15 @@ class Pesanan_model extends CI_Model
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('transaksi', $data);
     }
+
+    function get_kualitas()
+    {
+        $query =
+            $this->db->select('*')
+            ->from('pesanan')
+            ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
+            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->get();
+        return $query->result();
+    }
 }

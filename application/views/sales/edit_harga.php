@@ -22,77 +22,46 @@
         </div>
         <div class="col-md-12 mb-3">
             <label for="floatingTextarea2">Harga Per Item</label>
-            <input type="text" class="form-control" id="dengan-rupiah" placeholder="Harga Per Item" id="harga_item" name="harga_item" value="<?= $harga['harga_item']; ?>" style="height: 100px"></input>
-            <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
+            <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
+                <span class="input-group-text fw-bolder">Rp.</span>
+                <input type="number" class="form-control" id="harga_item" placeholder="Harga Per Item" name="harga_item" value="<?= $harga['harga_item']; ?>"></input>
+                <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
         </div>
         <div class="col-md-12 mb-3">
             <label for="inputAddress">Total Harga</label>
-            <input type="text" class="form-control" id="dengan-rupiah-2" name="total_harga" value="<?= $harga['total_harga']; ?>" placeholder="Total Harga">
-            <?= form_error('total_harga', '<small class="text-danger pl-3">', '</small>'); ?>
+            <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
+                <span class="input-group-text fw-bolder">Rp.</span>
+                <input type="number" class="form-control" id="total_harga" name="total_harga" value="<?= $harga['total_harga']; ?>" placeholder="Total Harga">
+                <?= form_error('total_harga', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
         </div>
         <div class="col-md-12 mb-3">
             <label for="inputAddress">PPN</label>
-            <input type="text" class="form-control" id="dengan-rupiah-3" name="ppn" value="<?= $harga['ppn']; ?>" placeholder="PPN">
-            <?= form_error('ppn', '<small class="text-danger pl-3">', '</small>'); ?>
+            <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
+                <span class="input-group-text fw-bolder">Rp.</span>
+                <input type="number" class="form-control" id="ppn" name="ppn" value="<?= $harga['ppn']; ?>" placeholder="PPN">
+                <?= form_error('ppn', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
         </div>
         <div class="col-md-12 mb-3">
             <label for="inputAddress">Diskon</label>
-            <input type="text" class="form-control" id="dengan-rupiah-4" name="diskon" value="<?= $harga['diskon']; ?>" placeholder="Diskon">
-            <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
+            <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
+                <span class="input-group-text fw-bolder">Rp.</span>
+                <input type="number" class="form-control" id="diskon" name="diskon" value="<?= $harga['diskon']; ?>" placeholder="Diskon">
+                <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
         </div>
         <div class="col-md-12 mb-3">
             <label for="inputAddress">Grand Total</label>
-            <input type="text" class="form-control" id="dengan-rupiah-5" name="grand_total" value="<?= $harga['grand_total']; ?>" placeholder="Grand Total">
-            <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
+            <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
+                <span class="input-group-text fw-bolder">Rp.</span>
+                <input type="number" class="form-control fw-bolder" id="grand_total" name="grand_total" value="<?= $harga['grand_total']; ?>" placeholder="Grand Total">
+                <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
         </div>
         <div class="col-md-12 mb-3">
             <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
     </div>
 </section>
-
-<style>
-    .scroll {
-        height: 400px;
-        overflow: scroll;
-    }
-</style>
-
-<script type="text/javascript">
-    var dengan_rupiah = document.getElementById('dengan-rupiah');
-    dengan_rupiah.addEventListener('keyup', function(e) {
-        dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
-    });
-    var dengan_rupiahh = document.getElementById('dengan-rupiah-2');
-    dengan_rupiahh.addEventListener('keyup', function(e) {
-        dengan_rupiahh.value = formatRupiah(this.value, 'Rp. ');
-    });
-    var dengan_rupiahhh = document.getElementById('dengan-rupiah-3');
-    dengan_rupiahhh.addEventListener('keyup', function(e) {
-        dengan_rupiahhh.value = formatRupiah(this.value, 'Rp. ');
-    });
-    var dengan_rupiahhhh = document.getElementById('dengan-rupiah-4');
-    dengan_rupiahhhh.addEventListener('keyup', function(e) {
-        dengan_rupiahhhh.value = formatRupiah(this.value, 'Rp. ');
-    });
-    var dengan_rupiahhhhh = document.getElementById('dengan-rupiah-5');
-    dengan_rupiahhhhh.addEventListener('keyup', function(e) {
-        dengan_rupiahhhhh.value = formatRupiah(this.value, 'Rp. ');
-    });
-
-    function formatRupiah(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
-            split = number_string.split(','),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-        if (ribuan) {
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    }
-</script>

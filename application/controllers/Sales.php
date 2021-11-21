@@ -125,7 +125,7 @@ class Sales extends CI_Controller
         $data['title'] = 'Daftar Pesanan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['pesanan'] = $this->db->get('pesanan')->result_array();
+        $data['pesanan'] = $this->Pesanan_model->get_kualitas();
         $data['transaksi'] = $this->db->get('transaksi')->result_array();
 
         $this->load->view('templates/admin_header', $data);
@@ -153,6 +153,7 @@ class Sales extends CI_Controller
         $data['title'] = 'Detail Harga Transaksi';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['harga'] = $this->Pesanan_model->get_id_transaksi($id);
+        $data['transaksi'] = $this->db->get('transaksi')->result_array();
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
