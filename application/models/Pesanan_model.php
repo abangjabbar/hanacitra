@@ -14,7 +14,7 @@ class Pesanan_model extends CI_Model
 
     public function get_id_transaksi($id)
     {
-        return  $this->db->get_where('transaksi', ['id' => $id])->row_array();
+        return  $this->db->get_where('transaksi', ['id_pesanan' => $id])->row_array();
     }
 
     public function proses_edit_harga()
@@ -24,20 +24,20 @@ class Pesanan_model extends CI_Model
             "total_harga" => $this->input->post('total_harga'),
             "ppn" => $this->input->post('ppn'),
             "diskon" => $this->input->post('diskon'),
-            "grand_total" => $this->input->post('grand_total')
+            "grand_total" => $this->input->post('grand_total'),
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('transaksi', $data);
     }
 
-    function get_kualitas()
+    function get_kualitas($isSales, $userID = NULL)
     {
-        $query =
-            $this->db->select('*')
-            ->from('pesanan')
+        $query = $this->db->select('*')->from('pesanan')
             ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
-            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
-            ->get();
-        return $query->result();
+            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT');
+        if ($isSales == FALSE) {
+            $query->where('user_id', $userID);
+        }
+        return $query->get()->result();
     }
 }

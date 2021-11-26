@@ -67,7 +67,6 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">ID Pesanan</th>
-                            <th scope="col">Kuantitas</th>
                             <th scope="col">Harga Per Item</th>
                             <th scope="col">Total Harga</th>
                             <th scope="col">PPN</th>
@@ -84,7 +83,6 @@
                                     <?= $i; ?>
                                 </td>
                                 <td id="dengan-rupiah"><?= $row['id_pesanan']; ?></td>
-                                <td><?= $row['kuantitas']; ?></td>
                                 <td><?= "Rp " . number_format($row['harga_item'], 2, ",", "."); ?></td>
                                 <td><?= "Rp " . number_format($row['total_harga'], 2, ",", "."); ?></td>
                                 <td><?= "Rp " . number_format($row['ppn'], 2, ",", "."); ?></td>

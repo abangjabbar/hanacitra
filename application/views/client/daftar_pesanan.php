@@ -1,4 +1,4 @@
-<section id="top2" class="d-flex align-items-center">
+<section id="hero" class="d-flex align-items-center">
 
     <div class="container">
         <div class="row">
@@ -11,6 +11,30 @@
     </div>
 
 </section><!-- End top2 -->
+
+<section>
+    <div class="container" data-aos="fade-up">
+        <div class="section-title">
+            <h2>Daftar Transaksi</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-8 align-items-center">
+                <?php foreach ($pesanan as $order) : ?>
+                    <div class="card bg-light mb-3">
+                        <h5 class="card-header">Pesanan</h5>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><?= $order->id; ?></h5>
+                            <p class="card-text"><?= $order->nama_barang; ?></p>
+                            <p class="card-text"><?= $order->po_tgl; ?></p>
+                            <a href="<?= site_url('client/detailPesanan'); ?>" class="btn btn-primary">Detail pesanan</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+    </div>
+</section>
 
 <section>
     <div class="container">

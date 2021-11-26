@@ -16,11 +16,6 @@
             <?= form_error('id_pesanan', '<small class="text-danger pl-3">', '</small>'); ?>
         </div>
         <div class="col-md-12 mb-3">
-            <label for="inputAddress">Kuantitas Barang</label>
-            <input disabled type="number" type="text" class="form-control" id="kuantitas" name="kuantitas" value="<?= $harga['kuantitas']; ?>" placeholder="Kuantitas Barang">
-            <?= form_error('kuantitas', '<small class="text-danger pl-3">', '</small>'); ?>
-        </div>
-        <div class="col-md-12 mb-3">
             <label for="floatingTextarea2">Harga Per Item</label>
             <div class="input-group input-group-md mb-2 text-dark inputBayarDiv">
                 <span class="input-group-text fw-bolder">Rp.</span>

@@ -157,7 +157,6 @@
 
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d991.2940447569989!2d106.87778102914916!3d-6.371241566889834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed4b2a444b03%3A0x898cbc2764ad4c80!2sJl.%20Bakti%20No.162%2C%20Mekarsari%2C%20Kec.%20Cimanggis%2C%20Kota%20Depok%2C%20Jawa%20Barat%2016452!5e0!3m2!1sen!2sid!4v1633576663630!5m2!1sen!2sid" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
                     </div>
-
                 </div>
 
             </div>

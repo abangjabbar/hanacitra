@@ -377,17 +377,17 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-#top2 {
+#top3 {
   width: 100%;
-  height: 60vh;
-  background: #20B2AA;
+  height: 1000vh;
+  background: #7f8383;
 }
 
-#top2 .container {
+#top3 .container {
   padding-top: 72px;
 }
 
-#top2 h1 {
+#top3 h1 {
   margin: 0 0 10px 0;
   font-size: 48px;
   font-weight: 700;
@@ -395,13 +395,13 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
 }
 
-#top2 h2 {
+#top3 h2 {
   color: rgba(255, 255, 255, 0.6);
   margin-bottom: 50px;
   font-size: 24px;
 }
 
-#top2 .btn-get-started {
+#top3 .btn-get-started {
   font-family: "Jost", sans-serif;
   font-weight: 500;
   font-size: 16px;
@@ -415,11 +415,11 @@ h1, h2, h3, h4, h5, h6 {
   background: #47b2e4;
 }
 
-#top2 .btn-get-started:hover {
+#top3 .btn-get-started:hover {
   background: #209dd8;
 }
 
-#top2 .btn-watch-video {
+#top3 .btn-watch-video {
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -429,7 +429,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
 
-#top2 .btn-watch-video i {
+#top3 .btn-watch-video i {
   line-height: 0;
   color: #fff;
   font-size: 32px;
@@ -437,51 +437,51 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 8px;
 }
 
-#top2 .btn-watch-video:hover i {
+#top3 .btn-watch-video:hover i {
   color: #47b2e4;
 }
 
-#top2 .animated {
+#top3 .animated {
   animation: up-down 1s ease-in-out infinite alternate-reverse both;
 }
 
 @media (max-width: 991px) {
-  #top2 {
+  #top3 {
     height: 100vh;
     text-align: center;
   }
-  #top2 .animated {
+  #top3 .animated {
     -webkit-animation: none;
     animation: none;
   }
-  #top2 .hero-img {
+  #top3 .hero-img {
     text-align: center;
   }
-  #top2 .hero-img img {
+  #top3 .hero-img img {
     width: 50%;
   }
 }
 
 @media (max-width: 768px) {
-  #top2 h1 {
+  #top3 h1 {
     font-size: 28px;
     line-height: 36px;
   }
-  #top2 h2 {
+  #top3 h2 {
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 30px;
   }
-  #top2 .hero-img img {
+  #top3 .hero-img img {
     width: 70%;
   }
 }
 
 @media (max-width: 575px) {
-  #top2 .hero-img img {
+  #top3 .hero-img img {
     width: 80%;
   }
-  #top2 .btn-get-started {
+  #top3 .btn-get-started {
     font-size: 16px;
     padding: 10px 24px 11px 24px;
   }

@@ -268,6 +268,7 @@ class Client extends CI_Controller
         $data['kualitas'] = $this->subkualitas_model->fetch_kualitas();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        var_dump($data['user']);
 
         $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
         $this->form_validation->set_rules('panjang', 'Panjang', 'required');
@@ -288,6 +289,7 @@ class Client extends CI_Controller
             $this->db->trans_start();
 
             $pesanan = array(
+                'user_id' => $data['user']['id'],
                 'nama_barang' => $this->input->post('nama_barang'),
                 'panjang' => $this->input->post('panjang'),
                 'lebar' => $this->input->post('lebar'),
@@ -298,7 +300,8 @@ class Client extends CI_Controller
                 'kuantitas' => ($this->input->post('kuantitas')),
                 'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
                 'po_tgl' => ($this->input->post('po_tgl')),
-                'deliv_tgl' => ($this->input->post('deliv_tgl'))
+                'deliv_tgl' => ($this->input->post('deliv_tgl')),
+                'status' => 0,
             );
             $this->db->insert('pesanan', $pesanan);
 
@@ -341,8 +344,7 @@ class Client extends CI_Controller
             }
 
             $transaksi = [
-                'id_pesanan' => $id_pesanan,
-                'kuantitas' => ($this->input->post('kuantitas'))
+                'id_pesanan' => $id_pesanan
             ];
             $this->db->insert('transaksi', $transaksi);
 
@@ -376,9 +378,9 @@ class Client extends CI_Controller
     public function daftarPesanan()
     {
         $data['title'] = 'Daftar Pesanan';
-        $data['pesanan'] = $this->Pesanan_model->get_kualitas();
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['pesanan'] = $this->Pesanan_model->get_kualitas(FALSE, $data['user']['id']);
 
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/daftar_pesanan', $data);
