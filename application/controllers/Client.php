@@ -403,21 +403,69 @@ class Client extends CI_Controller
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
-		$status = null;
-		switch ($data['pesanan'][0]->status){
-			case 0: {
-				$status = "Menunggu Input Harga";
-				break;
-			}
-			case 1: {
-				$status = "Menunggu Pembayaran";
-				break;
-			}
-
-		}
-		$data['status'] = $status;
+        $status = null;
+        switch ($data['pesanan'][0]->status) {
+            case 0: {
+                    $status = "Menunggu Input Harga";
+                    break;
+                }
+            case 1: {
+                    $status = "Menunggu Pembayaran";
+                    break;
+                }
+        }
+        $data['status'] = $status;
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/detail_pesanan', $data);
         $this->load->view('templates/client_footer', $data);
+    }
+
+    public function uploadPO()
+    {
+        $upload = $_FILES['image']['name'];
+        if ($upload) {
+            $numberOfFiles = sizeof($upload);
+            $files = $_FILES['image'];
+            $config['allowed_types'] = 'gif|png|jpg|jpeg';
+            $config['max_size'] = '2048';
+            $config['upload_path'] = './assets/drawing_client/';
+            $this->load->library('upload', $config);
+
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['image']['name'] = $files['name'][$i];
+                $_FILES['image']['type'] = $files['type'][$i];
+                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['image']['error'] = $files['error'][$i];
+                $_FILES['image']['size'] = $files['size'][$i];
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('image')) {
+                    $data = $this->upload->data();
+                    $imageName = $data['file_name'];
+                    $cek = $this->Multipleupload_model->cekData();
+                    if (!$cek) {
+                        $groupImage = 1;
+                    } else {
+                        $groupImage = $cek['group_image'] + 1;
+                    }
+                    $insert[$i]['image'] = $imageName;
+                    $insert[$i]['group_image'] = $groupImage;
+                    $insert[$i]['date_created'] = time();
+                }
+            }
+            if (!$insert && !$data) {
+                $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
+                redirect('client/daftarpesanan');
+            } else {
+                if ($this->Multipleupload_model->uploadPO($insert, $data['file_name']) > 0) {
+                    $this->session->set_flashdata('status', 'data berhasil disimpan');
+                    redirect('client/daftarpesanan');
+                } else {
+                    $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
+                    redirect('client/daftarpesanan');
+                }
+            }
+        }
     }
 }

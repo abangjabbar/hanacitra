@@ -19,6 +19,22 @@ class Multipleupload_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function cekDataPO()
+    {
+        $this->db->limit(1);
+        $this->db->order_by('group_image', 'DESC');
+        return $this->db->get('po_image')->row_array();
+    }
+
+    public function uploadPO($insert, $data)
+    {
+        $this->db->insert_batch('po_image', $insert);
+        $this->db->set('main_image', 1);
+        $this->db->where('image', $data);
+        $this->db->update('po_image');
+        return $this->db->affected_rows();
+    }
+
     public function getDataGroup()
     {
         $this->db->where('main_image', 1);
