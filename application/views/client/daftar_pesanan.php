@@ -1,4 +1,4 @@
-<section id="hero" class="d-flex align-items-center">
+<section id="top2" class="d-flex align-items-center">
 
     <div class="container">
         <div class="row">
@@ -13,76 +13,68 @@
 </section><!-- End top2 -->
 
 <section>
-    <div class="container" data-aos="fade-up">
-        <div class="section-title">
-            <h2>Daftar Transaksi</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-8 align-items-center">
-                <?php foreach ($pesanan as $order) : ?>
-                    <div class="card bg-light mb-3">
-                        <h5 class="card-header">Pesanan</h5>
-                        <div class="card-body text-dark">
-                            <h5 class="card-title"><?= $order->id; ?></h5>
-                            <p class="card-text"><?= $order->nama_barang; ?></p>
-                            <p class="card-text"><?= $order->po_tgl; ?></p>
-                            <a href="<?= site_url('client/detailPesanan'); ?>" class="btn btn-primary">Detail pesanan</a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<section>
     <div class="container">
-        <?= $this->session->flashdata('message'); ?>
-
-        <div class="table-responsive custom-table-responsive">
-
-            <table class="table custom-table">
+        <div class="table-responsive">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Nomor</th>
-                        <th scope="col">Order</th>
-                        <th scope="col">Nama Projek Pesanan</th>
-                        <th scope="col">Material</th>
-                        <th scope="col">Substance</th>
-                        <th scope="col">Deskripsi</th>
-                        <th scope="col">Kuantitas</th>
+                        <th class="text-center" scope="col">#</th>
+                        <th scope="col">Speakers</th>
+                        <th scope="col">Session</th>
                         <th scope="col">Alamat Pengiriman</th>
-                        <th scope="col">Desain Box</th>
+                        <th class="text-center" scope="col">Detail Desain</th>
+                        <th class="text-center" scope="col">Detail Pesanan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
                     <?php foreach ($pesanan as $order) : ?>
-                        <tr scope="row">
-                            <td>
-                                <?= $i; ?>
+                        <tr class="inner-box">
+                            <th scope="row">
+                                <div class="event-date">
+                                    <span><?= $i; ?></span>
+                                </div>
+                            </th>
+                            <td class="center">
+                                <h4><?= $order->nama_barang; ?></h4>
                             </td>
-                            <td><?= $order->id; ?></td>
-                            <td><?= $order->nama_barang; ?></td>
-                            <td><?= $order->kualitas_nama; ?></td>
-                            <td><?= $order->subkualitas_nama; ?></td>
-                            <td><?= $order->deskripsi; ?></td>
-                            <td><?= $order->kuantitas; ?></td>
-                            <td><?= $order->alamat_pengiriman; ?></td>
+                            <td class="center">
+                                <div class="event-wrap">
+                                    <h3><a href="#"><?= $order->kualitas_nama; ?></a></h3>
+                                    <div class="meta">
+                                        <div class="organizers">
+                                            <a href="#"><?= $order->subkualitas_nama; ?></a>
+                                        </div>
+                                        <div class="time">
+                                            <span><?= $order->po_tgl; ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="r-no">
+                                    <span><?= $order->alamat_pengiriman; ?></span>
+                                </div>
+                            </td>
                             <td>
-                                <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail</a>
+                                <div class="primary-btn">
+                                    <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail Desain</a>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="primary-btn">
+                                    <a href="<?php echo base_url(); ?>client/detailpesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail Pesanan</a>
+                                </div>
                             </td>
                         </tr>
                         <?php $i++; ?>
                     <?php endforeach; ?>
-
                 </tbody>
             </table>
         </div>
-
     </div>
 </section>
+
 
 <!-- Modal Detail Desain Pesanan -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

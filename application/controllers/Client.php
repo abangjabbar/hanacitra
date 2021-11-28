@@ -397,16 +397,15 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
-    public function detailPesanan()
+    public function detailPesanan($id)
     {
         $data['title'] = 'Purchased Order';
 
-        $data['pesanan'] = $this->db->get('pesanan')->result_array();
-
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
 
         $this->load->view('templates/client_header', $data);
-        $this->load->view('client/po_view', $data);
+        $this->load->view('client/detail_pesanan', $data);
         $this->load->view('templates/client_footer', $data);
     }
 }

@@ -19,6 +19,7 @@ class Pesanan_model extends CI_Model
 
     public function proses_edit_harga()
     {
+        $idPesanan =  $this->input->post('id_pesanan');
         $data = [
             "harga_item" => $this->input->post('harga_item'),
             "total_harga" => $this->input->post('total_harga'),
@@ -28,16 +29,31 @@ class Pesanan_model extends CI_Model
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('transaksi', $data);
+
+        $this->db->set('status', 1);
+        $this->db->where('id', $idPesanan);
+        $this->db->update('pesanan');
     }
 
     function get_kualitas($isSales, $userID = NULL)
     {
         $query = $this->db->select('*')->from('pesanan')
             ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
-            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT');
+            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT');
         if ($isSales == FALSE) {
             $query->where('user_id', $userID);
         }
+        return $query->get()->result();
+    }
+
+    function detail_pesanan($id)
+    {
+        $query = $this->db->select('*')->from('pesanan')
+            ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
+            ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT')
+            ->where('pesanan.id', $id);
         return $query->get()->result();
     }
 }
