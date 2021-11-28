@@ -403,7 +403,19 @@ class Client extends CI_Controller
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
+		$status = null;
+		switch ($data['pesanan'][0]->status){
+			case 0: {
+				$status = "Menunggu Input Harga";
+				break;
+			}
+			case 1: {
+				$status = "Menunggu Pembayaran";
+				break;
+			}
 
+		}
+		$data['status'] = $status;
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/detail_pesanan', $data);
         $this->load->view('templates/client_footer', $data);
