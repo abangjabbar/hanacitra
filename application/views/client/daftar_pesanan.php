@@ -58,7 +58,7 @@
                             </td>
                             <td>
                                 <div class="primary-btn">
-                                    <a href="<?php echo base_url(); ?>client/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail Desain</a>
+                                    <a href="<?php echo base_url('client/detailImagePesanan/' . $order->id); ?>" class="btn btn-primary">Detail Desain</a>
                                 </div>
                             </td>
                             <td class="center">

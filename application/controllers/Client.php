@@ -348,6 +348,16 @@ class Client extends CI_Controller
             ];
             $this->db->insert('transaksi', $transaksi);
 
+            $poImage = [
+                'pesanan_id' => $id_pesanan
+            ];
+            $this->db->insert('po_image', $poImage);
+
+            $buktiTf = [
+                'pesanan_id' => $id_pesanan
+            ];
+            $this->db->insert('bukti_tf', $buktiTf);
+
             $this->db->trans_complete();
             $this->session->set_flashdata('status', 'data berhasil disimpan');
             redirect('client/daftarPesanan');
@@ -413,6 +423,10 @@ class Client extends CI_Controller
                     $status = "Menunggu Pembayaran";
                     break;
                 }
+            case 2: {
+                    $status = "Menunggu Konfirmasi";
+                    break;
+                }
         }
         $data['status'] = $status;
         $this->load->view('templates/client_header', $data);
@@ -422,50 +436,59 @@ class Client extends CI_Controller
 
     public function uploadPO()
     {
-        $upload = $_FILES['image']['name'];
-        if ($upload) {
-            $numberOfFiles = sizeof($upload);
-            $files = $_FILES['image'];
-            $config['allowed_types'] = 'gif|png|jpg|jpeg';
-            $config['max_size'] = '2048';
-            $config['upload_path'] = './assets/drawing_client/';
+        $idPesanan =  $this->input->post('pesanan_id');
+        // cek kalo ada gambar yg diupload
+        $upload_image = $_FILES['image'];
+
+        if ($upload_image) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf|xls';
+            $config['max_size'] = '10000';
+            $config['upload_path'] = './assets/po_client/';
+
             $this->load->library('upload', $config);
 
-            for ($i = 0; $i < $numberOfFiles; $i++) {
-                $_FILES['image']['name'] = $files['name'][$i];
-                $_FILES['image']['type'] = $files['type'][$i];
-                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
-                $_FILES['image']['error'] = $files['error'][$i];
-                $_FILES['image']['size'] = $files['size'][$i];
-
-                $this->upload->initialize($config);
-
-                if ($this->upload->do_upload('image')) {
-                    $data = $this->upload->data();
-                    $imageName = $data['file_name'];
-                    $cek = $this->Multipleupload_model->cekData();
-                    if (!$cek) {
-                        $groupImage = 1;
-                    } else {
-                        $groupImage = $cek['group_image'] + 1;
-                    }
-                    $insert[$i]['image'] = $imageName;
-                    $insert[$i]['group_image'] = $groupImage;
-                    $insert[$i]['date_created'] = time();
-                }
-            }
-            if (!$insert && !$data) {
-                $this->session->set_flashdata('status', 'tidak ada data yang tersimpan');
-                redirect('client/daftarpesanan');
+            if ($this->upload->do_upload('image')) {
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('image', $new_image);
             } else {
-                if ($this->Multipleupload_model->uploadPO($insert, $data['file_name']) > 0) {
-                    $this->session->set_flashdata('status', 'data berhasil disimpan');
-                    redirect('client/daftarpesanan');
-                } else {
-                    $this->session->set_flashdata('status', 'error data tidak berhasil terupload');
-                    redirect('client/daftarpesanan');
-                }
+                echo $this->upload->display_errors();
             }
         }
+        $this->db->where('pesanan_id', $idPesanan);
+        $this->db->update('po_image');
+
+        $this->db->set('status', 2);
+        $this->db->where('id', $idPesanan);
+        $this->db->update('pesanan');
+        redirect('client/daftarPesanan');
+    }
+
+    public function uploadBuktiTf()
+    {
+        $idPesanan =  $this->input->post('pesanan_id');
+        // cek kalo ada gambar yg diupload
+        $upload_image = $_FILES['image'];
+
+        if ($upload_image) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf|xls';
+            $config['max_size'] = '2048';
+            $config['upload_path'] = './assets/bukti_tf/';
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('image')) {
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('image', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->where('pesanan_id', $idPesanan);
+        $this->db->update('bukti_tf');
+
+        $this->db->set('status', 2);
+        $this->db->where('id', $idPesanan);
+        $this->db->update('pesanan');
+        redirect('client/daftarPesanan');
     }
 }

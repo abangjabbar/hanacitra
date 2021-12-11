@@ -21,16 +21,16 @@
     <?php if ($pesanan[0]->status == 1) : ?>
         <div class="container">
             <div class="col-md-12">
-                <?= form_open_multipart('client/uploadPO'); ?>
+                <?= form_open_multipart('client/uploadBuktiTf'); ?>
                 <div class="form-group row">
                     <div class="card border-dark mb-3">
                         <div class="card-body">
                             <p class="card-title">
-                                <strong>Upload Bukti Pembayaran</strong>
+                                <strong>Upload Bukti Trandfer</strong>
                             </p>
                             <div class="input-group mb-3">
                                 <input type="hidden" name="pesanan_id" id="pesanan_id" value="<?= $pesanan[0]->id; ?>">
-                                <input type="file" for="image" class="form-control" id="image" name="image[]" value="<?= set_value('image'); ?>" multiple required>
+                                <input type="file" for="image" class="form-control" id="image" name="image" value="<?= set_value('image'); ?>" multiple required>
                                 <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="col-sm-2">
@@ -38,8 +38,8 @@
                             </div>
                         </div>
                     </div>
-                    <?= form_close(); ?>
                 </div>
+                <?= form_close(); ?>
             </div>
         </div>
     <?php endif; ?>
