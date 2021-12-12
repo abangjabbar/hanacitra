@@ -62,6 +62,8 @@
                                 </h4>
                                 <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>Dengan Ukuran:
                                 </p>
+                                <p class="text-gray mb-1"><i class="icofont-location-arrow"></i><?= $order->panjang; ?>
+                                </p>
                                 <p class="text-gray mb-1"><i class="icofont-location-arrow"></i> 730 S Mendenhall Rd, Memphis, TN 38117, USA
                                 </p>
                                 <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #25102589748 <i class="icofont-clock-time ml-2"></i> Mon, Nov 12, 6:26 PM</p>
