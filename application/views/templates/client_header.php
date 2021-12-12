@@ -33,6 +33,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link href="<?= base_url('assets/'); ?>arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
+    <link href="<?= base_url('assets/'); ?>arsha/detail_pesanan/style.css" rel="stylesheet">
+
+    <!-- Template Detail Pesanan CSS File -->
     <link href="<?= base_url('assets/'); ?>arsha/css/style.css" rel="stylesheet">
 
     <!-- =======================================================

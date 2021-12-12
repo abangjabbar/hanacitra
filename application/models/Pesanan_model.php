@@ -53,6 +53,7 @@ class Pesanan_model extends CI_Model
             ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
             ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
             ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT')
+            ->join('user', 'pesanan.user_id = user.id', 'LEFT')
             ->where('pesanan.id', $id);
         return $query->get()->result();
     }

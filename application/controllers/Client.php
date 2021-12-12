@@ -392,8 +392,25 @@ class Client extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->get_kualitas(FALSE, $data['user']['id']);
 
+        $status = null;
+        switch ($data['pesanan'][0]->status) {
+            case 0: {
+                    $status = "Menunggu Input Harga";
+                    break;
+                }
+            case 1: {
+                    $status = "Menunggu Pembayaran";
+                    break;
+                }
+            case 2: {
+                    $status = "Menunggu Konfirmasi";
+                    break;
+                }
+        }
+        $data['status'] = $status;
+
         $this->load->view('templates/client_header', $data);
-        $this->load->view('client/daftar_pesanan', $data);
+        $this->load->view('client/po_view', $data);
         $this->load->view('templates/client_footer', $data);
     }
 
@@ -409,7 +426,7 @@ class Client extends CI_Controller
 
     public function detailPesanan($id)
     {
-        $data['title'] = 'Purchased Order';
+        $data['title'] = 'Detail Pesanan';
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
@@ -471,7 +488,7 @@ class Client extends CI_Controller
 
         if ($upload_image) {
             $config['allowed_types'] = 'gif|jpg|png|pdf|xls';
-            $config['max_size'] = '2048';
+            $config['max_size'] = '10000';
             $config['upload_path'] = './assets/bukti_tf/';
 
             $this->load->library('upload', $config);

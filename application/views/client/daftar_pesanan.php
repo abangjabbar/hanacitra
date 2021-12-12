@@ -4,8 +4,7 @@
         <div class="row">
             <div class="col-lg-12 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
                 <h1>Daftar Transaksi</h1>
-                <h2>Kami menyediakan berbagai macam corrugated box sesusai dengan
-                    yang anda butuhkan</h2>
+                <h2></h2>
             </div>
         </div>
     </div>
@@ -19,7 +18,7 @@
                 <thead>
                     <tr>
                         <th class="text-center" scope="col">#</th>
-                        <th scope="col">Speakers</th>
+                        <th scope="col">Nama Barang</th>
                         <th scope="col">Session</th>
                         <th scope="col">Alamat Pengiriman</th>
                         <th class="text-center" scope="col">Detail Desain</th>
@@ -71,6 +70,68 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <?php foreach ($pesanan as $order) : ?>
+                    <div class="card card-margin" style="width: 70rem;">
+                        <div class="card-header no-border">
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row gutters-sm">
+                                <div class="col-md-9 mb-3">
+                                    <div class="widget-49">
+                                        <div class="widget-49-title-wrapper">
+                                            <div class="widget-49-date-primary">
+                                                <span class="widget-49-date-day"><?= date('d', strtotime($order->po_tgl)); ?></span>
+                                                <span class="widget-49-date-month"><?= date('M', strtotime($order->po_tgl)); ?></span>
+                                            </div>
+                                            <div class="widget-49-meeting-info">
+                                                <span class="widget-49-pro-title"><?= $order->id; ?></span>
+                                                <span class="widget-49-meeting-time"><?= date('l, d F Y', strtotime($order->po_tgl)); ?></span>
+                                            </div>
+                                        </div>
+                                        <ol class="widget-49-meeting-points">
+                                            <li class="widget-49-meeting-item"><span><?= $order->nama_barang; ?></span></li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <div class="widget-49-meeting-info">
+                                                        <span class="widget-49-pro-title"><?= $status ?></span>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <?php if ($pesanan[0]->status == 1) : ?>
+                                                        <a href="<?php echo base_url(); ?>client/detailpesanan/<?php echo $order->id; ?>" style="float: right;">Klik untuk upload bukti pembayaran</a>
+                                                    <?php endif; ?>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-md-12 mb-3">
+                                    <div class="primary-btn" style="float: right;">
+                                        <a href="<?php echo base_url(); ?>client/detailpesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail Pesanan</a>
+                                    </div>
+                                    <p class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Pembayaran:</span>
+                                        <?= "Rp " . number_format($order->grand_total, 2, ",", "."); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </section>
