@@ -47,6 +47,11 @@ class Pesanan_model extends CI_Model
         return $query->get()->result();
     }
 
+    public function getDataImage($id)
+    {
+        return $this->db->get_where('multiple_image', ['group_image' => $id])->result_array();
+    }
+
     function detail_pesanan($id)
     {
         $query = $this->db->select('*')->from('pesanan')
@@ -54,6 +59,7 @@ class Pesanan_model extends CI_Model
             ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
             ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT')
             ->join('user', 'pesanan.user_id = user.id', 'LEFT')
+            ->join('multiple_image', 'multiple_image.id = pesanan.id', 'LEFT')
             ->where('pesanan.id', $id);
         return $query->get()->result();
     }

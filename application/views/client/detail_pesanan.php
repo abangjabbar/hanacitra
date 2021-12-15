@@ -60,17 +60,51 @@
                                 <h4 class="mb-2">
                                     <?= $order->nama_barang; ?>
                                 </h4>
+                                <h5 class="mb-2">
+                                    Tipe Flute
+                                    <br>
+                                    <?= $order->kualitas_nama; ?>
+                                </h5>
+                                <h5 class="mb-2">
+                                    Substance
+                                    <br>
+                                    <?= $order->subkualitas_nama; ?>
+                                </h5>
                                 <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>Dengan Ukuran:
                                 </p>
-                                <p class="text-gray mb-1"><i class="icofont-location-arrow"></i><?= $order->panjang; ?>
+                                <table class="table table-striped" style="width: 40%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Panjang</th>
+                                            <th style="text-align: center;">Lebar</th>
+                                            <th style="text-align: center;">Tinggi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="center" style="text-align: center;"><?= $order->panjang; ?>cm</td>
+                                            <td class="center" style="text-align: center;"><?= $order->lebar; ?>cm</td>
+                                            <td class="center" style="text-align: center;"><?= $order->tinggi; ?>cm</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5>
+                                    Kuantitas: <?= $order->kuantitas; ?>
+                                </h5>
+                                <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>Deskripsi:
                                 </p>
-                                <p class="text-gray mb-1"><i class="icofont-location-arrow"></i> 730 S Mendenhall Rd, Memphis, TN 38117, USA
-                                </p>
-                                <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #25102589748 <i class="icofont-clock-time ml-2"></i> Mon, Nov 12, 6:26 PM</p>
-                                <p class="text-dark">Veg Masala Roll x 1, Veg Burger x 1, Veg Penne Pasta in Red Sauce x 1
-                                </p>
+                                <div class="col-md-5">
+                                    <p class="text-gray mb-1"><i class="icofont-location-arrow"></i>
+                                        <?= $order->deskripsi; ?>
+                                    </p>
+                                </div>
+                                <h5>Desain Box:</h5>
+                                <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#desain">
+                                    Detail Desain</a>
+                                <br>
+                                <br>
                                 <div class="invoice-from">
-                                    <small>dikirim ke</small>
+                                    <small>dikirimkan ke</small>
                                     <address class="m-t-5 m-b-5">
                                         <strong class="text-inverse"><?= $order->company_name; ?></strong><br>
                                         <?= $order->alamat_pengiriman; ?><br>
@@ -79,9 +113,8 @@
                                     </address>
                                 </div>
                                 <hr>
-                                <div class="float-right" style="float: right;">
-                                    <a class="btn btn-sm btn-outline-primary" href="<?php echo base_url('client/detailImagePesanan/' . $order->id); ?>"><i class="icofont-headphone-alt"></i>Detail Desain</a>
-                                    <a class="btn btn-sm btn-primary" href="#"><i class="icofont-refresh"></i>INVOICE</a>
+                                <div style="float: right;">
+                                    <a class="btn btn-primary" href="#"><i class="icofont-refresh"></i>INVOICE</a>
                                 </div>
                                 <p class="text-gray mb-3"><i class="icofont-list"></i> Pesanan ini dibuat pada <i class="icofont-clock-time ml-2"></i><?php echo date('d F Y, H:i', strtotime($order->po_tgl)); ?></p>
                                 </p>
@@ -163,3 +196,36 @@
         </div>
     </div>
 </section>
+
+<!-- Modal Detail Desain Pesanan -->
+<!-- Modal -->
+<div class="modal fade" id="desain" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="desainLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="desainLabel">Desain</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-sm-12 mt-2">
+                        <div class="row">
+                            <?php foreach ($images as $image) : ?>
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <img src="<?= base_url('assets/drawing_client/' . $image['image']); ?>" alt="<?= $image['image']; ?>" class="img-thumbnail" style="width: 200%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -387,40 +387,34 @@ class Client extends CI_Controller
 
     public function daftarPesanan()
     {
-        $data['title'] = 'Daftar Pesanan';
+        $data['title'] = 'Daftar Transaksi';
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->get_kualitas(FALSE, $data['user']['id']);
 
         $status = null;
-        switch ($data['pesanan'][0]->status) {
-            case 0: {
-                    $status = "Menunggu Input Harga";
-                    break;
-                }
-            case 1: {
-                    $status = "Menunggu Pembayaran";
-                    break;
-                }
-            case 2: {
-                    $status = "Menunggu Konfirmasi";
-                    break;
-                }
+        if ($data['pesanan'] == false) {
+            $status = "Silahkan untuk membuat pesanan terlebih dahulu";
+        } else {
+            switch ($data['pesanan'][0]->status) {
+                case 0: {
+                        $status = "Menunggu Input Harga";
+                        break;
+                    }
+                case 1: {
+                        $status = "Menunggu Pembayaran";
+                        break;
+                    }
+                case 2: {
+                        $status = "Menunggu Konfirmasi";
+                        break;
+                    }
+            }
         }
         $data['status'] = $status;
 
         $this->load->view('templates/client_header', $data);
-        $this->load->view('client/po_view', $data);
-        $this->load->view('templates/client_footer', $data);
-    }
-
-    public function detailImagePesanan($id)
-    {
-        $data['title'] = 'Detail Drawing';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['drawing'] = $this->Multipleupload_model->detail_image($id);
-        $this->load->view('templates/client_header', $data);
-        $this->load->view('client/detail_image', $data);
+        $this->load->view('client/daftar_pesanan', $data);
         $this->load->view('templates/client_footer', $data);
     }
 
@@ -430,6 +424,7 @@ class Client extends CI_Controller
 
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
+        $data['images'] = $this->Pesanan_model->getDataImage($id);
         $status = null;
         switch ($data['pesanan'][0]->status) {
             case 0: {
@@ -441,7 +436,7 @@ class Client extends CI_Controller
                     break;
                 }
             case 2: {
-                    $status = "Menunggu Konfirmasi";
+                    $status = "Menunggu konfirmasi dari admin. Setelah terkonfirmasi, pesanan anda segera diproses";
                     break;
                 }
         }
