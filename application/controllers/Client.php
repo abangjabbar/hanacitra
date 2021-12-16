@@ -503,4 +503,15 @@ class Client extends CI_Controller
         $this->db->update('pesanan');
         redirect('client/daftarPesanan');
     }
+
+    public function invoice($id)
+    {
+        $data['title'] = 'INVOICE';
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/invoice_view', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
 }

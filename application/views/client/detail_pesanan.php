@@ -114,7 +114,7 @@
                                 </div>
                                 <hr>
                                 <div style="float: right;">
-                                    <a class="btn btn-primary" href="#"><i class="icofont-refresh"></i>INVOICE</a>
+                                    <a class="btn btn-primary" href="<?php echo base_url(); ?>client/invoice/<?php echo $order->id; ?>"><i class="icofont-refresh"></i>INVOICE</a>
                                 </div>
                                 <p class="text-gray mb-3"><i class="icofont-list"></i> Pesanan ini dibuat pada <i class="icofont-clock-time ml-2"></i><?php echo date('d F Y, H:i', strtotime($order->po_tgl)); ?></p>
                                 </p>
