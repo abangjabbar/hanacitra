@@ -74,6 +74,12 @@
     });
 </script>
 
+<!-- CSS Style table1-->
+<script src="<?= base_url('assets/table1/'); ?>js/jquery-3.3.1.min.js"></script>
+<script src="<?= base_url('assets/table1/'); ?>js/popper.min.js"></script>
+<script src="<?= base_url('assets/table1/'); ?>js/bootstrap.min.js"></script>
+<script src="<?= base_url('assets/table1/'); ?>js/main.js"></script>
+
 </body>
 
 </html>

@@ -260,6 +260,46 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
+    public function multipleOrder($orderId)
+    {
+        $data['title'] = 'Daftar Transaksi';
+
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['order'] = $this->Pesanan_model->getOrder($orderId);
+        $data['barang'] = $this->Pesanan_model->getBarang($data['order'][0]->id);
+
+        $status = null;
+        if ($data['order'] == false) {
+            $status = "Silahkan untuk membuat pesanan terlebih dahulu";
+        } else {
+            switch ($data['order'][0]->status) {
+                case "YA": {
+                        $status = "Menunggu Input Harga";
+                        break;
+                    }
+                case "DRAFT": {
+                        $status = "Menunggu Pembayaran";
+                        break;
+                    }
+                case 2: {
+                        $status = "Menunggu Konfirmasi";
+                        break;
+                    }
+            }
+        }
+        $data['status'] = $status;
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/multiple_order.php', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
+    public function saving_order()
+    {
+        $this->Pesanan_model->savingOrder();
+        redirect('client/multipleorder');
+    }
+
     public function multiplesave()
     {
         $data['title'] = 'Multiple save';

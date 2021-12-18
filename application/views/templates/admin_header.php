@@ -18,6 +18,14 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- CSS Style table1-->
+    <link rel="stylesheet" href="<?= base_url('assets/table1/'); ?>fonts/icomoon/style.css">
+    <link rel="stylesheet" href="<?= base_url('assets/table1/'); ?>css/owl.carousel.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="<?= base_url('assets/table1/'); ?>css/bootstrap.min.css">
+    <!-- Style -->
+    <link rel="stylesheet" href="<?= base_url('assets/table1/'); ?>css/style.css">
+
 </head>
 
 <body id="page-top">

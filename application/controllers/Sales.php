@@ -128,6 +128,27 @@ class Sales extends CI_Controller
         $data['pesanan'] = $this->Pesanan_model->get_kualitas(TRUE);
         $data['transaksi'] = $this->db->get('transaksi')->result_array();
 
+        $status = null;
+        if ($data['pesanan'] == false) {
+            $status = "Silahkan untuk membuat pesanan terlebih dahulu";
+        } else {
+            switch ($data['pesanan'][0]->status) {
+                case 0: {
+                        $status = "Menunggu Input Harga";
+                        break;
+                    }
+                case 1: {
+                        $status = "Menunggu Pembayaran";
+                        break;
+                    }
+                case 2: {
+                        $status = "Menunggu Konfirmasi";
+                        break;
+                    }
+            }
+        }
+        $data['status'] = $status;
+
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);

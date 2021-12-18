@@ -40,10 +40,29 @@ class Pesanan_model extends CI_Model
         $query = $this->db->select('*')->from('pesanan')
             ->join('kualitas', 'pesanan.kualitas = kualitas.id_kualitas', 'LEFT')
             ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->join('user', 'pesanan.user_id = user.id', 'LEFT')
             ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT');
         if ($isSales == FALSE) {
             $query->where('user_id', $userID);
         }
+        return $query->get()->result();
+    }
+
+    function getOrder($id)
+    {
+        $query = $this->db->select('*')->from('order')
+            ->where('order.id', $id);
+        return $query->get()->result();
+    }
+
+    function getBarang($orderId)
+    {
+        $query = $this->db->select('*')->from('barang')
+            ->join('kualitas', 'barang.kualitas = kualitas.id_kualitas', 'LEFT')
+            ->join('subkualitas', 'barang.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->join('order', 'barang.order_id = order.id', 'LEFT')
+            ->join('transaksi', 'transaksi.id = barang.id', 'LEFT')
+            ->where('barang.order_id', $orderId);
         return $query->get()->result();
     }
 
@@ -62,5 +81,20 @@ class Pesanan_model extends CI_Model
             ->join('multiple_image', 'multiple_image.id = pesanan.id', 'LEFT')
             ->where('pesanan.id', $id);
         return $query->get()->result();
+    }
+
+    public function get_id_order($orderId)
+    {
+        return  $this->db->get_where('order', ['id' => $orderId])->row_array();
+    }
+
+    function savingOrder()
+    {
+        $data = [
+            "tgl_pengiriman" => $this->input->post('tgl_pengiriman'),
+            "alamat_pengiriman" => $this->input->post('alamat_pengiriman'),
+        ];
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('order', $data);
     }
 }

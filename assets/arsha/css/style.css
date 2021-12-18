@@ -381,7 +381,7 @@ h1, h2, h3, h4, h5, h6 {
 #top2 {
   width: 100%;
   height: 60vh;
-  background: #20B2AA;
+  background: #37517e;
 }
 
 #top2 .container {
@@ -413,11 +413,11 @@ h1, h2, h3, h4, h5, h6 {
   transition: 0.5s;
   margin: 10px 0 0 0;
   color: #fff;
-  background: #47b2e4;
+  background: #37517e;
 }
 
 #top2 .btn-get-started:hover {
-  background: #209dd8;
+  background: #37517e;
 }
 
 #top2 .btn-watch-video {

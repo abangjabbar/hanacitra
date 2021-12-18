@@ -8,52 +8,62 @@
 
 <section>
     <div class="container">
-
         <div class="scroll">
-            <div class="table-responsive custom-table-responsive">
-                <table class="table custom-table">
+            <div class="table-responsive-xl custom-table-responsive">
+                <table class="table custom-table" class="center" style="width:2400px;">
                     <thead>
                         <tr>
-                            <th scope="col">Nomor</th>
+                            <th scope="col">No.</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Order</th>
-                            <th scope="col">Nama Projek Pesanan</th>
-                            <th scope="col">Material</th>
-                            <th scope="col">Substance</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Kuantitas</th>
-                            <th scope="col">Alamat Pengiriman</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Kontak</th>
+                            <th scope="col">Perusahaan</th>
+                            <th scope="col">Nama Barang</th>
+                            <th scope="col">Susbstance</th>
+                            <th scope="col">Kualitas</th>
                             <th scope="col">Desain Box</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Harga</th>
+                            <th scope="col">Panjang</th>
+                            <th scope="col">Lebar</th>
+                            <th scope="col">Tinggi</th>
+                            <th scope="col">kuantitas</th>
+                            <th scope="col" style="width: max-content;">Total Biaya Transaksi</th>
+                            <th scope="col">Tanggal Pengiriman</th>
+                            <th scope="col">Alamat Pengiriman</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1; ?>
-                        <?php foreach ($pesanan as $order) : ?>
+                        <?php foreach ($pesanan as $row) : ?>
                             <tr scope="row">
-                                <td>
-                                    <?= $i; ?>
+                                <td><?= $i; ?></td>
+                                <td style="color: blue;"><?= $status; ?></td>
+                                <td><?= $row->id; ?></td>
+                                <td><?= $row->name; ?></td>
+                                <td><?= $row->telp; ?></td>
+                                <td><?= $row->company_name; ?></td>
+                                <td><?= $row->nama_barang; ?> </td>
+                                <td><?= $row->kualitas_nama; ?> </td>
+                                <td><?= $row->subkualitas_nama; ?> </td>
+                                <td style="text-align:center;">
+                                    <a href=" <?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $row->id; ?>" class="btn btn-primary">Detail</a>
                                 </td>
-                                <td><?= $order->id; ?></td>
-                                <td><?= $order->nama_barang; ?></td>
-                                <td><?= $order->kualitas_nama; ?></td>
-                                <td><?= $order->subkualitas_nama; ?></td>
-                                <td><?= $order->deskripsi; ?></td>
-                                <td><?= $order->kuantitas; ?></td>
-                                <td><?= $order->alamat_pengiriman; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url(); ?>sales/detailImagePesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail</a>
-                                </td>
-                                <td></td>
+                                <td style="text-align:center;"><?= $row->panjang; ?> </td>
+                                <td style="text-align:center;"><?= $row->lebar; ?> </td>
+                                <td style="text-align:center;"><?= $row->tinggi; ?> </td>
+                                <td style="text-align:center;"><?= $row->kuantitas; ?> </td>
+                                <td style="text-align:center;"><?= $row->grand_total; ?></td>
+                                <td><?= $row->deliv_tgl; ?></td>
+                                <td><?= $row->alamat_pengiriman; ?></td>
+                                <td><a href="#" class="more">Details</a></td>
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>
-
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -61,7 +71,7 @@
     <div class="container">
 
         <div class="scroll">
-            <div class="table-responsive custom-table-responsive">
+            <div class="table-responsive-xl">
                 <table class="table custom-table">
                     <thead>
                         <tr>

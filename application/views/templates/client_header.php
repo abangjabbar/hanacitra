@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top" style="background: #20B2AA;">
+    <header id="header" class="fixed-top" style="background: #37517e;">
         <div class="container d-flex align-items-center">
 
             <a href="index.html" class="logo me-auto"><img src="<?= base_url("assets/images/logo-hana.png"); ?>" alt="" class="img-fluid"></a>
@@ -57,7 +57,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a href="<?= site_url('client/index'); ?>">Beranda</a></li>
+                    <li><a href="<?= site_url('client/index'); ?>" class="<?php if ($this->uri->uri_string() == 'client/index') {
+                                                                                echo 'active';
+                                                                            } ?>">Beranda</a>
+                    </li>
                     <li class="dropdown"><a href="#"><span>Produk</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Jenis Bentuk Box</a></li>
@@ -65,7 +68,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Stok Bahan Box</a></li>
                         </ul>
                     </li>
-                    <li><a href="<?= site_url('client/daftarPesanan'); ?>">Daftar Transaksi</a></li>
+                    <li>
+                        <a href="<?= site_url('client/daftarPesanan'); ?>" class="<?php if ($this->uri->uri_string() == 'client/daftarPesanan') {
+                                                                                        echo 'active';
+                                                                                    } ?>">Daftar Transaksi</a>
+                    </li>
                     <li><a href="#team">Pengiriman</a></li>
                     <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
@@ -75,7 +82,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <li><a href="#">Galeri</a></li>
                         </ul>
                     </li>
-                    <li><a href="<?= site_url('client/menuProduk'); ?>"><strong>Pesan Disini!</strong></a></li>
+                    <li><a href="<?= site_url('client/menuProduk'); ?>" class="<?php if ($this->uri->uri_string() == 'client/menuProduk') {
+                                                                                    echo 'active';
+                                                                                } ?>"><strong>Pesan Disini!</strong></a></li>
                     <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>
