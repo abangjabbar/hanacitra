@@ -43,8 +43,7 @@ class Auth extends CI_Controller
                 //cek password
                 if (password_verify($password, $user['password'])) {
                     $data = [
-                        'email' => $user['email'],
-                        'role_id' => $user['role_id']
+                        'user' => $user
                     ];
                     $this->session->set_userdata($data);
                     if ($user['role_id'] == 1) {
@@ -225,8 +224,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
+        $this->session->unset_userdata('user');
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Berhasil Log out

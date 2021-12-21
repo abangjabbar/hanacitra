@@ -11,31 +11,12 @@
 
 </section><!-- End top2 -->
 
-<section>
-    <?php if ($pesanan == false) : ?>
-        <div class="container">
-            <div class="col-md-12">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <h4 style="text-align: center;">
-                            <?= $status ?>
-                        </h4>
-                        <hr>
-                        <div class="primary-btn center" style="text-align: center;">
-                            <a href="<?php echo base_url('client/multiplesave'); ?>" class="btn btn-primary">Pesan Disini!</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-</section>
 
 <section>
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <?php foreach ($pesanan as $order) : ?>
+                <?php foreach ($order as $order) : ?>
                     <div class="card card-margin" style="width: 70rem;">
                         <div class="card-header no-border">
                         </div>
@@ -45,16 +26,18 @@
                                     <div class="widget-49">
                                         <div class="widget-49-title-wrapper">
                                             <div class="widget-49-date-primary">
-                                                <span class="widget-49-date-day"><?= date('d', strtotime($order->po_tgl)); ?></span>
-                                                <span class="widget-49-date-month"><?= date('M', strtotime($order->po_tgl)); ?></span>
+                                                <span class="widget-49-date-day"><?= date('d', strtotime($order->tgl_order)); ?></span>
+                                                <span class="widget-49-date-month"><?= date('M', strtotime($order->tgl_order)); ?></span>
                                             </div>
                                             <div class="widget-49-meeting-info">
                                                 <span class="widget-49-pro-title"><?= $order->id; ?></span>
-                                                <span class="widget-49-meeting-time"><?= date('l, d F Y', strtotime($order->po_tgl)); ?></span>
+                                                <span class="widget-49-meeting-time"><?= date('l, d F Y', strtotime($order->tgl_order)); ?></span>
                                             </div>
                                         </div>
                                         <ol class="widget-49-meeting-points">
-                                            <li class="widget-49-meeting-item"><span><?= $order->nama_barang; ?></span></li>
+                                            <?php foreach ($barang[$order->id] as $stuff) : ?>
+                                                <li class="widget-49-meeting-item"><span><?= $stuff->nama_barang; ?></span></li>
+                                            <?php endforeach; ?>
                                         </ol>
                                     </div>
                                 </div>
@@ -64,13 +47,8 @@
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                     <div class="widget-49-meeting-info">
-                                                        <span class="widget-49-pro-title"><?= $status ?></span>
+                                                        <span class="widget-49-pro-title"><?= $status[$order->id] ?></span>
                                                     </div>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                    <?php if ($pesanan[0]->status == 1) : ?>
-                                                        <a href="<?php echo base_url(); ?>client/detailpesanan/<?php echo $order->id; ?>" style="float: right;">Klik untuk upload bukti pembayaran</a>
-                                                    <?php endif; ?>
                                                 </li>
                                             </ul>
                                         </div>
@@ -79,7 +57,7 @@
                                 <hr>
                                 <div class="col-md-12 mb-3">
                                     <div class="primary-btn" style="float: right;">
-                                        <a href="<?php echo base_url(); ?>client/detailpesanan/<?php echo $order->id; ?>" class="btn btn-primary">Detail Pesanan</a>
+                                        <a href="<?php echo base_url(); ?>client/multipleOrder/<?php echo $order->id; ?>" class="btn btn-primary">Detail Pesanan</a>
                                     </div>
                                     <p class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Pembayaran:</span>
                                         <?= "Rp " . number_format($order->grand_total, 2, ",", "."); ?></p>

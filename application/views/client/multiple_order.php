@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="card border-dark mb-3">
                 <div class="card-body">
-                    <?= form_open_multipart('client/saving_order'); ?>
+
                     <div class="col-md-12 mb-3">
                         <label for="inputCity">Tanggal Pengiriman</label>
                         <input type="date" class="form-control" id="tgl_pengiriman" value="<?= $order[0]->tgl_pengiriman; ?>" name="deliv_tgl">
@@ -34,11 +34,14 @@
                         <?= form_error('alamat_pengiriman', '<small class="text-danger pl-3">', '</small>'); ?>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <button type="submit" class="btn btn-primary">Pesan</button>
+                        <button id="update" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-12 mb-3">
+        <a href="<?php echo base_url(); ?>client/tambahBarang/<?php echo $order['0']->id; ?>" class="btn btn-primary">tambah barang</a>
     </div>
     <div class="container">
         <div class="scroll">
@@ -83,3 +86,26 @@
         </div>
     </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $('#update').click(function() {
+            const href = window.location.href;
+            $.ajax({
+                url: "<?php echo base_url(); ?>client/updateOrder",
+                method: "POST",
+                data: {
+                    orderId: href.substring(href.lastIndexOf('/') + 1),
+                    tgl_pengiriman: $('#tgl_pengiriman').val(),
+                    alamat_pengiriman: $('#alamat_pengiriman').val()
+                },
+                success: function() {
+                    alert("Order information updated!")
+                }
+            })
+        });
+
+    });
+</script>

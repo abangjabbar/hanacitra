@@ -3,10 +3,10 @@
 function is_logged_in()
 {
     $ci = get_instance();
-    if (!$ci->session->userdata('email')) {
+    if (!$ci->session->userdata('user')) {
         redirect('auth');
     } else {
-        $role_id = $ci->session->userdata('role_id');
+        $role_id = $ci->session->userdata('user')['role_id'];
         $menu = $ci->uri->segment(1);
 
         $queryMenu = $ci->db->get_where('user_menu', ['menu' => $menu])->row_array();

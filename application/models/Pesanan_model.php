@@ -82,19 +82,4 @@ class Pesanan_model extends CI_Model
             ->where('pesanan.id', $id);
         return $query->get()->result();
     }
-
-    public function get_id_order($orderId)
-    {
-        return  $this->db->get_where('order', ['id' => $orderId])->row_array();
-    }
-
-    function savingOrder()
-    {
-        $data = [
-            "tgl_pengiriman" => $this->input->post('tgl_pengiriman'),
-            "alamat_pengiriman" => $this->input->post('alamat_pengiriman'),
-        ];
-        $this->db->where('id', $this->input->post('id'));
-        $this->db->update('order', $data);
-    }
 }
