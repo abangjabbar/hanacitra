@@ -211,42 +211,44 @@ class Client extends CI_Controller
     {
         $data['title'] = 'Tambah Order';
 
-        $data['user'] = $this->session->userdata('use');
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('alamat_pengiriman', 'Alamat Pengiriman', 'required');
         $this->form_validation->set_rules('tgl_pengiriman', 'Tanggal Pengiriman', 'required');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/client_header', $data);
-            $this->load->view('client/tambah_order', $data);
-            $this->load->view('templates/client_footer', $data);
-        } else {
+
+        if ($this->form_validation->run() == true) {
+
             $order = array(
                 'user_id' => $data['user']['id'],
+                'order_nomor' => $this->input->post('order_nomor'),
                 'alamat_pengiriman' => $this->input->post('alamat_pengiriman'),
                 'tgl_order' => $this->input->post('tgl_order'),
                 'tgl_pengiriman' => $this->input->post('tgl_pengiriman'),
                 'status' => "DRAFT",
             );
             $this->db->insert('order', $order);
+            $orderId = $this->db->insert_id();
         }
+        redirect('client/order/' . $orderId);
     }
 
-    public function multipleOrder($orderId)
+    public function Order($orderId)
     {
         $data['title'] = 'Daftar Transaksi';
 
         $data['user'] = $this->session->userdata('user');
         $data['order'] = $this->Pesanan_model->getOrder($orderId);
         $data['barang'] = $this->Pesanan_model->getBarang($data['order'][0]->id);
+        $data['images'] = $this->Pesanan_model->getDataImage($orderId);
 
         $status = null;
         if ($data['order'] == false) {
             $status = "Silahkan untuk membuat pesanan terlebih dahulu";
         } else {
             switch ($data['order'][0]->status) {
-                case "YA": {
-                        $status = "Menunggu Input Harga";
+                case "DRAFT": {
+                        $status = "Menunggu harga dari admin";
                         break;
                     }
                 case "DRAFT": {
@@ -262,7 +264,7 @@ class Client extends CI_Controller
         $data['status'] = $status;
 
         $this->load->view('templates/client_header', $data);
-        $this->load->view('client/multiple_order.php', $data);
+        $this->load->view('client/order_view.php', $data);
         $this->load->view('templates/client_footer', $data);
     }
 
@@ -359,7 +361,7 @@ class Client extends CI_Controller
 
             $this->db->trans_complete();
             $this->session->set_flashdata('status', 'data berhasil disimpan');
-            redirect('client/multipleOrder/' . $orderId);
+            redirect('client/order/' . $orderId);
         }
     }
 
@@ -493,6 +495,7 @@ class Client extends CI_Controller
 
         $data['user'] = $this->session->userdata('user');
         $data['order'] = $this->Order_model->getOrderList(FALSE, $data['user']['id']);
+        $data['nomorOrder'] = $this->Order_model->nomor_order();
 
         $barang = [];
         $status = [];
@@ -501,8 +504,8 @@ class Client extends CI_Controller
             $barang[$order->id] = $this->Pesanan_model->getBarang($order->id);
             $currentStatus = null;
             switch ($order->status) {
-                case 'XX': {
-                        $currentStatus = "Menunggu Input Harga";
+                case 'DRAFT': {
+                        $currentStatus = "Menunggu total harga pesanan anda dari admin";
                         break;
                     }
                 case 'DRAFT': {
@@ -526,17 +529,40 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
-    public function detailPesanan($id)
+    public function detailPesanan($orderId)
     {
         $data['title'] = 'Detail Pesanan';
 
         $data['user'] = $this->session->userdata('user');
-        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
-        $data['images'] = $this->Pesanan_model->getDataImage($id);
+        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($orderId);
+        $data['images'] = $this->Pesanan_model->getDataImage($orderId);
+
+        $barang = [];
+        $status = [];
+
+        foreach ($data['order'] as $order) {
+            $barang[$order->id] = $this->Pesanan_model->getBarang($order->id);
+            $currentStatus = null;
+            switch ($order->status) {
+                case 'DRAFT': {
+                        $currentStatus = "Menunggu total harga pesanan anda dari admin";
+                        break;
+                    }
+                case 'DRAFT': {
+                        $currentStatus = "Menunggu Pembayaran";
+                        break;
+                    }
+                case 'DV': {
+                        $currentStatus = "Menunggu Konfirmasi";
+                        break;
+                    }
+            }
+            $status[$order->id] = $currentStatus;
+        }
         $status = null;
         switch ($data['pesanan'][0]->status) {
-            case 0: {
-                    $status = "Menunggu Input Harga";
+            case "DRAFT": {
+                    $status = "Menunggu total harga pesanan anda dari admin";
                     break;
                 }
             case 1: {

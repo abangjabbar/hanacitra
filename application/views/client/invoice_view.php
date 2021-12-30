@@ -48,7 +48,6 @@
                                     <div class="date text-inverse m-t-5"><?= date('d F Y', strtotime($order->po_tgl)); ?></div>
                                     <div class="invoice-detail">
                                         <?= $order->id; ?><br>
-                                        <?= $order->nama_barang; ?>
                                     </div>
                                 </div>
                             </div>

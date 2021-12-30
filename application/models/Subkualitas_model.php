@@ -14,7 +14,7 @@ class Subkualitas_model extends CI_Model
         $this->db->where('id_kualitas', $id_kualitas);
         $this->db->order_by('subkualitas_nama', 'ASC');
         $query = $this->db->get('subkualitas');
-        $output = '<option value="">Pilih Subkualitas</option>';
+        $output = '<option value="">Pilih Substance</option>';
         foreach ($query->result() as $row) {
             $output .= '<option value="' . $row->id_subkualitas . '">' . $row->subkualitas_nama . '</option>';
         }

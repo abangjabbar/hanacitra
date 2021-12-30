@@ -380,17 +380,17 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 #top2 {
   width: 100%;
-  height: 60vh;
+  height: 50vh;
   background: #37517e;
 }
 
 #top2 .container {
-  padding-top: 72px;
+  padding-top: 100px;
 }
 
 #top2 h1 {
   margin: 0 0 10px 0;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 56px;
   color: #fff;
@@ -400,6 +400,9 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.6);
   margin-bottom: 50px;
   font-size: 24px;
+  font-weight: 700;
+  line-height: 56px;
+  color: #fff;
 }
 
 #top2 .btn-get-started {
