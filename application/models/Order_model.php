@@ -2,6 +2,13 @@
 
 class Order_model extends CI_Model
 {
+	function getOrder($orderId)
+	{
+		$query = $this->db->select('*')->from('order')
+			->where('order.id', $orderId);
+		return $query->get()->result();
+	}
+
 	public function proses_edit_order($input)
 	{
 		$data = [
@@ -12,11 +19,19 @@ class Order_model extends CI_Model
 		$this->db->update('order', $data);
 	}
 
+	public function submit_order()
+	{
+		$data = [
+			"status" => "Menunggu Konfirmasi Admin",
+		];
+		$this->db->where('id', $this->input->post('id'));
+		$this->db->update('order', $data);
+	}
+
 	function getOrderList($isSales, $userID = NULL)
 	{
 		$query = $this->db->select('*')->from('order')
-			->join('user', 'order.user_id = user.id', 'LEFT')
-			->join('transaksi', 'transaksi.id = order.id', 'LEFT');
+			->order_by('id', 'desc');
 		if ($isSales == FALSE) {
 			$query->where('user_id', $userID);
 		}

@@ -10,6 +10,9 @@ class Sales extends CI_Controller
         is_logged_in();
         $this->load->model('Multipleupload_model');
         $this->load->model('Pesanan_model');
+        $this->load->model('Order_model');
+        $this->load->model('Barang_model');
+        $this->load->model('Sales_model');
     }
 
     public function index()
@@ -27,7 +30,7 @@ class Sales extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Sunting Profil';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('name', 'Nama Lengkap', 'required|trim');
 
@@ -77,7 +80,7 @@ class Sales extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Ubah Password';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('current_password', 'Password Sekarang', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'Password Baru', 'required|trim|min_length[8]|matches[new_password2]');
@@ -120,46 +123,57 @@ class Sales extends CI_Controller
         }
     }
 
-    public function daftarPesanan()
+    public function daftarOrder()
     {
-        $data['title'] = 'Daftar Pesanan';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Daftar Transaksi Barang';
+        $data['user'] = $this->session->userdata('user');
 
-        $data['pesanan'] = $this->Pesanan_model->get_kualitas(TRUE);
-        $data['transaksi'] = $this->db->get('transaksi')->result_array();
-
-        $status = null;
-        if ($data['pesanan'] == false) {
-            $status = "Silahkan untuk membuat pesanan terlebih dahulu";
-        } else {
-            switch ($data['pesanan'][0]->status) {
-                case 0: {
-                        $status = "Menunggu Input Harga";
-                        break;
-                    }
-                case 1: {
-                        $status = "Menunggu Pembayaran";
-                        break;
-                    }
-                case 2: {
-                        $status = "Menunggu Konfirmasi";
-                        break;
-                    }
-            }
-        }
-        $data['status'] = $status;
+        $data['transaksi'] = $this->Sales_model->getOrderList();
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
-        $this->load->view('sales/daftar_pesanan', $data);
+        $this->load->view('sales/order_list', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
+
+    public function order($orderId)
+    {
+        $data['title'] = 'Order';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['barang'] = $this->Sales_model->get_barang($orderId);
+        $data['order'] = $this->Sales_model->get_order($orderId);
+        $data['history'] = $this->Sales_model->get_history($orderId);
+
+        $isEditEnabled = false;
+
+        if ($data['order']->status == "Menunggu Konfirmasi Admin") {
+            $isEditEnabled = true;
+        }
+        $data['isEditEnabled'] = $isEditEnabled;
+
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('sales/order', $data);
         $this->load->view('templates/admin_footer');
+    }
+
+    public function updateHarga()
+    {
+        $this->Sales_model->update_harga($this->input);
+    }
+
+    public function saveAlasan()
+    {
+        $this->Sales_model->saveAlasan($this->input);
     }
 
     public function detailImagePesanan($id)
     {
         $data['title'] = 'Detail Drawing';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $data['drawing'] = $this->Multipleupload_model->detail_image($id);
         $this->load->view('templates/admin_header', $data);
@@ -169,11 +183,11 @@ class Sales extends CI_Controller
         $this->load->view('templates/admin_footer', $data);
     }
 
-    public function editHarga($id)
+    public function editHarga($barangId)
     {
         $data['title'] = 'Detail Harga Transaksi';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['harga'] = $this->Pesanan_model->get_id_transaksi($id);
+        $data['user'] = $this->session->userdata('user');
+        $data['harga'] = $this->Pesanan_model->get_id_transaksi($barangId);
         $data['transaksi'] = $this->db->get('transaksi')->result_array();
 
         $this->load->view('templates/admin_header', $data);

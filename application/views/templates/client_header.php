@@ -32,6 +32,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link href="<?= base_url('assets/'); ?>arsha/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="<?= base_url('assets/'); ?>arsha/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+
     <!-- Template Main CSS File -->
     <link href="<?= base_url('assets/'); ?>arsha/detail_pesanan/style.css" rel="stylesheet">
 

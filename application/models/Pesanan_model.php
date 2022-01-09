@@ -12,14 +12,14 @@ class Pesanan_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function get_id_transaksi($id)
+    public function get_id_transaksi($barangId)
     {
-        return  $this->db->get_where('transaksi', ['id_pesanan' => $id])->row_array();
+        return  $this->db->get_where('transaksi', ['barang_id' => $barangId])->row_array();
     }
 
     public function proses_edit_harga()
     {
-        $idPesanan =  $this->input->post('id_pesanan');
+        $barangId =  $this->input->post('barang_id');
         $data = [
             "harga_item" => $this->input->post('harga_item'),
             "total_harga" => $this->input->post('total_harga'),
@@ -30,9 +30,9 @@ class Pesanan_model extends CI_Model
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('transaksi', $data);
 
-        $this->db->set('status', 1);
-        $this->db->where('id', $idPesanan);
-        $this->db->update('pesanan');
+        $this->db->set('status', "Menunggu Bukti Pembayaran");
+        $this->db->where('id', $barangId);
+        $this->db->update('order');
     }
 
     function get_kualitas($isSales, $userID = NULL)
@@ -48,24 +48,6 @@ class Pesanan_model extends CI_Model
         return $query->get()->result();
     }
 
-    function getOrder($id)
-    {
-        $query = $this->db->select('*')->from('order')
-            ->where('order.id', $id);
-        return $query->get()->result();
-    }
-
-    function getBarang($orderId)
-    {
-        $query = $this->db->select('*')->from('barang')
-            ->join('kualitas', 'barang.kualitas = kualitas.id_kualitas', 'LEFT')
-            ->join('subkualitas', 'barang.subkualitas = subkualitas.id_subkualitas', 'LEFT')
-            ->join('order', 'barang.order_id = order.id', 'LEFT')
-            ->join('transaksi', 'transaksi.id = barang.id', 'LEFT')
-            ->where('barang.order_id', $orderId);
-        return $query->get()->result();
-    }
-
     public function getDataImage($orderId)
     {
         return $this->db->get_where('multiple_image', ['group_image' => $orderId])->result_array();
@@ -78,7 +60,7 @@ class Pesanan_model extends CI_Model
             ->join('subkualitas', 'pesanan.subkualitas = subkualitas.id_subkualitas', 'LEFT')
             ->join('transaksi', 'transaksi.id = pesanan.id', 'LEFT')
             ->join('user', 'pesanan.user_id = user.id', 'LEFT')
-            ->join('multiple_image', 'multiple_image.id = pesanan.id', 'LEFT')
+            ->join('multiple_image', 'multiple_image.barang_id = barang.id', 'LEFT')
             ->where('pesanan.id', $orderId);
         return $query->get()->result();
     }

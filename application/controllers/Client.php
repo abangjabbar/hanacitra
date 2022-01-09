@@ -12,6 +12,9 @@ class Client extends CI_Controller
         $this->load->model('Order_model');
         $this->load->model("subkualitas_model");
         $this->load->model("Pesanan_model");
+        $this->load->model("Sales_model");
+        $this->load->model("Barang_model");
+        $this->load->helper('tgl_indo');
     }
 
     public function index()
@@ -137,7 +140,7 @@ class Client extends CI_Controller
     public function multipleUpload()
     {
         $data['title'] = 'Multiple upload';
-        $data['groupImage'] = $this->Multipleupload_model->getDAtaGroup();
+        $data['groupImage'] = $this->Multipleupload_model->getDataGroup();
 
         $data['user'] = $this->session->userdata('user');
 
@@ -212,43 +215,37 @@ class Client extends CI_Controller
         $data['title'] = 'Tambah Order';
 
         $data['user'] = $this->session->userdata('user');
-
-        $this->form_validation->set_rules('alamat_pengiriman', 'Alamat Pengiriman', 'required');
-        $this->form_validation->set_rules('tgl_pengiriman', 'Tanggal Pengiriman', 'required');
-
-
-        if ($this->form_validation->run() == true) {
-
-            $order = array(
-                'user_id' => $data['user']['id'],
-                'order_nomor' => $this->input->post('order_nomor'),
-                'alamat_pengiriman' => $this->input->post('alamat_pengiriman'),
-                'tgl_order' => $this->input->post('tgl_order'),
-                'tgl_pengiriman' => $this->input->post('tgl_pengiriman'),
-                'status' => "DRAFT",
-            );
-            $this->db->insert('order', $order);
-            $orderId = $this->db->insert_id();
-        }
+        $order = array(
+            'user_id' => $data['user']['id'],
+            'order_nomor' => $this->input->post('order_nomor'),
+            'alamat_pengiriman' => $this->input->post('alamat_pengiriman'),
+            'tgl_order' => $this->input->post('tgl_order'),
+            'tgl_pengiriman' => $this->input->post('tgl_pengiriman'),
+            'status' => "Menunggu Submit",
+        );
+        $this->db->insert('order', $order);
+        $orderId = $this->db->insert_id();
         redirect('client/order/' . $orderId);
     }
 
-    public function Order($orderId)
+
+    public function order($orderId)
     {
         $data['title'] = 'Daftar Transaksi';
 
         $data['user'] = $this->session->userdata('user');
-        $data['order'] = $this->Pesanan_model->getOrder($orderId);
-        $data['barang'] = $this->Pesanan_model->getBarang($data['order'][0]->id);
+        $data['order'] = $this->Order_model->getOrder($orderId);
+        $data['barang'] = $this->Barang_model->getBarang($data['order'][0]->id);
         $data['images'] = $this->Pesanan_model->getDataImage($orderId);
+        $data['history'] = $this->Sales_model->get_history($orderId);
 
         $status = null;
         if ($data['order'] == false) {
             $status = "Silahkan untuk membuat pesanan terlebih dahulu";
         } else {
             switch ($data['order'][0]->status) {
-                case "DRAFT": {
-                        $status = "Menunggu harga dari admin";
+                case "Menunggu Submit": {
+                        $status = "Silahkan selesaikan pesanan anda, agar kami bisa proses";
                         break;
                     }
                 case "DRAFT": {
@@ -270,8 +267,57 @@ class Client extends CI_Controller
 
     public function updateOrder()
     {
-
         $this->Order_model->proses_edit_order($this->input);
+    }
+
+    public function submitOrder()
+    {
+        $this->Order_model->submit_order();
+        redirect('client/daftarpesanan');
+    }
+
+    public function daftarPesanan()
+    {
+        $data['title'] = 'Daftar Transaksi';
+
+        $data['user'] = $this->session->userdata('user');
+        $data['order'] = $this->Order_model->getOrderList(FALSE, $data['user']['id']);
+        $data['nomorOrder'] = $this->Order_model->nomor_order();
+
+        $barang = [];
+        $status = [];
+
+        if ($data['order'] == false) {
+            $status = "Belum pernah bertransaksi";
+        } else {
+            foreach ($data['order'] as $order) {
+                $barang[$order->id] = $this->Barang_model->getBarang($order->id);
+                $currentStatus = null;
+                switch ($order->status) {
+                    case 'Menunggu Submit': {
+                            $currentStatus = "Silahkan selesaikan pesanan anda, agar kami bisa proses";
+                            break;
+                        }
+                    case 'DRAFT': {
+                            $currentStatus = "Menunggu Pembayaran";
+                            break;
+                        }
+                    case 'DV': {
+                            $currentStatus = "Menunggu Konfirmasi";
+                            break;
+                        }
+                }
+                $status[$order->id] = $currentStatus;
+            }
+        }
+
+        $data['barang'] = $barang;
+
+        $data['status'] = $status;
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/daftar_pesanan', $data);
+        $this->load->view('templates/client_footer', $data);
     }
 
     public function tambahBarang($orderId)
@@ -295,7 +341,7 @@ class Client extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/client_header', $data);
-            $this->load->view('client/tambah_barang', $data);
+            $this->load->view('client/barang_tambah', $data);
             $this->load->view('templates/client_footer', $data);
         } else {
             //validasinya sukses
@@ -321,7 +367,7 @@ class Client extends CI_Controller
                 $numberOfFiles = sizeof($upload);
                 $files = $_FILES['image'];
                 $config['allowed_types'] = 'gif|png|jpg|jpeg';
-                $config['max_size'] = '400';
+                $config['max_size'] = '3000';
                 $config['upload_path'] = './assets/drawing_client/';
                 $this->load->library('upload', $config);
 
@@ -354,15 +400,41 @@ class Client extends CI_Controller
                 }
             }
 
-            $transaksi = [
-                'barang_id' => $barang_id
-            ];
-            $this->db->insert('transaksi', $transaksi);
-
             $this->db->trans_complete();
             $this->session->set_flashdata('status', 'data berhasil disimpan');
             redirect('client/order/' . $orderId);
         }
+    }
+
+    public function editBarang($barangId)
+    {
+        $data['title'] = 'Detail Harga Transaksi';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['barang'] = $this->Barang_model->get_id_barang($barangId);
+        $data['kualitas'] = $this->subkualitas_model->fetch_kualitas();
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/barang_edit', $data);
+        $this->load->view('templates/client_footer', $data);
+    }
+
+    public function proses_edit_barang()
+    {
+        $data = array(
+            'nama_barang' => $this->input->post('nama_barang'),
+            'panjang' => $this->input->post('panjang'),
+            'lebar' => $this->input->post('lebar'),
+            'tinggi' => $this->input->post('tinggi'),
+            'kualitas' => ($this->input->post('kualitas')),
+            'subkualitas' => ($this->input->post('subkualitas')),
+            'deskripsi' => ($this->input->post('deskripsi')),
+            'kuantitas' => ($this->input->post('kuantitas')),
+        );
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('barang', $data);
+
+        redirect('client/order/' . $this->input->post('order_id'));
     }
 
     public function multiplesave()
@@ -489,46 +561,6 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
-    public function daftarPesanan()
-    {
-        $data['title'] = 'Daftar Transaksi';
-
-        $data['user'] = $this->session->userdata('user');
-        $data['order'] = $this->Order_model->getOrderList(FALSE, $data['user']['id']);
-        $data['nomorOrder'] = $this->Order_model->nomor_order();
-
-        $barang = [];
-        $status = [];
-
-        foreach ($data['order'] as $order) {
-            $barang[$order->id] = $this->Pesanan_model->getBarang($order->id);
-            $currentStatus = null;
-            switch ($order->status) {
-                case 'DRAFT': {
-                        $currentStatus = "Menunggu total harga pesanan anda dari admin";
-                        break;
-                    }
-                case 'DRAFT': {
-                        $currentStatus = "Menunggu Pembayaran";
-                        break;
-                    }
-                case 'DV': {
-                        $currentStatus = "Menunggu Konfirmasi";
-                        break;
-                    }
-            }
-            $status[$order->id] = $currentStatus;
-        }
-
-        $data['barang'] = $barang;
-
-        $data['status'] = $status;
-
-        $this->load->view('templates/client_header', $data);
-        $this->load->view('client/daftar_pesanan', $data);
-        $this->load->view('templates/client_footer', $data);
-    }
-
     public function detailPesanan($orderId)
     {
         $data['title'] = 'Detail Pesanan';
@@ -537,28 +569,6 @@ class Client extends CI_Controller
         $data['pesanan'] = $this->Pesanan_model->detail_pesanan($orderId);
         $data['images'] = $this->Pesanan_model->getDataImage($orderId);
 
-        $barang = [];
-        $status = [];
-
-        foreach ($data['order'] as $order) {
-            $barang[$order->id] = $this->Pesanan_model->getBarang($order->id);
-            $currentStatus = null;
-            switch ($order->status) {
-                case 'DRAFT': {
-                        $currentStatus = "Menunggu total harga pesanan anda dari admin";
-                        break;
-                    }
-                case 'DRAFT': {
-                        $currentStatus = "Menunggu Pembayaran";
-                        break;
-                    }
-                case 'DV': {
-                        $currentStatus = "Menunggu Konfirmasi";
-                        break;
-                    }
-            }
-            $status[$order->id] = $currentStatus;
-        }
         $status = null;
         switch ($data['pesanan'][0]->status) {
             case "DRAFT": {
@@ -643,7 +653,6 @@ class Client extends CI_Controller
         $data['title'] = 'INVOICE';
 
         $data['user'] = $this->session->userdata('user');
-        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($id);
         $this->load->view('templates/client_header', $data);
         $this->load->view('client/invoice_view', $data);
         $this->load->view('templates/client_footer', $data);

@@ -12,8 +12,8 @@
         <input type="hidden" name="id" id="id" value="<?= $harga['id']; ?>">
         <div class="col-md-12 mb-3">
             <label for="inputAddress">ID Pesanan</label>
-            <input readonly type="number" class="form-control" id="id_pesanan" name="id_pesanan" value="<?= $harga['id_pesanan']; ?>" placeholder="ID Pesanan">
-            <?= form_error('id_pesanan', '<small class="text-danger pl-3">', '</small>'); ?>
+            <input readonly type="number" class="form-control" id="barang_id" name="barang_id" value="<?= $harga['barang_id']; ?>" placeholder="ID Barang">
+            <?= form_error('barang_id', '<small class="text-danger pl-3">', '</small>'); ?>
         </div>
         <div class="col-md-12 mb-3">
             <label for="floatingTextarea2">Harga Per Item</label>

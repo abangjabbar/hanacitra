@@ -14,17 +14,23 @@
             <div class="col-md-12">
                 <h4>ORDER <?= $row->order_nomor; ?></h4>
             </div>
+            <div class="col-md-12">
+                <div class="card border-dark mb-3">
+                    <div class="card-body">
+                        <h5>Status Pesanan: </h5>
+                        <strong><?= $row->status; ?></strong>
+                        <p> <?= $status; ?> </p>
+                    </div>
+                </div>
+            </div>
         <?php endforeach; ?>
     </div>
     <div class="container">
-        <div class="col-md-12">
-            <div class="card border-dark mb-3">
-                <div class="card-body">
-                    <strong>Status Pesanan: </strong>
-                    <p> Silahkan selesaikan pesanan anda, agar kami bisa proses </p>
-                </div>
+        <?php if (count($history) > 0) : ?>
+            <div class="col-md-12">
+                <a type=" button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#history">History Alasan Revisi</a>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
     <div class="container">
         <div class="col-md-12">
@@ -50,8 +56,8 @@
     <br>
     <div class="container">
         <div class="col-md-12 mb-3">
-            <h5>Silahkan Item yang Ingin Anda Pesan</h5>
-            <a href="<?php echo base_url(); ?>client/tambahBarang/<?php echo $order['0']->id; ?>" class="btn btn-primary">Tambah Item</a>
+            <h5>Silahkan tambahkan item yang ingin anda pesan</h5>
+            <a href="<?php echo base_url(); ?>client/tambahBarang/<?php echo $order['0']->id; ?>" class="btn btn-primary">+Tambah Item</a>
         </div>
     </div>
     <br>
@@ -76,7 +82,8 @@
                                     <th scope="col" style="text-align: center;">Panjang</th>
                                     <th scope="col" style="text-align: center;">Lebar</th>
                                     <th scope="col" style="text-align: center;">Tinggi</th>
-                                    <th scope="col" style="text-align: center;">kuantitas</th>
+                                    <th scope="col" style="text-align: center;">Kuantitas</th>
+                                    <th scope="col" style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,13 +96,19 @@
                                         <td style="text-align: center;"><?= $row->subkualitas_nama; ?> </td>
                                         <td style="text-align: center;"><?= $row->deskripsi; ?> </td>
                                         <td style="text-align:center;">
-                                            <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#desain">
-                                                Detail Desain</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#desain"><strong>
+                                                    Detail Desain</strong></a>
                                         </td>
                                         <td style="text-align:center;"><?= $row->panjang; ?>cm </td>
                                         <td style="text-align:center;"><?= $row->lebar; ?>cm </td>
                                         <td style="text-align:center;"><?= $row->tinggi; ?>cm </td>
                                         <td style="text-align:center;"><?= $row->kuantitas; ?> </td>
+                                        <td style="text-align: center;">
+                                            <a href="<?php echo base_url(); ?>client/editBarang/<?php echo $row->id; ?>" type="button" class="btn btn-primary btn-sm">
+                                                Edit</a>
+                                            <a href="#" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?= $row->id; ?>">
+                                                Hapus</a>
+                                        </td>
                                     </tr>
                                     <?php $i++; ?>
                                 <?php endforeach; ?>
@@ -106,17 +119,19 @@
             </div>
         </div>
         <br>
-        <br>
         <div class="container">
-            <div class="col-md-12 mb-3">
-                <button href="" type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#endOrder" style="float: right;">
-                    Akhiri Pesanan</button>
+            <div class="col-md-4 mb-3" style="float: right;">
+                <h4 Style="text-align: right;">Silahkan submit order anda</h4>
+                <?= form_open_multipart('client/submitOrder'); ?>
+                <input hidden id="id" name="id" value="<?= $order['0']->id; ?>">
+                <button type="submit" class="btn btn-lg btn-primary" style="float: right;">
+                    Submit</button>
             </div>
         </div>
 
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
 <script>
     $(document).ready(function() {
 
@@ -139,30 +154,34 @@
     });
 </script>
 
-<!--- Modal Pesanan Selesai -->
-<div class="modal fade" id="endOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="endOrderLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-m">
+<!-- History Reject Modal-->
+<div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="endOrderLabel">Mohon periksa kembali pesanan anda</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">History Alasan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="container">
-                    <div class="col-sm-12 mt-2">
-                        <h4>Apakah anda yakin?</h4>
-                    </div>
+                <div class="col-md-12">
+                    <?php foreach ($history as $row) : ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5><?= $row->tgl_alasan; ?></h5>
+                                <h5><?= $row->alasan; ?></h5>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href=" <?php echo base_url('client/daftarpesanan'); ?>" type="button" class="btn btn-secondary">Akhiri Pesanan</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal Detail Desain Pesanan -->
+
 <div class="modal fade" id="desain" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="desainLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
