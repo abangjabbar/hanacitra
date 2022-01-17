@@ -19,13 +19,25 @@ class Order_model extends CI_Model
 		$this->db->update('order', $data);
 	}
 
-	public function submit_order()
+	public function submit_order($user)
 	{
+
+		$this->db->trans_start();
+
 		$data = [
 			"status" => "Menunggu Konfirmasi Admin",
 		];
 		$this->db->where('id', $this->input->post('id'));
 		$this->db->update('order', $data);
+
+		$notifikasi = array(
+			'order_id' => $this->input->post('id'),
+			'executor' =>  $user['id'],
+			'recipient_role_id' =>  4,
+		);
+		$this->db->insert('notifikasi', $notifikasi);
+
+		$this->db->trans_complete();
 	}
 
 	function getOrderList($isSales, $userID = NULL)
@@ -55,5 +67,21 @@ class Order_model extends CI_Model
 		$batas = str_pad($kode, 5, "0", STR_PAD_LEFT);
 		$kodetampil = "HCB" . $tgl . $batas;  //format kode
 		return $kodetampil;
+	}
+
+	public function cekData()
+	{
+		$this->db->limit(1);
+		$this->db->order_by('group_image', 'DESC');
+		return $this->db->get('po_image')->row_array();
+	}
+
+	public function upload($insert, $data)
+	{
+		$this->db->insert_batch('po_image', $insert);
+		$this->db->set('main_image', 1);
+		$this->db->where('image', $data);
+		$this->db->update('po_image');
+		return $this->db->affected_rows();
 	}
 }

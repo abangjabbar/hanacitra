@@ -14,6 +14,7 @@ class Client extends CI_Controller
         $this->load->model("Pesanan_model");
         $this->load->model("Sales_model");
         $this->load->model("Barang_model");
+        $this->load->model("Notifikasi_model");
         $this->load->helper('tgl_indo');
     }
 
@@ -215,6 +216,7 @@ class Client extends CI_Controller
         $data['title'] = 'Tambah Order';
 
         $data['user'] = $this->session->userdata('user');
+
         $order = array(
             'user_id' => $data['user']['id'],
             'order_nomor' => $this->input->post('order_nomor'),
@@ -224,7 +226,9 @@ class Client extends CI_Controller
             'status' => "Menunggu Submit",
         );
         $this->db->insert('order', $order);
+
         $orderId = $this->db->insert_id();
+
         redirect('client/order/' . $orderId);
     }
 
@@ -236,8 +240,8 @@ class Client extends CI_Controller
         $data['user'] = $this->session->userdata('user');
         $data['order'] = $this->Order_model->getOrder($orderId);
         $data['barang'] = $this->Barang_model->getBarang($data['order'][0]->id);
-        $data['images'] = $this->Pesanan_model->getDataImage($orderId);
         $data['history'] = $this->Sales_model->get_history($orderId);
+        $data['images'] = $this->Barang_model->detail_image($orderId);
 
         $status = null;
         if ($data['order'] == false) {
@@ -245,15 +249,23 @@ class Client extends CI_Controller
         } else {
             switch ($data['order'][0]->status) {
                 case "Menunggu Submit": {
-                        $status = "Silahkan selesaikan pesanan anda, agar kami bisa proses";
+                        $status = "Silahkan selesaikan order anda, agar kami bisa proses";
                         break;
                     }
-                case "DRAFT": {
-                        $status = "Menunggu Pembayaran";
+                case "Menunggu Konfirmasi Admin": {
+                        $status = "Silahkan tunggu konfirmasi dari admin, untuk mendapatkan informasi harga dari order anda";
                         break;
                     }
-                case 2: {
-                        $status = "Menunggu Konfirmasi";
+                case "Menunggu Submit Revisi": {
+                        $status = "Silahkan perbaiki order anda, agar kami bisa proses";
+                        break;
+                    }
+                case "Menunggu Bukti Pembayaran": {
+                        $status = "Silahkan unggah bukti pembayaran dan surat purchase order anda";
+                        break;
+                    }
+                case "Menunggu Konfirmasi Pembayaran Dari Admin": {
+                        $status = "Silahkan tunggu konfrimasi pembayaran dari admin, dan order langsung diproses";
                         break;
                     }
             }
@@ -272,7 +284,9 @@ class Client extends CI_Controller
 
     public function submitOrder()
     {
-        $this->Order_model->submit_order();
+        $data['user'] = $this->session->userdata('user');
+
+        $this->Order_model->submit_order($data['user']);
         redirect('client/daftarpesanan');
     }
 
@@ -434,111 +448,23 @@ class Client extends CI_Controller
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('barang', $data);
 
-        redirect('client/order/' . $this->input->post('order_id'));
-    }
-
-    public function multiplesave()
-    {
-        $data['title'] = 'Multiple save';
-
-        $data['groupImage'] = $this->Multipleupload_model->getDataGroup();
-        $data['kualitas'] = $this->subkualitas_model->fetch_kualitas();
-
-        $data['user'] = $this->session->userdata('user');
-
-        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required');
-        $this->form_validation->set_rules('panjang', 'Panjang', 'required');
-        $this->form_validation->set_rules('lebar', 'Lebar', 'required');
-        $this->form_validation->set_rules('tinggi', 'Tinggi', 'required');
-        $this->form_validation->set_rules('kualitas', 'Material', 'required');
-        $this->form_validation->set_rules('subkualitas', 'Material', 'required');
-        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
-        $this->form_validation->set_rules('kuantitas', 'Kuantitas', 'required');
-        $this->form_validation->set_rules('alamat_pengiriman', 'Alamat Tujuan Pengriman', 'required');
-
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/client_header', $data);
-            $this->load->view('client/multiplesave_view', $data);
-            $this->load->view('templates/client_footer', $data);
-        } else {
-            //validasinya sukses
-            $this->db->trans_start();
-
-            $pesanan = array(
-                'user_id' => $data['user']['id'],
-                'nama_barang' => $this->input->post('nama_barang'),
-                'panjang' => $this->input->post('panjang'),
-                'lebar' => $this->input->post('lebar'),
-                'tinggi' => $this->input->post('tinggi'),
-                'kualitas' => ($this->input->post('kualitas')),
-                'subkualitas' => ($this->input->post('subkualitas')),
-                'deskripsi' => ($this->input->post('deskripsi')),
-                'kuantitas' => ($this->input->post('kuantitas')),
-                'alamat_pengiriman' => ($this->input->post('alamat_pengiriman')),
-                'po_tgl' => ($this->input->post('po_tgl')),
-                'deliv_tgl' => ($this->input->post('deliv_tgl')),
-                'status' => 0,
-            );
-            $this->db->insert('pesanan', $pesanan);
-
-            $id_pesanan = $this->db->insert_id();
-
-            $upload = $_FILES['image']['name'];
-            if ($upload) {
-                $numberOfFiles = sizeof($upload);
-                $files = $_FILES['image'];
-                $config['allowed_types'] = 'gif|png|jpg|jpeg';
-                $config['max_size'] = '2048';
-                $config['upload_path'] = './assets/drawing_client/';
-                $this->load->library('upload', $config);
-
-                for ($i = 0; $i < $numberOfFiles; $i++) {
-                    $_FILES['image']['name'] = $files['name'][$i];
-                    $_FILES['image']['type'] = $files['type'][$i];
-                    $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
-                    $_FILES['image']['error'] = $files['error'][$i];
-                    $_FILES['image']['size'] = $files['size'][$i];
-
-                    $this->upload->initialize($config);
-
-                    if ($this->upload->do_upload('image')) {
-                        $data = $this->upload->data();
-                        $imageName = $data['file_name'];
-                        $cek = $this->Multipleupload_model->cekData();
-                        if (!$cek) {
-                            $groupImage = 1;
-                        } else {
-                            $groupImage = $cek['group_image'] + 1;
-                        }
-                        $insert[$i]['id_pesanan'] = $id_pesanan;
-                        $insert[$i]['image'] = $imageName;
-                        $insert[$i]['group_image'] = $groupImage;
-                        $insert[$i]['date_created'] = time();
-                    }
-                }
-                $this->Multipleupload_model->upload($insert, $data['file_name']) > 0;
-            }
-
-            $transaksi = [
-                'id_pesanan' => $id_pesanan
-            ];
-            $this->db->insert('transaksi', $transaksi);
-
-            $poImage = [
-                'pesanan_id' => $id_pesanan
-            ];
-            $this->db->insert('po_image', $poImage);
-
-            $buktiTf = [
-                'pesanan_id' => $id_pesanan
-            ];
-            $this->db->insert('bukti_tf', $buktiTf);
-
-            $this->db->trans_complete();
-            $this->session->set_flashdata('status', 'data berhasil disimpan');
-            redirect('client/daftarPesanan');
+        if ($this->db->affected_rows() > 0) {
+            echo "<script>alert('Data berhasil diubah');</script>";
         }
+        echo "<script>window.location='" . site_url('client/order/' . $this->input->post('order_id')) . "';</script>";
     }
+
+    public function hapusBarang()
+    {
+        $barangId = $this->input->post('id');
+        $this->Barang_model->hapus_barang($barangId);
+
+        if ($this->db->affected_rows() > 0) {
+            echo "<script>alert('Data berhasil dihapus');</script>";
+        }
+        echo "<script>window.location='" . site_url('client/order/' . $this->input->post('order_id')) . "';</script>";
+    }
+
 
     public function fetch_subkualitas()
     {
@@ -561,91 +487,75 @@ class Client extends CI_Controller
         $this->load->view('templates/client_footer', $data);
     }
 
-    public function detailPesanan($orderId)
-    {
-        $data['title'] = 'Detail Pesanan';
-
-        $data['user'] = $this->session->userdata('user');
-        $data['pesanan'] = $this->Pesanan_model->detail_pesanan($orderId);
-        $data['images'] = $this->Pesanan_model->getDataImage($orderId);
-
-        $status = null;
-        switch ($data['pesanan'][0]->status) {
-            case "DRAFT": {
-                    $status = "Menunggu total harga pesanan anda dari admin";
-                    break;
-                }
-            case 1: {
-                    $status = "Menunggu Pembayaran";
-                    break;
-                }
-            case 2: {
-                    $status = "Menunggu konfirmasi dari admin. Setelah terkonfirmasi, pesanan anda segera diproses";
-                    break;
-                }
-        }
-        $data['status'] = $status;
-        $this->load->view('templates/client_header', $data);
-        $this->load->view('client/detail_pesanan', $data);
-        $this->load->view('templates/client_footer', $data);
-    }
-
     public function uploadPO()
     {
-        $idPesanan =  $this->input->post('pesanan_id');
-        // cek kalo ada gambar yg diupload
-        $upload_image = $_FILES['image'];
+        $user = $this->session->userdata('user');
 
-        if ($upload_image) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf|xls';
-            $config['max_size'] = '10000';
+        $this->db->trans_start();
+
+        $upload = $_FILES['image']['name'];
+        if ($upload) {
+            $numberOfFiles = sizeof($upload);
+            $files = $_FILES['image'];
+            $config['allowed_types'] = 'gif|png|jpg|jpeg|pdf|xls';
+            $config['max_size'] = '3000';
             $config['upload_path'] = './assets/po_client/';
-
             $this->load->library('upload', $config);
 
-            if ($this->upload->do_upload('image')) {
-                $new_image = $this->upload->data('file_name');
-                $this->db->set('image', $new_image);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->where('pesanan_id', $idPesanan);
-        $this->db->update('po_image');
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['image']['name'] = $files['name'][$i];
+                $_FILES['image']['type'] = $files['type'][$i];
+                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['image']['error'] = $files['error'][$i];
+                $_FILES['image']['size'] = $files['size'][$i];
 
-        $this->db->set('status', 2);
-        $this->db->where('id', $idPesanan);
-        $this->db->update('pesanan');
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('image')) {
+                    $data = $this->upload->data();
+                    $imageName = $data['file_name'];
+                    $cek = $this->Order_model->cekData();
+                    if (!$cek) {
+                        $groupImage = 1;
+                    } else {
+                        $groupImage = $cek['group_image'] + 1;
+                    }
+                    $insert[$i]['order_id'] = $this->input->post('order_id');
+                    $insert[$i]['image'] = $imageName;
+                    $insert[$i]['group_image'] = $groupImage;
+                    $insert[$i]['date_created'] = time();
+                }
+            }
+            $this->Order_model->upload($insert, $data['file_name']) > 0;
+        }
+
+        $this->db->set('status', "Menunggu Konfirmasi Pembayaran Dari Admin");
+        $this->db->where('id', $this->input->post('order_id'));
+        $this->db->update('order');
+
+        $notifikasi = array(
+            'order_id' => $this->input->post('order_id'),
+            'executor' =>  $user['id'],
+            'recipient_role_id' =>  4,
+        );
+        $this->db->insert('notifikasi', $notifikasi);
+
+        $this->db->trans_complete();
         redirect('client/daftarPesanan');
     }
 
-    public function uploadBuktiTf()
+    public function queryNotif()
     {
-        $idPesanan =  $this->input->post('pesanan_id');
-        // cek kalo ada gambar yg diupload
-        $upload_image = $_FILES['image'];
+        $data['user'] = $this->session->userdata('user');
 
-        if ($upload_image) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf|xls';
-            $config['max_size'] = '10000';
-            $config['upload_path'] = './assets/bukti_tf/';
+        echo json_encode($this->Notifikasi_model->query_notif($data['user']));
+    }
 
-            $this->load->library('upload', $config);
+    public function deleteNotif()
+    {
+        $orderId = $this->input->post('id');
 
-            if ($this->upload->do_upload('image')) {
-                $new_image = $this->upload->data('file_name');
-                $this->db->set('image', $new_image);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->where('pesanan_id', $idPesanan);
-        $this->db->update('bukti_tf');
-
-        $this->db->set('status', 2);
-        $this->db->where('id', $idPesanan);
-        $this->db->update('pesanan');
-        redirect('client/daftarPesanan');
+        $this->Notifikasi_model->hapus_notif($orderId);
     }
 
     public function invoice($id)

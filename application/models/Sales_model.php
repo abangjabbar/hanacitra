@@ -5,8 +5,9 @@ class Sales_model extends CI_Model
 {
     function get_barang($orderId)
     {
-        $query = $this->db->select('barang.*,harga_barang.id as harga_barang_id,harga_barang.harga_item,harga_barang.total_harga,kualitas.kualitas_nama,subkualitas.subkualitas_nama')->from('barang')
+        $query = $this->db->select('barang.*,harga_barang.id as harga_barang_id,harga_barang.harga_item,harga_barang.total_harga,kualitas.kualitas_nama,subkualitas.subkualitas_nama,order.tgl_pengiriman,order.alamat_pengiriman')->from('barang')
             ->join('harga_barang', 'barang.id = harga_barang.barang_id', 'LEFT')
+            ->join('order', 'barang.order_id = order.id', 'LEFT')
             ->join('kualitas', 'barang.kualitas = kualitas.id_kualitas', 'LEFT')
             ->join('subkualitas', 'barang.subkualitas = subkualitas.id_subkualitas', 'LEFT')
             ->where('barang.order_id', $orderId);
@@ -30,7 +31,7 @@ class Sales_model extends CI_Model
         return $query->get()->result();
     }
 
-    function update_harga($input)
+    function update_harga($input, $user)
     {
         $data = [
             "ppn" => $input->post('ppn'),
@@ -73,10 +74,13 @@ class Sales_model extends CI_Model
         } else {
             $this->db->update_batch('harga_barang', $allData, 'id');
         }
+
+        $this->set_notifikasi($input->post('order_id'), $user);
     }
 
-    public function saveAlasan($input)
+    public function saveAlasan($input, $user)
     {
+        $this->db->trans_start();
         $data =
             [
                 "order_id" => $input->post('order_id'),
@@ -90,6 +94,20 @@ class Sales_model extends CI_Model
         ];
         $this->db->where('id', $input->post('order_id'));
         $this->db->update('order', $data);
+
+        $this->set_notifikasi($input->post('order_id'), $user);
+
+        $this->db->trans_complete();
+    }
+
+    public function set_notifikasi($orderId, $user)
+    {
+        $notifikasi = array(
+            'order_id' => $orderId,
+            'executor' => $user['id'],
+            'recipient_role_id' => 6,
+        );
+        $this->db->insert('notifikasi', $notifikasi);
     }
 
     public function get_history($orderId)

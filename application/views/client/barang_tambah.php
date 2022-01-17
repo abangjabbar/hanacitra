@@ -68,7 +68,7 @@
                             <strong for="inputAddress">Ukuran</strong>
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label" for="inputAddress">Panjang</label>
-                                <div class="col-md-4">
+                                <div class="col-sm-4">
                                     <div class="input-group flex-nowrap">
                                         <input class="form-control" type="number" class="form-control" id="panjang" name="panjang" value="<?= set_value('panjang'); ?>" placeholder="Panjang" required>
                                         <span class="input-group-text" id="addon-wrapping">cm</span>

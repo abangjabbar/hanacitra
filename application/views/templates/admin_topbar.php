@@ -1,3 +1,16 @@
+<style>
+    .circle {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        color: white;
+        text-align: center;
+        background: red;
+        margin-left: 5px
+    }
+</style>
+
 <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
 
@@ -15,7 +28,17 @@
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
 
-                <div class="topbar-divider d-none d-sm-block"></div>
+                <li class="nav-item dropdown no-arrow">
+                    <a href="#" id="dropdownMenuLink" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <strong>Notifikasi</strong>
+                        <div class="circle" id="notifCounter" style="display: none;">79</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="overflow-y: auto; max-height:15rem;">
+                        <ul id="notifikasi" class="list-group"></ul>
+                    </div>
+                </li>
+
+                <div class=" topbar-divider d-none d-sm-block"></div>
 
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
@@ -41,3 +64,17 @@
 
         </nav>
         <!-- End of Topbar -->
+        <script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
+        <script src="<?= base_url('assets/notif.js'); ?>" type="text/javascript"></script>
+        <script>
+            $(document).ready(function() {
+                const base_url = "<?= base_url(); ?>sales";
+
+                queryNotif(base_url);
+                setInterval(() => {
+                    console.log("Reload notif...")
+                    queryNotif(base_url);
+                }, 30000);
+
+            });
+        </script>

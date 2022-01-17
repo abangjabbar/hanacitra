@@ -13,6 +13,7 @@ class Sales extends CI_Controller
         $this->load->model('Order_model');
         $this->load->model('Barang_model');
         $this->load->model('Sales_model');
+        $this->load->model('Notifikasi_model');
     }
 
     public function index()
@@ -162,12 +163,16 @@ class Sales extends CI_Controller
 
     public function updateHarga()
     {
-        $this->Sales_model->update_harga($this->input);
+        $data['user'] = $this->session->userdata('user');
+
+        $this->Sales_model->update_harga($this->input, $data['user']);
     }
 
     public function saveAlasan()
     {
-        $this->Sales_model->saveAlasan($this->input);
+        $data['user'] = $this->session->userdata('user');
+
+        $this->Sales_model->saveAlasan($this->input, $data['user']);
     }
 
     public function detailImagePesanan($id)
@@ -201,5 +206,18 @@ class Sales extends CI_Controller
     {
         $this->Pesanan_model->proses_edit_harga();
         redirect('sales/daftarPesanan');
+    }
+
+    public function queryNotif()
+    {
+
+        echo json_encode($this->Notifikasi_model->query_notif_sales());
+    }
+
+    public function deleteNotif()
+    {
+        $orderId = $this->input->post('id');
+
+        $this->Notifikasi_model->hapus_notif_sales($orderId);
     }
 }

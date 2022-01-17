@@ -8,81 +8,111 @@
 
 <section>
     <div class="container">
-        <div class="scroll">
-            <div class="table-responsive">
-                <table class="table custom-table" style="width:1200px;">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Barang</th>
-                            <th scope="col">Panjang</th>
-                            <th scope="col">Lebar</th>
-                            <th scope="col">Tinggi</th>
-                            <th scope="col">Substance</th>
-                            <th scope="col">Kualitas</th>
-                            <th scope="col">Kuantitas</th>
-                            <th scope="col">Deskripsi</th>
-                            <th scope="col">Harga Per Item</th>
-                            <th scope="col">Total Harga</th>
+        <div class="table-responsive">
+            <table class="table custom-table" style="width:1600px;">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Nama Barang</th>
+                        <th scope="col">Panjang</th>
+                        <th scope="col">Lebar</th>
+                        <th scope="col">Tinggi</th>
+                        <th scope="col">Substance</th>
+                        <th scope="col">Kualitas</th>
+                        <th scope="col">Kuantitas</th>
+                        <th scope="col">Deskripsi</th>
+                        <th scope="col">Alamat Pengiriman</th>
+                        <th scope="col">Tanggal Pengiriman</th>
+                        <th scope="col">Harga Per Item</th>
+                        <th scope="col">Total Harga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1; ?>
+                    <?php foreach ($barang as $row) : ?>
+                        <tr scope="row">
+                            <td>
+                                <?= $i; ?>
+                            </td>
+                            <td id="dengan-rupiah"><?= $row->nama_barang; ?></td>
+                            <td id="dengan-rupiah"><?= $row->panjang; ?></td>
+                            <td id="dengan-rupiah"><?= $row->lebar; ?></td>
+                            <td id="dengan-rupiah"><?= $row->tinggi; ?></td>
+                            <td id="dengan-rupiah"><?= $row->kualitas_nama; ?></td>
+                            <td id="dengan-rupiah"><?= $row->subkualitas_nama; ?></td>
+                            <td id="dengan-rupiah"><?= $row->kuantitas; ?></td>
+                            <td id="dengan-rupiah"><?= $row->deskripsi; ?></td>
+                            <td id="dengan-rupiah"><?= $row->alamat_pengiriman; ?></td>
+                            <td id="dengan-rupiah"><?= $row->tgl_pengiriman; ?></td>
+                            <td>Rp
+                                <text id="<?= 'hargaItem-' . ($i - 1); ?>"> <?= $row->harga_item != null ? $row->harga_item : 0; ?> </text>
+                                <?php if ($isEditEnabled == true) : ?>
+                                    <a href="#" data-toggle="modal" data-id="<?= $i - 1; ?>" data-target="#updateHargaItem">edit</a>
+                                <?php endif; ?>
+                            </td>
+                            <td>Rp
+                                <text id="<?= 'totalHargaItem-' . ($i - 1); ?>"> <?= $row->total_harga != null ? $row->total_harga : 0; ?></text>
+                            </td>
+                            <td></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        <?php foreach ($barang as $row) : ?>
-                            <tr scope="row">
-                                <td>
-                                    <?= $i; ?>
-                                </td>
-                                <td id="dengan-rupiah"><?= $row->nama_barang; ?></td>
-                                <td id="dengan-rupiah"><?= $row->panjang; ?></td>
-                                <td id="dengan-rupiah"><?= $row->lebar; ?></td>
-                                <td id="dengan-rupiah"><?= $row->tinggi; ?></td>
-                                <td id="dengan-rupiah"><?= $row->kualitas_nama; ?></td>
-                                <td id="dengan-rupiah"><?= $row->subkualitas_nama; ?></td>
-                                <td id="dengan-rupiah"><?= $row->kuantitas; ?></td>
-                                <td id="dengan-rupiah"><?= $row->deskripsi; ?></td>
-                                <td>Rp
-                                    <text id="<?= 'hargaItem-' . ($i - 1); ?>"> <?= $row->harga_item != null ? $row->harga_item : 0; ?> </text>
-                                    <?php if ($isEditEnabled == true) : ?>
-                                        <a href="#" data-toggle="modal" data-id="<?= $i - 1; ?>" data-target="#updateHargaItem">edit</a>
-                                    <?php endif; ?>
-                                </td>
-                                <td>Rp
-                                    <text id="<?= 'totalHargaItem-' . ($i - 1); ?>"> <?= $row->total_harga != null ? $row->total_harga : 0; ?></text>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <?php $i++; ?>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                        <?php $i++; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
-        <div class="col-md-12">
-            <div class="card" style="float:right;">
-                <div class="card-body">
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-sm-5">
+
+        </div>
+
+        <div class="col-lg-4 col-sm-5 ml-auto">
+            <table class="table table-clear">
+                <tbody>
                     <?= form_open_multipart(); ?>
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">PPN</strong>
-                        <input type="text" class="form-control" id="ppn" name="ppn" value="<?= $order->ppn != null ? $order->ppn : 0; ?>" placeholder="PPN" readonly>
-                        <?= form_error('ppn', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">Diskon</strong>
-                        <input type="text" class="form-control" id="diskon" name="diskon" value="<?= $order->diskon != null ? $order->diskon : 0; ?>" placeholder="Diskon">
-                        <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">Grand Total</strong>
-                        <input type="text" class="form-control" id="grand_total" name="grand_total" value="<?= $order->grand_total != null ? $order->grand_total : 0; ?>" placeholder="Nama Barang" readonly>
-                        <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
-                    <?php if ($isEditEnabled == true) : ?>
-                        <button class="btn btn-primary" id="save">Save</button>
-                    <?php endif; ?>
-                </div>
-            </div>
+                    <tr>
+                        <td class="left">
+                            <strong>PPN</strong>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="ppn" name="ppn" value="<?= $order->ppn != null ? $order->ppn : 0; ?>" placeholder="PPN" readonly>
+                            <?= form_error('ppn', '<small class="text-danger pl-3">', '</small>'); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong for="inputAddress">Diskon</strong>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="diskon" name="diskon" value="<?= $order->diskon != null ? $order->diskon : 0; ?>" placeholder="Diskon">
+                            <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong for="inputAddress">Grand Total</strong>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="grand_total" name="grand_total" value="<?= $order->grand_total != null ? $order->grand_total : 0; ?>" placeholder="Nama Barang" readonly>
+                            <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong for="inputAddress">Simpan</strong></td>
+
+                        <td>
+                            <?php if ($isEditEnabled == true) : ?>
+                                <button class="btn btn-primary" id="save">Save</button>
+                            <?php endif; ?>
+                            <?php if ($isEditEnabled == false) : ?>
+                                <p>Data Sudah Tersimpan</p>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
     </div>
     <div class="col-md-12">
         <?php if ($isEditEnabled == true) : ?>
@@ -149,7 +179,7 @@
     </div>
 </div>
 
-<!-- Logout Modal-->
+<!-- Update Harga Modal-->
 <div class="modal fade" id="updateHargaItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -177,8 +207,26 @@
 </div>
 
 
-
 <script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
+<script>
+    $(document).ready(function() {
+
+        const base_url = "<?= base_url(); ?>sales";
+        console.log(base_url);
+
+        $.ajax({
+            url: "<?= base_url(); ?>sales/deleteNotif",
+            method: "POST",
+            data: {
+                id: <?= $order->id; ?>
+            },
+            success: function() {
+                console.log("Refreshing notif..");
+                queryNotif(base_url);
+            }
+        })
+    });
+</script>
 <script type="text/javascript">
     let index;
     var listBarang = <?= json_encode($barang); ?>;

@@ -4,6 +4,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    .circle {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        color: white;
+        text-align: center;
+        background: red;
+        margin-left: 5px
+    }
+</style>
+
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -87,7 +100,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <li><a href="<?= site_url('client/menuProduk'); ?>" class="<?php if ($this->uri->uri_string() == 'client/menuProduk') {
                                                                                     echo 'active';
                                                                                 } ?>"><strong>Pesan Disini!</strong></a></li>
-                    <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown show">
+                        <a href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">
+                            <strong><i class="far fa-bell fa-lg" style="max-height:max-content;"></i></strong>
+                            <div class="circle" id="notifCounter" style="display: none;">79</div>
+                        </a>
+                        <ul id="notifikasi" class="list-group" aria-labelledby="dropdownMenuLink" style="overflow-y: auto; max-height:25rem;"></ul>
+                    </li>
+                    <li class=" dropdown"><a href="#"><img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/') . $user['image']; ?>" width="70"> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="<?= site_url('client/profil'); ?>">Profil Saya</a></li>
                             <li><a href="<?= site_url('auth/logout'); ?>">Logout</a></li>
@@ -99,3 +119,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         </div>
     </header><!-- End Header -->
+
+    <script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/notif.js'); ?>" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            const base_url = "<?= base_url(); ?>/client";
+
+            queryNotif(base_url);
+            setInterval(() => {
+                console.log("Reload notif...")
+                queryNotif(base_url);
+            }, 30000);
+
+        });
+    </script>
