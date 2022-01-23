@@ -1,9 +1,9 @@
 <section id="top2" class="d-flex align-items-center">
-
-    <h1 class="h3 mb-4 text-gray-800">
-        <?= $title; ?>
-    </h1>
-
+    <div class="container">
+        <h1 class="h3 mb-4 text-gray-800">
+            <?= $title; ?>
+        </h1>
+    </div>
 </section><!-- End top2 -->
 
 <section>
@@ -50,8 +50,9 @@
     </div>
 </section>
 
+
 <script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
-<script>
+<!-- <script>
     $(document).ready(function() {
         //Only needed for the filename of export files.
         //Normally set in the title tag of your page.
@@ -160,4 +161,4 @@
             $('.modal .modal-body').empty();
         });
     });
-</script>
+</script> -->

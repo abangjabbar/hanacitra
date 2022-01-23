@@ -22,6 +22,15 @@ class Notifikasi_model extends CI_Model
         return $query->get()->result();
     }
 
+    public function query_notif_produksi()
+    {
+        $query  = $this->db->select('notifikasi.id, notifikasi.order_id, order.order_nomor, order.status')
+            ->from('notifikasi')
+            ->join('order', 'order.id = notifikasi.order_id', 'INNER')
+            ->where('notifikasi.recipient_role_id',  3);
+        return $query->get()->result();
+    }
+
     public function hapus_notif($orderId)
     {
         $notifikasi = array(
@@ -37,6 +46,16 @@ class Notifikasi_model extends CI_Model
         $notifikasi = array(
             'order_id' => $orderId,
             'recipient_role_id' =>  4,
+        );
+        $this->db->where($notifikasi);
+        $this->db->delete('notifikasi');
+    }
+
+    public function hapus_notif_produksi($orderId)
+    {
+        $notifikasi = array(
+            'order_id' => $orderId,
+            'recipient_role_id' =>  3,
         );
         $this->db->where($notifikasi);
         $this->db->delete('notifikasi');

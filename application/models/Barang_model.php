@@ -4,9 +4,10 @@ class Barang_model extends CI_Model
 {
     function getBarang($orderId)
     {
-        $query = $this->db->select('*')->from('barang')
+        $query = $this->db->select('barang.*,harga_barang.id as harga_barang_id,harga_barang.harga_item,harga_barang.total_harga,kualitas.kualitas_nama,subkualitas.subkualitas_nama')->from('barang')
             ->join('kualitas', 'barang.kualitas = kualitas.id_kualitas', 'LEFT')
             ->join('subkualitas', 'barang.subkualitas = subkualitas.id_subkualitas', 'LEFT')
+            ->join('harga_barang', 'barang.id = harga_barang.barang_id', 'LEFT')
             ->where('barang.order_id', $orderId);
         return $query->get()->result();
     }

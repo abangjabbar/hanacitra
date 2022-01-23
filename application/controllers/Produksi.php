@@ -8,12 +8,18 @@ class Produksi extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Multipleupload_model');
+        $this->load->model('Pesanan_model');
+        $this->load->model('Order_model');
+        $this->load->model('Barang_model');
+        $this->load->model('Produksi_model');
+        $this->load->model('Notifikasi_model');
     }
 
     public function index()
     {
         $data['title'] = 'Profil Saya';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -25,7 +31,7 @@ class Produksi extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Sunting Profil';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('name', 'Nama Lengkap', 'required|trim');
 
@@ -75,7 +81,7 @@ class Produksi extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Ubah Password';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('current_password', 'Password Sekarang', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'Password Baru', 'required|trim|min_length[8]|matches[new_password2]');
@@ -116,5 +122,62 @@ class Produksi extends CI_Controller
                 }
             }
         }
+    }
+
+    public function daftarOrder()
+    {
+        $data['title'] = 'Daftar Transaksi Barang';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['transaksi'] = $this->Produksi_model->getOrderList();
+
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('produksi/order_list', $data);
+        $this->load->view('templates/admin_footer', $data);
+    }
+
+    public function order($orderId)
+    {
+        $data['title'] = 'Detail Order';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['barang'] = $this->Produksi_model->get_barang($orderId);
+        $data['order'] = $this->Produksi_model->get_order($orderId);
+        $data['history'] = $this->Produksi_model->get_history($orderId);
+        $data['images'] = $this->Produksi_model->getDataImage($orderId);
+
+        $isEditEnabled = false;
+
+        if ($data['order']->status == "Menunggu Konfirmasi Admin") {
+            $isEditEnabled = true;
+        }
+        $data['isEditEnabled'] = $isEditEnabled;
+
+        $isKonfirmasiPembayaran = false;
+
+        if ($data['order']->status == "Menunggu Konfirmasi Pembayaran Dari Admin") {
+            $isKonfirmasiPembayaran = true;
+        }
+        $data['isKonfirmasiPembayaran'] = $isKonfirmasiPembayaran;
+
+        $this->load->view('templates/admin_header', $data);
+        $this->load->view('templates/admin_sidebar', $data);
+        $this->load->view('templates/admin_topbar', $data);
+        $this->load->view('produksi/order', $data);
+        $this->load->view('templates/admin_footer');
+    }
+
+    public function queryNotif()
+    {
+        echo json_encode($this->Notifikasi_model->query_notif_produksi());
+    }
+
+    public function deleteNotif()
+    {
+        $orderId = $this->input->post('id');
+
+        $this->Notifikasi_model->hapus_notif_produksi($orderId);
     }
 }

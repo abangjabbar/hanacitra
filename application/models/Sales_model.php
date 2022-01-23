@@ -5,9 +5,8 @@ class Sales_model extends CI_Model
 {
     function get_barang($orderId)
     {
-        $query = $this->db->select('barang.*,harga_barang.id as harga_barang_id,harga_barang.harga_item,harga_barang.total_harga,kualitas.kualitas_nama,subkualitas.subkualitas_nama,order.tgl_pengiriman,order.alamat_pengiriman')->from('barang')
+        $query = $this->db->select('barang.*,harga_barang.id as harga_barang_id,harga_barang.harga_item,harga_barang.total_harga,kualitas.kualitas_nama,subkualitas.subkualitas_nama')->from('barang')
             ->join('harga_barang', 'barang.id = harga_barang.barang_id', 'LEFT')
-            ->join('order', 'barang.order_id = order.id', 'LEFT')
             ->join('kualitas', 'barang.kualitas = kualitas.id_kualitas', 'LEFT')
             ->join('subkualitas', 'barang.subkualitas = subkualitas.id_subkualitas', 'LEFT')
             ->where('barang.order_id', $orderId);
@@ -51,7 +50,7 @@ class Sales_model extends CI_Model
 
         //save  order
         $data = [
-            "status" => "Menunggu Bukti Pembayaran"
+            "status" => "Order Berhasil, Menunggu Bukti Pembayaran"
         ];
         $this->db->where('id', $input->post('order_id'));
         $this->db->update('order', $data);
@@ -117,5 +116,43 @@ class Sales_model extends CI_Model
             ->where('alasan.order_id', $orderId)
             ->order_by('id', 'desc');
         return $query->get()->result();
+    }
+
+    public function get_id_order($orderId)
+    {
+        return  $this->db->get_where('order', ['id' => $orderId])->row_array();
+    }
+
+    public function getDataImage($order_id)
+    {
+        return $this->db->get_where('po_image', ['order_id' => $order_id])->result_array();
+    }
+
+    public function submit_order($user)
+    {
+        $this->db->trans_start();
+        $data = [
+            "status" => "Pembayaran Terkonfirmasi",
+        ];
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('order', $data);
+
+        $notifikasiClient = array(
+            'order_id' => $this->input->post('id'),
+            'executor' =>  $user['id'],
+            'recipient_role_id' =>  6,
+        );
+
+        $notifikasiProduksi = array(
+            'order_id' => $this->input->post('id'),
+            'executor' =>  $user['id'],
+            'recipient_role_id' =>  3,
+        );
+
+        $notifikasiBatch = [$notifikasiClient, $notifikasiProduksi];
+
+        $this->db->insert_batch('notifikasi', $notifikasiBatch);
+
+        $this->db->trans_complete();
     }
 }

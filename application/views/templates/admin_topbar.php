@@ -68,8 +68,8 @@
         <script src="<?= base_url('assets/notif.js'); ?>" type="text/javascript"></script>
         <script>
             $(document).ready(function() {
-                const base_url = "<?= base_url(); ?>sales";
-
+                const base_url = "<?= base_url() . $user['role']; ?>";
+                console.log(base_url);
                 queryNotif(base_url);
                 setInterval(() => {
                     console.log("Reload notif...")

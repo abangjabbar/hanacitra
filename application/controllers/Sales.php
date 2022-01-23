@@ -21,6 +21,7 @@ class Sales extends CI_Controller
         $data['title'] = 'Profil Saya';
         $data['user'] = $this->session->userdata('user');
 
+
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
@@ -140,12 +141,13 @@ class Sales extends CI_Controller
 
     public function order($orderId)
     {
-        $data['title'] = 'Order';
+        $data['title'] = 'Detail Order';
         $data['user'] = $this->session->userdata('user');
 
         $data['barang'] = $this->Sales_model->get_barang($orderId);
         $data['order'] = $this->Sales_model->get_order($orderId);
         $data['history'] = $this->Sales_model->get_history($orderId);
+        $data['images'] = $this->Sales_model->getDataImage($orderId);
 
         $isEditEnabled = false;
 
@@ -153,6 +155,13 @@ class Sales extends CI_Controller
             $isEditEnabled = true;
         }
         $data['isEditEnabled'] = $isEditEnabled;
+
+        $isKonfirmasiPembayaran = false;
+
+        if ($data['order']->status == "Menunggu Konfirmasi Pembayaran Dari Admin") {
+            $isKonfirmasiPembayaran = true;
+        }
+        $data['isKonfirmasiPembayaran'] = $isKonfirmasiPembayaran;
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -219,5 +228,12 @@ class Sales extends CI_Controller
         $orderId = $this->input->post('id');
 
         $this->Notifikasi_model->hapus_notif_sales($orderId);
+    }
+
+    public function submitOrder()
+    {
+        $data['user'] = $this->session->userdata('user');
+
+        $this->Sales_model->submit_order($data['user']);
     }
 }

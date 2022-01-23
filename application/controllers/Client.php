@@ -257,15 +257,15 @@ class Client extends CI_Controller
                         break;
                     }
                 case "Menunggu Submit Revisi": {
-                        $status = "Silahkan perbaiki order anda, agar kami bisa proses";
+                        $status = "Order ditolak, silahkan perbaiki order anda, agar kami bisa proses";
                         break;
                     }
-                case "Menunggu Bukti Pembayaran": {
-                        $status = "Silahkan unggah bukti pembayaran dan surat purchase order anda";
+                case "Order Berhasil, Menunggu Bukti Pembayaran": {
+                        $status = "Silahkan melakukan pembayaran,<br>lalu unggah bukti pembayaran dan surat purchase order anda";
                         break;
                     }
                 case "Menunggu Konfirmasi Pembayaran Dari Admin": {
-                        $status = "Silahkan tunggu konfrimasi pembayaran dari admin, dan order langsung diproses";
+                        $status = "Mohon tunggu konfrimasi pembayaran dari admin, lalu order akan langsung diproses";
                         break;
                     }
             }
@@ -497,7 +497,7 @@ class Client extends CI_Controller
         if ($upload) {
             $numberOfFiles = sizeof($upload);
             $files = $_FILES['image'];
-            $config['allowed_types'] = 'gif|png|jpg|jpeg|pdf|xls';
+            $config['allowed_types'] = 'pdf';
             $config['max_size'] = '3000';
             $config['upload_path'] = './assets/po_client/';
             $this->load->library('upload', $config);

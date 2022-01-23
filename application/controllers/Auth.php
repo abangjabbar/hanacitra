@@ -42,23 +42,28 @@ class Auth extends CI_Controller
             if ($user['is_active'] == 1) {
                 //cek password
                 if (password_verify($password, $user['password'])) {
+
+                    $role = '';
+
+                    if ($user['role_id'] == 1) {
+                        $role = 'admin';
+                    } else if ($user['role_id'] == 2) {
+                        $role = 'user';
+                    } else if ($user['role_id'] == 3) {
+                        $role = 'produksi';
+                    } else  if ($user['role_id'] == 4) {
+                        $role = 'sales';
+                    } else if ($user['role_id'] == 5) {
+                        $role = 'manager';
+                    } else {
+                        $role = 'client';
+                    }
+                    $user['role'] = $role;
                     $data = [
                         'user' => $user
                     ];
                     $this->session->set_userdata($data);
-                    if ($user['role_id'] == 1) {
-                        redirect('admin');
-                    } else if ($user['role_id'] == 2) {
-                        redirect('user');
-                    } else if ($user['role_id'] == 3) {
-                        redirect('produksi');
-                    } else  if ($user['role_id'] == 4) {
-                        redirect('sales');
-                    } else if ($user['role_id'] == 5) {
-                        redirect('manager');
-                    } else {
-                        redirect('client');
-                    }
+                    redirect($role);
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
                     Password salah!

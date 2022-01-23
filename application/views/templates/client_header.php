@@ -48,6 +48,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- Template Main CSS File -->
     <link href="<?= base_url('assets/'); ?>arsha/detail_pesanan/style.css" rel="stylesheet">
+    <link href="<?= base_url('assets/'); ?>css/invoice/style.css" rel="stylesheet">
 
     <!-- Template Detail Pesanan CSS File -->
     <link href="<?= base_url('assets/'); ?>arsha/css/style.css" rel="stylesheet">
@@ -68,7 +69,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="container d-flex align-items-center">
 
             <a href="index.html" class="logo me-auto"><img src="<?= base_url("assets/images/logo-hana.png"); ?>" alt="" class="img-fluid"></a>
-            <h3 class="logo me-auto"><a href="<?= site_url('client'); ?>">HANA CITRA</a></h3>
+            <h5 class="logo me-auto"><a href="<?= site_url('client'); ?>">HANA CITRA</a></h5>
 
             <nav id="navbar" class="navbar">
                 <ul>
@@ -88,7 +89,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                         echo 'active';
                                                                                     } ?>">Daftar Transaksi</a>
                     </li>
-                    <li><a href="#team">Pengiriman</a></li>
                     <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Profil Perusahaan</a></li>

@@ -114,7 +114,7 @@
                                         <strong for="inputAddress">Grand Total</strong>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" id="grand_total" name="grand_total" value="<?= $order->grand_total != null ? $order->grand_total : 0; ?>" placeholder="Grand Total" readonly>
+                                        <input type="text" class="form-control" id="grand_total" name="grand_total" value="<?= $order->grand_total != null ? $order->grand_total : 0; ?>" placeholder="Nama Barang" readonly>
                                         <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </td>
                                 </tr>
@@ -134,7 +134,7 @@
                         </table>
                     </div>
                 </div>
-                <?php if ($isKonfirmasiPembayaran == true) : ?>
+                <?php if ($isEditEnabled == true) : ?>
                     <div class="col-sm-12 mt-2">
                         <div class="card bg-light mb-3">
                             <div class="card-header">
@@ -155,23 +155,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#konfirmasi">Konfirmasi Pembayaran Berhasil</button>
-                    </div>
-                <?php endif; ?>
+                    <!-- <?php endif; ?>
+                <!-- <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-id="#>" data-toggle="modal" data-target="#submit">Konfirmasi Pembayaran Berhasil</button>
+                </div> --> -->
             </div>
         </div>
     </div>
 </section>
 
 <!-- Modal Submit Order -->
-<div class="modal fade" id="konfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+
+<!-- Modal -->
+<div class="modal fade" id="submit" tabindex="-1" aria-labelledby="submitLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Pembayaran</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                <h5 class="modal-title" id="submitLabel">Konfirmasi Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -179,8 +181,11 @@
                 <p>Periksa kembali sebelum melakukan konfirmasi!</p>
             </div>
             <div class="modal-footer">
+                <?= form_open_multipart('client/submitOrder'); ?>
+                <input hidden id="id" name="id" value="#">
+                <input hidden id="user_id" name="user_id" value="#">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="submit" class="btn btn-primary">Konfirmasi Pembayaran</button>
+                <button type="button" class="btn btn-primary">Konfirmasi Pembayaran</button>
             </div>
         </div>
     </div>
@@ -272,10 +277,10 @@
 <script>
     $(document).ready(function() {
 
-        const base_url = "<?= base_url(); ?>sales";
+        const base_url = "<?= base_url(); ?>produksi";
 
         $.ajax({
-            url: "<?= base_url(); ?>sales/deleteNotif",
+            url: "<?= base_url(); ?>produksi/deleteNotif",
             method: "POST",
             data: {
                 id: <?= $order->id; ?>
@@ -285,111 +290,6 @@
                 queryNotif(base_url);
             }
         })
-    });
-</script>
-
-
-<script type="text/javascript">
-    let index;
-    var listBarang = <?= json_encode($barang); ?>;
-    var order = <?= json_encode($order); ?>;
-    let rawTotal;
-    let ppn;
-    calculateGrandTotal();
-
-    function onclick(event) {
-        event.preventDefault();
-        const barang = listBarang[index];
-        barang.harga_item = $('#harga_item').val();
-        barang.total_harga = barang.kuantitas * barang.harga_item;
-        listBarang[index] = barang;
-        $('#hargaItem-' + index).html(barang.harga_item);
-        $('#totalHargaItem-' + index).html(barang.total_harga);
-        calculateGrandTotal();
-    }
-
-    function calculateGrandTotal() {
-        rawTotal = calculateRawTotal();
-        ppn = Math.ceil(0.1 * rawTotal);
-        const diskon = $('#diskon').val();
-        const grandTotal = rawTotal + ppn - diskon;
-
-        $('#ppn').val(ppn);
-        $('#grand_total').val(grandTotal);
-    }
-
-    function calculateRawTotal() {
-        rawTotal = 0;
-        listBarang.forEach(barang => {
-            rawTotal = rawTotal + barang.total_harga * 1;
-        });
-        return rawTotal;
-    }
-
-    function onChangeDiskon() {
-        const diskon = $('#diskon').val();
-        const grandTotal = rawTotal + ppn - diskon;
-        $('#grand_total').val(grandTotal);
-    }
-
-    $(document).ready(function() {
-
-        $('#saveHargaItem').click(onclick);
-
-        $('#updateHargaItem').on('shown.bs.modal', function(event) {
-            index = $(event.relatedTarget).data('id');
-        });
-
-        $('#diskon').keyup(onChangeDiskon);
-
-        $('#save').click(function() {
-            $.ajax({
-                url: "<?php echo base_url(); ?>sales/updateHarga",
-                method: "POST",
-                data: {
-                    order_id: order.id,
-                    id: order.harga_order_id,
-                    ppn: $('#ppn').val(),
-                    diskon: $('#diskon').val(),
-                    grand_total: $('#grand_total').val(),
-                    listBarang: JSON.stringify(listBarang)
-                },
-                success: function() {
-                    alert("Order information updated!");
-                    window.location.replace("<?php echo base_url(); ?>sales/daftarorder");
-                }
-            })
-        });
-
-        $('#saveAlasan').click(function() {
-            $.ajax({
-                url: "<?php echo base_url(); ?>sales/saveAlasan",
-                method: "POST",
-                data: {
-                    order_id: order.id,
-                    alasan: $('#alasan').val()
-                },
-                success: function() {
-                    alert("Berhasil ter-reject!");
-                    window.location.replace("<?php echo base_url(); ?>sales/daftarorder");
-                }
-            })
-        });
-
-        $('#submit').click(function() {
-            $.ajax({
-                url: "<?php echo base_url(); ?>sales/submitOrder",
-                method: "POST",
-                data: {
-                    id: order.id,
-                },
-                success: function() {
-                    alert("Berhasil disubmit!");
-                    window.location.replace("<?php echo base_url(); ?>sales/daftarorder");
-                }
-            })
-        });
-
     });
 </script>
 <style>

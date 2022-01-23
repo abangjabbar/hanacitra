@@ -26,6 +26,8 @@
     <!-- Style -->
     <link rel="stylesheet" href="<?= base_url('assets/table1/'); ?>css/style.css">
 
+    <link href="<?= base_url('assets/'); ?>css/invoice/style.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">

@@ -15,14 +15,14 @@
                 <h4>ORDER <?= $row->order_nomor; ?></h4>
             </div>
             <div class="col-md-12">
-                <div class="card border-dark mb-3">
+                <div class="card border-primary mb-3">
                     <div class="card-body">
                         <h5>Status Pesanan: </h5>
                         <strong><?= $row->status; ?></strong>
                         <p> <?= $status; ?> </p>
                         <?php if (count($history) > 0) : ?>
                             <div class="col-md-12">
-                                <a type=" button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#history">History Alasan Revisi</a>
+                                <a type=" button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#history">History Alasan Order Ditolak</a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -30,32 +30,10 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <?php if ($order[0]->status == "Menunggu Submit") : ?>
+    <?php if ($order[0]->status == "Menunggu Submit" || $order[0]->status == "Menunggu Submit Revisi") : ?>
         <div class="container">
             <div class="col-md-12">
-                <div class="card border-dark mb-3">
-                    <div class="card-body">
-                        <div class="col-md-12 mb-3">
-                            <label for="inputCity">Tanggal Pengiriman</label>
-                            <input type="date" class="form-control" id="tgl_pengiriman" value="<?= $order[0]->tgl_pengiriman; ?>" name="deliv_tgl">
-                            <?= form_error('tgl_pengiriman', '<small class="text-danger pl-3">', '</small>'); ?>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="inputAddress">Alamat Pengiriman</label>
-                            <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" value="<?= $order[0]->alamat_pengiriman; ?>" placeholder="Alamat Lengkap">
-                            <?= form_error('alamat_pengiriman', '<small class="text-danger pl-3">', '</small>'); ?>
-                        </div>
-                        <div class="col-md-12 mb-3" style="float: right;">
-                            <button id="update" class="btn btn-primary">Update</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php elseif ($order[0]->status == "Menunggu Submit Revisi") : ?>
-        <div class="container">
-            <div class="col-md-12">
-                <div class="card border-dark mb-3">
+                <div class="card border-primary mb-3">
                     <div class="card-body">
                         <div class="col-md-12 mb-3">
                             <label for="inputCity">Tanggal Pengiriman</label>
@@ -77,7 +55,7 @@
     <?php else : ?>
         <div class="container">
             <div class="col-md-12">
-                <div class="card border-dark mb-3">
+                <div class="card border-primary mb-3">
                     <div class="card-body">
                         <div class="col-md-12 mb-3">
                             <label for="inputCity">Tanggal Pengiriman</label>
@@ -95,10 +73,10 @@
         </div>
     <?php endif; ?>
     <br>
-    <?php if ($order[0]->status == "Menunggu Bukti Pembayaran") : ?>
+    <?php if ($order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran") : ?>
         <div class="container">
             <div class="col-md-12">
-                <div class="card border-dark mb-3">
+                <div class="card border-primary mb-3">
                     <div class="card-body">
                         <div class="card-header">
                             Silahkan unggah bukti pembayaran dan surat purchase order anda
@@ -114,10 +92,51 @@
                                         <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="col-sm-2">
-                                    <button type="submit" class="btn btn-primary btn-sm">Unggah</button>
+                                    <button type="submit" class="btn btn-primary">Unggah</button>
                                 </div>
                                 <?= form_close(); ?>
+                            </div>
+                        </div>
+                        <br>
+                        <p>*Setelah mengunggah bukti transaksi dan surat purchase order,
+                            <br>mohon tunggu konfirmasi pembayaran dari admin
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card border-primary mb-3">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h4>Pembayaran</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12" style="text-align: center;">
+                                <h4 style="text-align: center;">No. Rekening</h4>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="<?= base_url('assets/images/mandiri.png') ?>" style="width: 225px;">
+                                        <h3>157 0000 482 043</h3>
+                                        <p>Bank mandiri atas nama CV HANA CITRA BUANA </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <img src="<?= base_url('assets/images/bukopin.png'); ?>" style="width:220px;">
+                                        <h3>1 000 311 436</h3>
+                                        <p>Bank bukopin atas nama CV HANA CITRA BUANA </p>
+                                    </div>
+                                </div>
+                                <br>
+                                <h5>Bayar pesanan ke salah satu nomor rekening di atas.</h5>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-md-6">
+                                <p class="text-left">
+                                    * Setelah melakukan pembayaran, dimohon untuk upload bukti pembayaran dan surat purchase order
+                                    agar pesanan bisa segera diproses.</p>
                             </div>
                         </div>
                     </div>
@@ -125,14 +144,7 @@
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($order[0]->status == "Menunggu Submit") : ?>
-        <div class="container">
-            <div class="col-md-12 mb-3">
-                <h5>Silahkan tambahkan item yang ingin anda pesan</h5>
-                <a href="<?php echo base_url(); ?>client/tambahBarang/<?php echo $order['0']->id; ?>" class="btn btn-primary">+Tambah Item</a>
-            </div>
-        </div>
-    <?php elseif ($order[0]->status == "Menunggu Submit Revisi") : ?>
+    <?php if ($order[0]->status == "Menunggu Submit" || $order[0]->status == "Menunggu Submit Revisi") : ?>
         <div class="container">
             <div class="col-md-12 mb-3">
                 <h5>Silahkan tambahkan item yang ingin anda pesan</h5>
@@ -143,7 +155,7 @@
     <br>
     </div>
     <div class="container">
-        <div class="card border-dark mb-3">
+        <div class="card border-primary mb-3">
             <div class="card-header">
                 <p>Daftar Item yang Anda Pesan</p>
             </div>
@@ -163,6 +175,10 @@
                                     <th scope="col">Lebar</th>
                                     <th scope="col">Tinggi</th>
                                     <th scope="col" style="text-align:center;">Kuantitas</th>
+                                    <?php if ($order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran" || $order[0]->status == "Menunggu Konfirmasi Pembayaran Dari Admin") : ?>
+                                        <th scope="col" style="text-align:center;">Harga Item</th>
+                                        <th scope="col" style="text-align:center;">Total Harga</th>
+                                    <?php endif; ?>
                                     <?php if ($order[0]->status == "Menunggu Submit") : ?>
                                         <th scope="col" style="text-align:center;">Aksi</th>
                                     <?php elseif ($order[0]->status == "Menunggu Submit Revisi") : ?>
@@ -187,6 +203,10 @@
                                         <td><?= $row->lebar; ?>cm </td>
                                         <td><?= $row->tinggi; ?>cm </td>
                                         <td style="text-align:center;"><?= $row->kuantitas; ?> </td>
+                                        <?php if ($order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran" || $order[0]->status == "Menunggu Konfirmasi Pembayaran Dari Admin") : ?>
+                                            <td style="text-align:center;"><?= $row->harga_item; ?> </td>
+                                            <td style="text-align:center;"><?= $row->total_harga; ?> </td>
+                                        <?php endif; ?>
                                         <?php if ($order[0]->status == "Menunggu Submit") : ?>
                                             <td style="width: 11%;">
                                                 <a href="<?php echo base_url(); ?>client/editBarang/<?php echo $row->id; ?>" type="button" class="btn btn-primary btn-sm">
@@ -216,6 +236,46 @@
                             </tbody>
                         </table>
                     </div>
+                    <?php if ($order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran" || $order[0]->status == "Menunggu Konfirmasi Pembayaran Dari Admin") : ?>
+                        <div class="row">
+                            <div class="col-lg-8 col-sm-5">
+
+                            </div>
+
+                            <div class="col-lg-4 col-sm-5 ml-auto">
+                                <table class="table table-clear">
+                                    <?php foreach ($order as $row) : ?>
+                                        <tbody>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>PPN</strong>
+                                                </td>
+                                                <td>
+                                                    <?= $row->ppn; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong for="inputAddress">Diskon</strong>
+                                                </td>
+                                                <td>
+                                                    <?= $row->diskon; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong for="inputAddress">Grand Total</strong>
+                                                </td>
+                                                <td>
+                                                    <?= $row->grand_total; ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    <?php endforeach; ?>
+                                </table>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
