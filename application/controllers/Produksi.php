@@ -148,19 +148,27 @@ class Produksi extends CI_Controller
         $data['history'] = $this->Produksi_model->get_history($orderId);
         $data['images'] = $this->Produksi_model->getDataImage($orderId);
 
-        $isEditEnabled = false;
+        $isKonfirmasiOrder = false;
+        $nextStatus = '';
+        $buttonName = '';
 
-        if ($data['order']->status == "Menunggu Konfirmasi Admin") {
-            $isEditEnabled = true;
+        if ($data['order']->status == "Pembayaran Terkonfirmasi") {
+            $nextStatus = "Order Sedang Diproses";
+            $buttonName = "Proses Order";
+            $isKonfirmasiOrder = true;
+        } else if ($data['order']->status == "Order Sedang Diproses") {
+            $nextStatus = "Order Sedang Dalam Pengiriman";
+            $buttonName = "Kirim Order";
+            $isKonfirmasiOrder = true;
+        } else if ($data['order']->status == "Order Sedang Dalam Pengiriman") {
+            $nextStatus = "Order Selesai";
+            $buttonName = "Order Selesai";
+            $isKonfirmasiOrder = true;
         }
-        $data['isEditEnabled'] = $isEditEnabled;
 
-        $isKonfirmasiPembayaran = false;
-
-        if ($data['order']->status == "Menunggu Konfirmasi Pembayaran Dari Admin") {
-            $isKonfirmasiPembayaran = true;
-        }
-        $data['isKonfirmasiPembayaran'] = $isKonfirmasiPembayaran;
+        $data['nextStatus'] = $nextStatus;
+        $data['buttonName'] = $buttonName;
+        $data['isKonfirmasiOrder'] = $isKonfirmasiOrder;
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -179,5 +187,12 @@ class Produksi extends CI_Controller
         $orderId = $this->input->post('id');
 
         $this->Notifikasi_model->hapus_notif_produksi($orderId);
+    }
+
+    public function KonfirmasiOrder()
+    {
+        $data['user'] = $this->session->userdata('user');
+
+        $this->Produksi_model->konfirmasi_order($data['user']);
     }
 }

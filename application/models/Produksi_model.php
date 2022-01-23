@@ -24,8 +24,10 @@ class Produksi_model extends CI_Model
 
     function getOrderList()
     {
+        $status = array("Pembayaran Terkonfirmasi", "Order Sedang Diproses", "Order Sedang Dalam Pengiriman", "Order Selesai");
         $query = $this->db->select('order.*,harga_order.grand_total')->from('order')
             ->join('harga_order', 'order.id = harga_order.order_id', 'LEFT')
+            ->where_in('order.status', $status)
             ->order_by('id', 'desc');
         return $query->get()->result();
     }
@@ -59,16 +61,23 @@ class Produksi_model extends CI_Model
         return $this->db->get_where('po_image', ['order_id' => $order_id])->result_array();
     }
 
-    public function submit_order($user)
+    public function konfirmasi_order($user)
     {
         $this->db->trans_start();
         $data = [
-            "status" => "Pembayaran Terkonfirmasi",
+            "status" => $this->input->post('status')
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('order', $data);
 
-        $this->set_notifikasi($this->input->post('order_id'), $user);
+        $notifikasiClient = array(
+            'order_id' => $this->input->post('id'),
+            'executor' =>  $user['id'],
+            'recipient_role_id' =>  6,
+            'status' => $data['status']
+        );
+
+        $this->db->insert('notifikasi', $notifikasiClient);
 
         $this->db->trans_complete();
     }

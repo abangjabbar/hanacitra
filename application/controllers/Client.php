@@ -490,6 +490,7 @@ class Client extends CI_Controller
     public function uploadPO()
     {
         $user = $this->session->userdata('user');
+        $status = "Menunggu Konfirmasi Pembayaran Dari Admin";
 
         $this->db->trans_start();
 
@@ -529,7 +530,7 @@ class Client extends CI_Controller
             $this->Order_model->upload($insert, $data['file_name']) > 0;
         }
 
-        $this->db->set('status', "Menunggu Konfirmasi Pembayaran Dari Admin");
+        $this->db->set('status', $status);
         $this->db->where('id', $this->input->post('order_id'));
         $this->db->update('order');
 
@@ -537,6 +538,7 @@ class Client extends CI_Controller
             'order_id' => $this->input->post('order_id'),
             'executor' =>  $user['id'],
             'recipient_role_id' =>  4,
+            'status' => $status
         );
         $this->db->insert('notifikasi', $notifikasi);
 

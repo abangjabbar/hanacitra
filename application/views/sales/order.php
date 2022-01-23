@@ -357,6 +357,10 @@
                 success: function() {
                     alert("Order information updated!");
                     window.location.replace("<?php echo base_url(); ?>sales/daftarorder");
+                },
+                error: function() {
+                    alert("Order information update failed!");
+                    window.location.replace("<?php echo base_url(); ?>sales/daftarorder");
                 }
             })
         });

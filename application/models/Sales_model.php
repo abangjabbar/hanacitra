@@ -26,12 +26,14 @@ class Sales_model extends CI_Model
     {
         $query = $this->db->select('order.*,harga_order.grand_total')->from('order')
             ->join('harga_order', 'order.id = harga_order.order_id', 'LEFT')
+            ->where('order.status !=', "Menunggu Submit")
             ->order_by('id', 'desc');
         return $query->get()->result();
     }
 
     function update_harga($input, $user)
     {
+        $this->db->trans_start();
         $data = [
             "ppn" => $input->post('ppn'),
             "diskon" => $input->post('diskon'),
@@ -48,9 +50,11 @@ class Sales_model extends CI_Model
             $this->db->update('harga_order', $data);
         }
 
+        $status = "Order Berhasil, Menunggu Bukti Pembayaran";
+
         //save  order
         $data = [
-            "status" => "Order Berhasil, Menunggu Bukti Pembayaran"
+            "status" => $status
         ];
         $this->db->where('id', $input->post('order_id'));
         $this->db->update('order', $data);
@@ -74,7 +78,8 @@ class Sales_model extends CI_Model
             $this->db->update_batch('harga_barang', $allData, 'id');
         }
 
-        $this->set_notifikasi($input->post('order_id'), $user);
+        $this->set_notifikasi($input->post('order_id'), $user, $status);
+        $this->db->trans_complete();
     }
 
     public function saveAlasan($input, $user)
@@ -94,17 +99,18 @@ class Sales_model extends CI_Model
         $this->db->where('id', $input->post('order_id'));
         $this->db->update('order', $data);
 
-        $this->set_notifikasi($input->post('order_id'), $user);
+        $this->set_notifikasi($input->post('order_id'), $user, $data['status']);
 
         $this->db->trans_complete();
     }
 
-    public function set_notifikasi($orderId, $user)
+    public function set_notifikasi($orderId, $user, $status)
     {
         $notifikasi = array(
             'order_id' => $orderId,
             'executor' => $user['id'],
             'recipient_role_id' => 6,
+            'status' => $status
         );
         $this->db->insert('notifikasi', $notifikasi);
     }
@@ -141,12 +147,14 @@ class Sales_model extends CI_Model
             'order_id' => $this->input->post('id'),
             'executor' =>  $user['id'],
             'recipient_role_id' =>  6,
+            'status' => $data['status']
         );
 
         $notifikasiProduksi = array(
             'order_id' => $this->input->post('id'),
             'executor' =>  $user['id'],
             'recipient_role_id' =>  3,
+            'status' => $data['status']
         );
 
         $notifikasiBatch = [$notifikasiClient, $notifikasiProduksi];

@@ -13,7 +13,7 @@ class Admin extends CI_Controller
     public function index()
     {
         $data['title'] = 'Dashboard';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -25,7 +25,7 @@ class Admin extends CI_Controller
     public function profil()
     {
         $data['title'] = 'Dashboard';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
@@ -37,7 +37,7 @@ class Admin extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Sunting Profil';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('name', 'Nama Lengkap', 'required|trim');
 
@@ -87,7 +87,7 @@ class Admin extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Ubah Password';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $this->form_validation->set_rules('current_password', 'Password Sekarang', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'Password Baru', 'required|trim|min_length[8]|matches[new_password2]');
@@ -133,7 +133,7 @@ class Admin extends CI_Controller
     public function role()
     {
         $data['title'] = 'Role';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $data['role'] = $this->db->get_where('user_role')->result_array();
 
@@ -157,7 +157,7 @@ class Admin extends CI_Controller
     public function roleAccess($role_id)
     {
         $data['title'] = 'Role Access';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->session->userdata('user');
 
         $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
 

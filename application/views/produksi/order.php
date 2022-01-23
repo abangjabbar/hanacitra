@@ -14,13 +14,6 @@
             <div class="invoice overflow-auto">
                 <div class="row contacts">
                     <div class="col invoice-to">
-                        <?php if ($isEditEnabled == true) : ?>
-                            <div class="text-gray-light">
-                                <h3>Reject Order</h3>
-                            </div>
-                            <div class="address">Reject order apabila ada kesalahan ketika client input order</div>
-                            <a data-toggle="modal" data-target="#reject" type=" button" class="btn btn-primary" width="400px">Reject</a>
-                        <?php endif; ?>
                         <?php if (count($history) > 0) : ?>
                             <h5 class="to">History Reject Order</h5>
                             <div class="address">Berisi alasan mengapa order sempat direject</div>
@@ -69,9 +62,6 @@
                                     <td id="dengan-rupiah" class="unit"><?= $row->kuantitas; ?></td>
                                     <td class="unit">Rp
                                         <text id="<?= 'hargaItem-' . ($i - 1); ?>"> <?= $row->harga_item != null ? $row->harga_item : 0; ?> </text>
-                                        <?php if ($isEditEnabled == true) : ?>
-                                            <a href="#" data-toggle="modal" data-id="<?= $i - 1; ?>" data-target="#updateHargaItem">edit</a>
-                                        <?php endif; ?>
                                     </td>
                                     <td class="total">Rp
                                         <text id="<?= 'totalHargaItem-' . ($i - 1); ?>"> <?= $row->total_harga != null ? $row->total_harga : 0; ?></text>
@@ -118,79 +108,19 @@
                                         <?= form_error('grand_total', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><strong for="inputAddress">Simpan</strong></td>
-
-                                    <td>
-                                        <?php if ($isEditEnabled == true) : ?>
-                                            <button class="btn btn-primary" id="save">Save</button>
-                                        <?php endif; ?>
-                                        <?php if ($isEditEnabled == false) : ?>
-                                            <p>Data Sudah Tersimpan</p>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <?php if ($isEditEnabled == true) : ?>
-                    <div class="col-sm-12 mt-2">
-                        <div class="card bg-light mb-3">
-                            <div class="card-header">
-                                <h4>Surat Purchase order dan Bukti Pembayaran</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <?php foreach ($images as $image) : ?>
-                                        <div class="col-sm-6">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <embed type="application/pdf" src="<?= base_url('assets/po_client/' . $image['image']); ?>" width="450" height="600"></embed>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
+                <?php if ($isKonfirmasiOrder == true) : ?>
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#konfirmasi"><?= $buttonName; ?></button>
                     </div>
-                    <!-- <?php endif; ?>
-                <!-- <div class="col-md-12">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" data-id="#>" data-toggle="modal" data-target="#submit">Konfirmasi Pembayaran Berhasil</button>
-                </div> --> -->
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Modal Submit Order -->
-
-<!-- Modal -->
-<div class="modal fade" id="submit" tabindex="-1" aria-labelledby="submitLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="submitLabel">Konfirmasi Pembayaran</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h4>Apakah anda yakin?</h4>
-                <p>Periksa kembali sebelum melakukan konfirmasi!</p>
-            </div>
-            <div class="modal-footer">
-                <?= form_open_multipart('client/submitOrder'); ?>
-                <input hidden id="id" name="id" value="#">
-                <input hidden id="user_id" name="user_id" value="#">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Konfirmasi Pembayaran</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- History Reject Modal-->
 <div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -218,55 +148,23 @@
     </div>
 </div>
 
-<!-- Reject Modal-->
-<div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Submit Order -->
+<div class="modal fade" id="konfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Input Alasan</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Order</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12">
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">Alasan</strong>
-                        <textarea class="form-control" id="alasan" name="alasan" value="" placeholder="Alasan" required></textarea>
-                        <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
-                </div>
+                <h4>Apakah anda yakin?</h4>
+                <p>Periksa kembali sebelum melakukan konfirmasi!</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="saveAlasan" data-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Update Harga Modal-->
-<div class="modal fade" id="updateHargaItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Input Harga</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-12">
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">Harga Item</strong>
-                        <input type="number" class="form-control" id="harga_item" name="harga_item" value="<?= set_value('harga_item'); ?>" placeholder="Harga Item" required>
-                        <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="saveHargaItem" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="submit" class="btn btn-primary">Konfirmasi</button>
             </div>
         </div>
     </div>
@@ -290,6 +188,22 @@
                 queryNotif(base_url);
             }
         })
+
+        $('#submit').click(function() {
+            console.log("log");
+            $.ajax({
+                url: "<?php echo base_url(); ?>produksi/KonfirmasiOrder",
+                method: "POST",
+                data: {
+                    id: <?= $order->id; ?>,
+                    status: "<?= $nextStatus; ?>"
+                },
+                success: function() {
+                    alert("Berhasil dikonfirmasi!");
+                    window.location.replace("<?php echo base_url(); ?>produksi/daftarorder");
+                }
+            })
+        });
     });
 </script>
 <style>

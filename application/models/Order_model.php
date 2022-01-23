@@ -35,6 +35,7 @@ class Order_model extends CI_Model
 			'order_id' => $this->input->post('id'),
 			'executor' =>  $user['id'],
 			'recipient_role_id' =>  4,
+			'status' => $data['status']
 		);
 		$this->db->insert('notifikasi', $notifikasi);
 
