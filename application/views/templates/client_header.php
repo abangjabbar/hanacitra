@@ -77,21 +77,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                 echo 'active';
                                                                             } ?>">Beranda</a>
                     </li>
-                    <li class="dropdown"><a href="#"><span>Produk</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="#">Produk <i class="bi bi-chevron-down"></i></a>
                         <ul>
+                            <li><a href="<?= site_url('client/profil'); ?>" class="<?php if ($this->uri->uri_string() == 'client/profil') {
+                                                                                        echo 'active';
+                                                                                    } ?>">Profil</a></li>
                             <li><a href="#">Jenis Bentuk Box</a></li>
                             <li><a href="#">Jenis Bahan Box</a></li>
                             <li><a href="#">Stok Bahan Box</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="<?= site_url('client/daftarPesanan'); ?>" class="<?php if ($this->uri->uri_string() == 'client/daftarPesanan') {
-                                                                                        echo 'active';
-                                                                                    } ?>">Daftar Transaksi</a>
-                    </li>
-                    <li class="dropdown"><a href="#"><span>Tentang Kami</span> <i class="bi bi-chevron-down"></i></a>
+                    <li id="tentangKami" class="dropdown"><a href="#">Tentang Kami <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="#">Profil Perusahaan</a></li>
+                            <li><a href="<?= site_url('client/daftarPesanan'); ?>" class="<?php if ($this->uri->uri_string() == 'client/daftarPesanan') {
+                                                                                                echo 'active';
+                                                                                            } ?>">Daftar Transaksi</a></li>
                             <li><a href="#">Kontak Kami</a></li>
                             <li><a href="#">Customer Kami</a></li>
                             <li><a href="#">Galeri</a></li>
@@ -124,6 +124,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="<?= base_url('assets/notif.js'); ?>" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
+
+
+            Array.from($('#navbar a')).forEach(a => {
+                if (a.classList.contains("active")) {
+                    a.parentElement.parentElement.parentElement.firstChild.classList.add("active");
+                }
+            })
+
             const base_url = "<?= base_url(); ?>/client";
 
             queryNotif(base_url);
@@ -131,6 +139,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 console.log("Reload notif...")
                 queryNotif(base_url);
             }, 30000);
+
 
         });
     </script>
