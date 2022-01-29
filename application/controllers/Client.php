@@ -235,13 +235,12 @@ class Client extends CI_Controller
 
     public function order($orderId)
     {
-        $data['title'] = 'Daftar Transaksi';
+        $data['title'] = 'Order';
 
         $data['user'] = $this->session->userdata('user');
         $data['order'] = $this->Order_model->getOrder($orderId);
         $data['barang'] = $this->Barang_model->getBarang($data['order'][0]->id);
         $data['history'] = $this->Sales_model->get_history($orderId);
-        $data['images'] = $this->Barang_model->detail_image($orderId);
 
         $status = null;
         if ($data['order'] == false) {
@@ -265,7 +264,19 @@ class Client extends CI_Controller
                         break;
                     }
                 case "Menunggu Konfirmasi Pembayaran Dari Admin": {
-                        $status = "Mohon tunggu konfrimasi pembayaran dari admin, lalu order akan langsung diproses";
+                        $status = "Mohon tunggu konfrimasi pembayaran dari admin, sebelum order diproses";
+                        break;
+                    }
+                case "Pembayaran Terkonfirmasi": {
+                        $status = "Pembayaran anda sudah terkonfirmasi, order akan segera diproses";
+                        break;
+                    }
+                case "Order Sedang Diproses": {
+                        $status = "Order anda sedang kami proses";
+                        break;
+                    }
+                case "Order Dikirim": {
+                        $status = "Order anda sedang dalam proses pengiriman";
                         break;
                     }
             }
@@ -287,6 +298,9 @@ class Client extends CI_Controller
         $data['user'] = $this->session->userdata('user');
 
         $this->Order_model->submit_order($data['user']);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                    Order Berhasil Ditambahkan
+                    </div>');
         redirect('client/daftarpesanan');
     }
 
@@ -299,6 +313,7 @@ class Client extends CI_Controller
         $data['nomorOrder'] = $this->Order_model->nomor_order();
 
         $barang = [];
+        $harga = [];
         $status = [];
 
         if ($data['order'] == false) {
@@ -306,18 +321,39 @@ class Client extends CI_Controller
         } else {
             foreach ($data['order'] as $order) {
                 $barang[$order->id] = $this->Barang_model->getBarang($order->id);
+                $harga[$order->id] = $this->Order_model->getOrder($order->id);
                 $currentStatus = null;
                 switch ($order->status) {
                     case 'Menunggu Submit': {
                             $currentStatus = "Silahkan selesaikan pesanan anda, agar kami bisa proses";
                             break;
                         }
-                    case 'DRAFT': {
-                            $currentStatus = "Menunggu Pembayaran";
+                    case 'Menunggu Konfirmasi Admin': {
+                            $currentStatus = "Silahkan tunggu konfirmasi dari admin untuk mendapatkan informasi harga dari order anda";
                             break;
                         }
-                    case 'DV': {
-                            $currentStatus = "Menunggu Konfirmasi";
+                    case 'Menunggu Submit Revisi': {
+                            $currentStatus = "Order ditolak, silahkan perbaiki order anda, agar kami bisa proses";
+                            break;
+                        }
+                    case "Order Berhasil, Menunggu Bukti Pembayaran": {
+                            $currentStatus = "Silahkan melakukan pembayaran,<br>lalu unggah bukti pembayaran dan surat purchase order anda";
+                            break;
+                        }
+                    case 'Menunggu Konfirmasi Pembayaran Dari Admin': {
+                            $currentStatus = "Mohon tunggu konfrimasi pembayaran dari admin, sebelum order diproses";
+                            break;
+                        }
+                    case 'Pembayaran Terkonfirmasi': {
+                            $currentStatus = "Pembayaran anda sudah terkonfirmasi, order akan segera diproses";
+                            break;
+                        }
+                    case 'Order Sedang Diproses': {
+                            $currentStatus = "Order anda sedang kami proses";
+                            break;
+                        }
+                    case 'Order Dikirim': {
+                            $currentStatus = "Order anda sedang dalam proses pengiriman";
                             break;
                         }
                 }
@@ -326,6 +362,7 @@ class Client extends CI_Controller
         }
 
         $data['barang'] = $barang;
+        $data['harga'] = $harga;
 
         $data['status'] = $status;
 
@@ -352,6 +389,9 @@ class Client extends CI_Controller
         $this->form_validation->set_rules('subkualitas', 'Material', 'required');
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
         $this->form_validation->set_rules('kuantitas', 'Kuantitas', 'required');
+        if (empty($_FILES['image']['name'])) {
+            $this->form_validation->set_rules('image', 'Document', 'required');
+        }
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/client_header', $data);
@@ -380,7 +420,7 @@ class Client extends CI_Controller
             if ($upload) {
                 $numberOfFiles = sizeof($upload);
                 $files = $_FILES['image'];
-                $config['allowed_types'] = 'gif|png|jpg|jpeg';
+                $config['allowed_types'] = 'pdf';
                 $config['max_size'] = '3000';
                 $config['upload_path'] = './assets/drawing_client/';
                 $this->load->library('upload', $config);
@@ -415,7 +455,9 @@ class Client extends CI_Controller
             }
 
             $this->db->trans_complete();
-            $this->session->set_flashdata('status', 'data berhasil disimpan');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                    Barang Berhasil Ditambahkan
+                    </div>');
             redirect('client/order/' . $orderId);
         }
     }
@@ -435,6 +477,8 @@ class Client extends CI_Controller
 
     public function proses_edit_barang()
     {
+        $this->db->trans_start();
+
         $data = array(
             'nama_barang' => $this->input->post('nama_barang'),
             'panjang' => $this->input->post('panjang'),
@@ -448,6 +492,49 @@ class Client extends CI_Controller
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('barang', $data);
 
+        $this->Multipleupload_model->delete($this->input->post('id'));
+
+        $barang_id = $this->input->post('id');
+
+        $upload = $_FILES['image']['name'];
+        if ($upload) {
+            $numberOfFiles = sizeof($upload);
+            $files = $_FILES['image'];
+            $config['allowed_types'] = 'pdf';
+            $config['max_size'] = '3000';
+            $config['upload_path'] = './assets/drawing_client/';
+            $this->load->library('upload', $config);
+
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['image']['name'] = $files['name'][$i];
+                $_FILES['image']['type'] = $files['type'][$i];
+                $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['image']['error'] = $files['error'][$i];
+                $_FILES['image']['size'] = $files['size'][$i];
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('image')) {
+                    $data = $this->upload->data();
+                    $imageName = $data['file_name'];
+                    $cek = $this->Multipleupload_model->cekData();
+                    if (!$cek) {
+                        $groupImage = 1;
+                    } else {
+                        $groupImage = $cek['group_image'] + 1;
+                    }
+                    $insert[$i]['barang_id'] = $barang_id;
+                    $insert[$i]['image'] = $imageName;
+                    $insert[$i]['group_image'] = $groupImage;
+                    $insert[$i]['date_created'] = time();
+                }
+            }
+            if (isset($insert)) {
+                $this->Multipleupload_model->upload($insert, $data['file_name']);
+            }
+        }
+
+        $this->db->trans_complete();
         if ($this->db->affected_rows() > 0) {
             echo "<script>alert('Data berhasil diubah');</script>";
         }
@@ -463,6 +550,19 @@ class Client extends CI_Controller
             echo "<script>alert('Data berhasil dihapus');</script>";
         }
         echo "<script>window.location='" . site_url('client/order/' . $this->input->post('order_id')) . "';</script>";
+    }
+
+    public function detailDesain($barangId)
+    {
+        $data['title'] = 'Detail Harga Transaksi';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['barang'] = $this->Barang_model->get_id_barang($barangId);
+        $data['images'] = $this->Barang_model->getDataImage($barangId);
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('client/detail_desain', $data);
+        $this->load->view('templates/client_footer', $data);
     }
 
 

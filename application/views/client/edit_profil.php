@@ -30,8 +30,8 @@
             <!-- /Breadcrumb -->
 
             <div class="row gutters-md">
+                <?= form_open_multipart('client/editprofil'); ?>
                 <div class="col-md-5">
-                    <?= form_open_multipart('client/editprofil'); ?>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">

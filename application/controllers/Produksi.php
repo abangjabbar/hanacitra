@@ -157,10 +157,10 @@ class Produksi extends CI_Controller
             $buttonName = "Proses Order";
             $isKonfirmasiOrder = true;
         } else if ($data['order']->status == "Order Sedang Diproses") {
-            $nextStatus = "Order Sedang Dalam Pengiriman";
+            $nextStatus = "Order Dikirim";
             $buttonName = "Kirim Order";
             $isKonfirmasiOrder = true;
-        } else if ($data['order']->status == "Order Sedang Dalam Pengiriman") {
+        } else if ($data['order']->status == "Order Dikirim") {
             $nextStatus = "Order Selesai";
             $buttonName = "Order Selesai";
             $isKonfirmasiOrder = true;
@@ -175,6 +175,19 @@ class Produksi extends CI_Controller
         $this->load->view('templates/admin_topbar', $data);
         $this->load->view('produksi/order', $data);
         $this->load->view('templates/admin_footer');
+    }
+
+    public function detailDesain($barangId)
+    {
+        $data['title'] = 'Detail Harga Transaksi';
+        $data['user'] = $this->session->userdata('user');
+
+        $data['barang'] = $this->Barang_model->get_id_barang($barangId);
+        $data['images'] = $this->Barang_model->getDataImage($barangId);
+
+        $this->load->view('templates/client_header', $data);
+        $this->load->view('produksi/detail_desain', $data);
+        $this->load->view('templates/client_footer', $data);
     }
 
     public function queryNotif()

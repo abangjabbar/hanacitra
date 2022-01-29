@@ -26,16 +26,11 @@ class Barang_model extends CI_Model
         $this->db->delete('multiple_image');
     }
 
-    public function getDataImage($group)
+    public function getDataImage($barangId)
     {
-        return $this->db->get_where('multiple_image', ['barang_id' => $group])->result_array();
-    }
-
-    public function detail_image()
-    {
-        $query  = $this->db->select('multiple_image.*')
-            ->from('multiple_image')
-            ->where('barang_id', $this->input->post('id'));
+        $query = $this->db->select('barang.*,multiple_image.id as multiple_image_id,multiple_image.image')->from('barang')
+            ->join('multiple_image', 'barang.id = multiple_image.barang_id', 'INNER')
+            ->where('barang.id', $barangId);
         return $query->get()->result();
     }
 }

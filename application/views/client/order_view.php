@@ -5,6 +5,7 @@
                 <div class="breadcrumb-content">
                     <h3>Halaman Order</h3>
                     <p>Pastikan Pesanan yang Dibuat Sudah Sesuai Dengan Keinginan</p>
+                    <?= $this->session->flashdata('message'); ?>
                 </div>
             </div>
         </div>
@@ -196,8 +197,8 @@
                                         <td><?= $row->subkualitas_nama; ?> </td>
                                         <td><?= $row->deskripsi; ?> </td>
                                         <td>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#desain"><strong>
-                                                    Detail Desain</strong></a>
+                                            <a href="<?= base_url(); ?>client/detailDesain/<?= $row->id; ?>" <strong>
+                                                Detail Desain</strong></a>
                                         </td>
                                         <td><?= $row->panjang; ?>cm </td>
                                         <td><?= $row->lebar; ?>cm </td>
@@ -207,18 +208,7 @@
                                             <td style="text-align:center;"><?= $row->harga_item; ?> </td>
                                             <td style="text-align:center;"><?= $row->total_harga; ?> </td>
                                         <?php endif; ?>
-                                        <?php if ($order[0]->status == "Menunggu Submit") : ?>
-                                            <td style="width: 11%;">
-                                                <a href="<?php echo base_url(); ?>client/editBarang/<?php echo $row->id; ?>" type="button" class="btn btn-primary btn-sm">
-                                                    Edit</a>
-                                                <form action="<?= site_url('client/hapusBarang'); ?>" method="post">
-                                                    <input type="hidden" name="id" value="<?= $row->id; ?>">
-                                                    <input type="hidden" name="order_id" value="<?= $row->order_id; ?>">
-                                                    <button class="btn btn-danger btn-sm">
-                                                        Hapus</button>
-                                                </form>
-                                            </td>
-                                        <?php elseif ($order[0]->status == "Menunggu Submit Revisi") : ?>
+                                        <?php if ($order[0]->status == "Menunggu Submit" || $order[0]->status == "Menunggu Submit Revisi") : ?>
                                             <td style="width: 11%;">
                                                 <a href="<?php echo base_url(); ?>client/editBarang/<?php echo $row->id; ?>" type="button" class="btn btn-primary btn-sm">
                                                     Edit</a>
@@ -236,7 +226,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php if ($order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran" || $order[0]->status == "Menunggu Konfirmasi Pembayaran Dari Admin") : ?>
+                    <?php if (
+                        $order[0]->status == "Order Berhasil, Menunggu Bukti Pembayaran" || $order[0]->status == "Menunggu Konfirmasi Pembayaran Dari Admin"
+                        || $order[0]->status == "Pembayaran Terkonfirmasi" || $order[0]->status == "Order Sedang Diproses" || $order[0]->status == "Order Dikirim"
+                        || $order[0]->status == "Order Selesai"
+                    ) : ?>
                         <div class="row">
                             <div class="col-lg-8 col-sm-5">
 
@@ -366,14 +360,14 @@
                 <div class="container">
                     <div class="col-sm-12 mt-2">
                         <div class="row">
-                            <?php foreach ($images as $hhh) : ?>
+                            <?php foreach ($barang as $hhh) : ?>
                                 <div class="col-sm-8">
                                     <div class="card">
                                         <div class="card-body">
-                                            <img src="<?= base_url('assets/drawing_client/' . $hhh->image); ?>" alt="<?= $hhh->image; ?>" class="img-thumbnail" style="width: 200%;">
+                                            <img src="<?= base_url('assets/drawing_client/' . $hhh->id); ?>" class="img-thumbnail" style="width: 200%;">
                                         </div>
+                                        <?php var_dump($hhh); ?>
                                     </div>
-                                    <?php var_dump($image); ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -385,7 +379,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Modal Submit Order -->
 <div class="modal fade" id="submit" tabindex="-1" aria-labelledby="submitLabel" aria-hidden="true">

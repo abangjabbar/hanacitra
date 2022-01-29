@@ -19,6 +19,12 @@ class Multipleupload_model extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function delete($barangId)
+    {
+        $this->db->where('barang_id', $barangId);
+        $this->db->delete('multiple_image');
+    }
+
     public function getDataGroup()
     {
         $this->db->where('main_image', 1);

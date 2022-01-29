@@ -24,7 +24,7 @@ class Produksi_model extends CI_Model
 
     function getOrderList()
     {
-        $status = array("Pembayaran Terkonfirmasi", "Order Sedang Diproses", "Order Sedang Dalam Pengiriman", "Order Selesai");
+        $status = array("Pembayaran Terkonfirmasi", "Order Sedang Diproses", "Order Dikirim", "Order Selesai");
         $query = $this->db->select('order.*,harga_order.grand_total')->from('order')
             ->join('harga_order', 'order.id = harga_order.order_id', 'LEFT')
             ->where_in('order.status', $status)

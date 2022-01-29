@@ -4,6 +4,12 @@
         <div class="row">
             <div class="col-lg-12 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
                 <h1><?= $title; ?></h1>
+                <?php if ($order == true) : ?>
+                    <div class="d-flex justify-content-center justify-content-lg-start">
+                        <a href="" type="button" class="btn-get-started scrollto" data-bs-toggle="modal" data-bs-target="#addOrder">
+                            Tambah Order</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -33,23 +39,15 @@
 </section>
 
 <section>
-    <?php if ($order == true) : ?>
-        <div class="container">
-            <button href="" type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#addOrder">
-                Tambah Order</button>
-        </div>
-    <?php endif; ?>
-</section>
-
-<section>
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
+                <?= $this->session->flashdata('message'); ?>
                 <?php foreach ($order as $order) : ?>
-                    <div class="card card-margin" style="width: 70rem;">
+                    <div class="card">
                         <div class="card-body pt-0">
                             <div class="row gutters-sm">
-                                <div class="col-md-9 mb-3">
+                                <div class="col-md-8 mb-3">
                                     <br>
                                     <div class="widget-49">
                                         <div class="widget-49-title-wrapper">
@@ -59,9 +57,10 @@
                                             </div>
                                             <div class="widget-49-meeting-info">
                                                 <span class="widget-49-pro-title"><?= $order->order_nomor; ?></span>
-                                                <span class="widget-49-meeting-time"><?= tanggal_indonesia($order->tgl_order); ?></span>
+                                                <span class="widget-49-meeting-time"><?= tgl_indonesia($order->tgl_order); ?></span>
                                             </div>
                                         </div>
+                                        <br>
                                         <ol class="widget-49-meeting-points">
                                             <?php foreach ($barang[$order->id] as $stuff) : ?>
                                                 <li class="widget-49-meeting-item"><span><?= $stuff->nama_barang; ?></span></li>
@@ -69,7 +68,7 @@
                                         </ol>
                                     </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <br>
                                     <div class="card">
                                         <div class="card-body">
@@ -89,6 +88,11 @@
                                     <div class="primary-btn" style="float: right;">
                                         <a href="<?php echo base_url(); ?>client/order/<?php echo $order->id; ?>" class="btn btn-primary">Detail Pesanan</a>
                                     </div>
+                                    <h5 class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Pembayaran:</span>
+                                        <?php foreach ($harga[$order->id] as $stuff) : ?>
+                                            <?= "Rp " . number_format($stuff->grand_total, 2, ",", "."); ?>
+                                        <?php endforeach; ?>
+                                    </h5>
                                 </div>
                             </div>
                         </div>

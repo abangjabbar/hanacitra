@@ -2,6 +2,7 @@
 
 class Order_model extends CI_Model
 {
+
 	function getOrder($orderId)
 	{
 		$query = $this->db->select('order.*,harga_order.id as harga_order_id,harga_order.grand_total,harga_order.ppn,harga_order.diskon')->from('order')

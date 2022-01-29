@@ -122,12 +122,28 @@
                             <?= form_error('deskripsi', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="col-md-12 mb-3">
+                            <div class="mb-3 row">
+                                <strong for="image">Desain</strong>
+                                <input type="hidden" name="id" value="">
+                                <div class="col-sm-12">
+                                    <input type="file" accept=".pdf" class="form-control" id="image" name="image[]" value="<?= set_value('image'); ?>" multiple>
+                                    <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
+                                </div>
+                                <div class="col-sm-12">
+                                    <strong><a href="<?= base_url(); ?>client/detailDesain/<?= $barang['id']; ?>">Detail Desain Sebelumnya</a></strong>
+                                </div>
+                                <div class="col-sm-12">
+                                    *upload denganformat pdf dan size kurang dari 3MB
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
                             <h5 for="input">Kuantitas</h5>
                             <input type="number" class="form-control" placeholder="Kuantitas" id="kuantitas" value="<?= $barang['kuantitas']; ?>" name="kuantitas" required></input>
                             <?= form_error('kuantitas', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <button type="submit" class="btn btn-primary">Tambah</button>
+                            <button id="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -171,7 +187,46 @@
                     $('#subkualitas').html(data);
                 }
             })
-        })
+        });
+
+        $('#submit').click(function() {
+            const formData = new FormData();
+            formData.append('id', $('#id').val());
+            formData.append('order_id', $('#order_id').val());
+            formData.append('nama_barang', $('#nama_barang').val());
+            formData.append('panjang', $('#panjang').val());
+            formData.append('lebar', $('#lebar').val());
+            formData.append('tinggi', $('#tinggi').val());
+            formData.append('kualitas', $('#kualitas').val());
+            formData.append('subkualitas', $('#subkualitas').val());
+            formData.append('deskripsi', $('#deskripsi').val());
+            formData.append('kuantitas', $('#kuantitas').val());
+            const files = document.getElementById('image').files;
+
+            for (var i = 0; i < files.length; i++) {
+                const type = files[i].type;
+                const size = files[i].size;
+                if (type.split('/')[1] != 'pdf') {
+                    alert("File type must be pdf");
+                    return;
+                } else if (size > 3145728) {
+                    alert("File size must be less than 3MB");
+                    return;
+                }
+                formData.append('image[]', files[i])
+            }
+            $.ajax({
+                url: "<?php echo base_url(); ?>client/proses_edit_barang/<?php echo $barang['id'] ?>",
+                method: "POST",
+                contentType: false,
+                data: formData,
+                processData: false,
+                success: function() {
+                    alert("Order information updated!");
+                    window.location.replace("<?php echo base_url(); ?>client/order/<?php echo $barang['order_id']; ?>");
+                }
+            })
+        });
 
 
     });

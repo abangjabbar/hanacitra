@@ -48,7 +48,7 @@ class Auth extends CI_Controller
                     if ($user['role_id'] == 1) {
                         $role = 'admin';
                     } else if ($user['role_id'] == 2) {
-                        $role = 'user';
+                        $role = 'administrator';
                     } else if ($user['role_id'] == 3) {
                         $role = 'produksi';
                     } else  if ($user['role_id'] == 4) {
@@ -151,7 +151,7 @@ class Auth extends CI_Controller
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_user' => 'jakasyarif13o@gmail.com',
-            'smtp_pass' => 'kzkhveiikwdiolzu',
+            'smtp_pass' => 'yftkkhfooyhfzghc',
             'smtp_port' => 465,
             'mailtype'  => 'html',
             'charset'   => 'utf-8',

@@ -16,7 +16,7 @@
                     <a href="<?= site_url("auth") ?>" class="btn-get-started scrollto">Pesan Sekarang</a>
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+            <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">
                 <img src="<?= base_url('assets/'); ?>arsha/img/pngegg.png" width="350" class="img-fluid animated" alt="">
             </div>
         </div>

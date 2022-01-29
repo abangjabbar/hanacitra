@@ -3,15 +3,15 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-8 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
                 <h1>Solusi Untuk Bisnis Anda</h1>
-                <h2>Kami menyediakan jasa pembuatan karton box untuk kemasan dengan berbagai jenis dan bentuk</h2>
+                <h2>Kami menyediakan jasa pembuatan karton box untuk<br>kemasan dengan berbagai jenis dan bentuk</h2>
                 <div class="d-flex justify-content-center justify-content-lg-start">
                     <a href="<?= site_url("auth") ?>" class="btn-get-started scrollto">Pesan Sekarang</a>
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-                <img src="<?= base_url('assets/'); ?>images/paper-box.jpg" width="350" class="img-fluid animated" alt="">
+            <div class="col-lg-4 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200" style="float: right;">
+                <img src="<?= base_url('assets/'); ?>arsha/img/pngegg.png" width="350" class="img-fluid animated" alt="">
             </div>
         </div>
     </div>
@@ -27,27 +27,27 @@
             <div class="row" data-aos="zoom-in">
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-1.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/isuzu.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-2.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/suzuki.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-3.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/ASAHI.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-4.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/nissan.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-5.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/stanley.png" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/client-6.png" class="img-fluid" alt="">
+                    <img src="<?= base_url('assets/'); ?>arsha/img/clients/yamaha.png" class="img-fluid" alt="">
                 </div>
 
             </div>

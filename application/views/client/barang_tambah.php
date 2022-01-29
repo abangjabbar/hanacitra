@@ -58,10 +58,10 @@
                         <strong>Form Pemesanan</strong>
                     </div>
                     <div class="card-body">
-                        <?= form_open_multipart('client/tambahBarang/' . $orderId); ?>
+                        <!-- <?= form_open_multipart('client/tambahBarang/' . $orderId); ?> -->
                         <div class="col-md-12 mb-3">
                             <strong for="inputAddress">Nama Barang</strong>
-                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= set_value('nama_barang'); ?>" placeholder="Nama Barang" required>
+                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= set_value('nama_barang'); ?>" placeholder="Nama Barang">
                             <?= form_error('nama_barang', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="col-md-12 mb-3">
@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <strong for="kualitas">Material</strong>
-                            <select class="form-control input-lg" name="kualitas" id="kualitas" value="<?= set_value('kualitas'); ?>" required>
+                            <select class="form-control input-lg" name="kualitas" id="kualitas" value="<?= set_value('kualitas'); ?>">
                                 <option value="">Pilih Material</option>
                                 <?php
                                 foreach ($kualitas as $row)
@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <strong for="floatingTextarea2">Deskripsi Cetakan yang Anda Inginkan</strong>
-                            <textarea class="form-control" placeholder="Deskripsi" id="deskripsi" name="deskripsi" value="<?= set_value('deskripsi'); ?>" style="height: 100px" required></textarea>
+                            <textarea class="form-control" placeholder="Deskripsi" id="deskripsi" name="deskripsi" value="<?= set_value('deskripsi'); ?>" style="height: 100px"></textarea>
                             <?= form_error('deskripsi', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="col-md-12 mb-3">
@@ -124,7 +124,7 @@
                                 <strong for="image">Desain</strong>
                                 <input type="hidden" name="id" value="">
                                 <div class="col-sm-12">
-                                    <input type="file" for="image" class="form-control" id="image" name="image[]" value="<?= set_value('image'); ?>" multiple required>
+                                    <input type="file" accept=".pdf" class="form-control" id="image" name="image[]" value="<?= set_value('image'); ?>" multiple>
                                     <?= form_error('image', '<small class="text-danger pl-3">', '</small>'); ?>
                                 </div>
                                 <div class="col-sm-12">
@@ -136,11 +136,11 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <h6 for="input">Kuantitas</h6>
-                            <input type="number" class="form-control" placeholder="Kuantitas" id="kuantitas" value="<?= set_value('kuantitas'); ?>" name="kuantitas" required></input>
+                            <input type="number" class="form-control" placeholder="Kuantitas" id="kuantitas" value="<?= set_value('kuantitas'); ?>" name="kuantitas"></input>
                             <?= form_error('kuantitas', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="col-md-12 mb-3" style="text-align: center;">
-                            <button type="submit" class="btn btn-primary btn-lg">Tambah</button>
+                            <button class="btn btn-primary btn-lg" id="submit">Tambah</button>
                         </div>
                     </div>
                 </div>
@@ -170,6 +170,43 @@
                     }
                 })
             }
+        });
+
+        $('#submit').click(function() {
+            const formData = new FormData();
+            formData.append('nama_barang', $('#nama_barang').val());
+            formData.append('panjang', $('#panjang').val());
+            formData.append('lebar', $('#lebar').val());
+            formData.append('tinggi', $('#tinggi').val());
+            formData.append('kualitas', $('#kualitas').val());
+            formData.append('subkualitas', $('#subkualitas').val());
+            formData.append('deskripsi', $('#deskripsi').val());
+            formData.append('kuantitas', $('#kuantitas').val());
+            const files = document.getElementById('image').files;
+
+            for (var i = 0; i < files.length; i++) {
+                const type = files[i].type;
+                const size = files[i].size;
+                if (type.split('/')[1] != 'pdf') {
+                    alert("File type must be pdf");
+                    return;
+                } else if (size > 3145728) {
+                    alert("File size must be less than 3MB");
+                    return;
+                }
+                formData.append('image[]', files[i])
+            }
+            $.ajax({
+                url: "<?php echo base_url(); ?>client/tambahBarang/<?php echo $orderId; ?>",
+                method: "POST",
+                contentType: false,
+                data: formData,
+                processData: false,
+                success: function() {
+                    alert("Order information updated!");
+                    window.location.replace("<?php echo base_url(); ?>client/order/<?php echo $orderId; ?>");
+                }
+            })
         });
 
     });

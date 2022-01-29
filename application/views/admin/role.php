@@ -24,7 +24,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,8 +34,6 @@
                             <td><?= $r['role']; ?></td>
                             <td>
                                 <a href="<?= site_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
-                                <a href="" class="badge badge-success">edit</a>
-                                <a href="" class="badge badge-danger">hapus</a>
                             </td>
                         </tr>
                         <?php $i++; ?>

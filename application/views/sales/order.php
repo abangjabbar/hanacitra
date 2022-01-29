@@ -29,8 +29,8 @@
                     </div>
                     <div class="col invoice-details">
                         <h1 class="invoice-id"><?= $order->order_nomor; ?></h1>
-                        <div class="date">Tanggal Order dibuat: <?= $order->tgl_order; ?></div>
-                        <div class="date">Tanggal Pengiriman: <?= $order->tgl_pengiriman; ?></div>
+                        <div class="date">Tanggal Order dibuat: <?= tgl_indonesia($order->tgl_order); ?></div>
+                        <div class="date">Tanggal Pengiriman: <?= tgl_indonesia($order->tgl_pengiriman); ?></div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -45,6 +45,7 @@
                                 <th scope="col">SUBSTANCE</th>
                                 <th scope="col" class="text-left" width="200px">KUALITAS</th>
                                 <th scope="col" class="text-left" width="300px">DESKRIPSI</th>
+                                <th scope="col" class="text-left" width="300px">DETAIL DESAIN</th>
                                 <th scope="col" class="text-right">KUANTITAS</th>
                                 <th scope="col" class="text-right">HARGA PER ITEM</th>
                                 <th scope="col" class="text-right" width="300px">TOTAL HARGA</th>
@@ -66,6 +67,9 @@
                                     <td id="dengan-rupiah" class="text-center"><?= $row->kualitas_nama; ?></td>
                                     <td id="dengan-rupiah" class="text-left"><?= $row->subkualitas_nama; ?></td>
                                     <td id="dengan-rupiah" class="text-left"><?= $row->deskripsi; ?></td>
+                                    <td id="dengan-rupiah" class="text-left">
+                                        <strong><a href="<?= base_url(); ?>sales/detailDesain/<?= $row->id; ?>">Detail Desain</a></strong>
+                                    </td>
                                     <td id="dengan-rupiah" class="unit"><?= $row->kuantitas; ?></td>
                                     <td class="unit">Rp
                                         <text id="<?= 'hargaItem-' . ($i - 1); ?>"> <?= $row->harga_item != null ? $row->harga_item : 0; ?> </text>
@@ -100,15 +104,8 @@
                                         <?= form_error('ppn', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <strong for="inputAddress">Diskon</strong>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="diskon" name="diskon" value="<?= $order->diskon != null ? $order->diskon : 0; ?>" placeholder="Diskon">
-                                        <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
-                                    </td>
-                                </tr>
+                                <input hidden type="text" class="form-control" id="diskon" name="diskon" value="<?= $order->diskon != null ? $order->diskon : 0; ?>" placeholder="Diskon">
+                                <?= form_error('diskon', '<small class="text-danger pl-3">', '</small>'); ?>
                                 <tr>
                                     <td>
                                         <strong for="inputAddress">Grand Total</strong>

@@ -14,6 +14,7 @@ class Sales extends CI_Controller
         $this->load->model('Barang_model');
         $this->load->model('Sales_model');
         $this->load->model('Notifikasi_model');
+        $this->load->helper('tgl_indo');
     }
 
     public function index()
@@ -127,7 +128,7 @@ class Sales extends CI_Controller
 
     public function daftarOrder()
     {
-        $data['title'] = 'Daftar Transaksi Barang';
+        $data['title'] = 'Daftar Order';
         $data['user'] = $this->session->userdata('user');
 
         $data['transaksi'] = $this->Sales_model->getOrderList();
@@ -158,7 +159,11 @@ class Sales extends CI_Controller
 
         $isKonfirmasiPembayaran = false;
 
-        if ($data['order']->status == "Menunggu Konfirmasi Pembayaran Dari Admin") {
+        if (
+            $data['order']->status == "Menunggu Konfirmasi Pembayaran Dari Admin" | $data['order']->status == "Pembayaran Terkonfirmasi"
+            | $data['order']->status == "Order Sedang Diproses" | $data['order']->status == "Order DIkirim"
+            | $data['order']->status == "Order Selesai"
+        ) {
             $isKonfirmasiPembayaran = true;
         }
         $data['isKonfirmasiPembayaran'] = $isKonfirmasiPembayaran;
@@ -184,16 +189,18 @@ class Sales extends CI_Controller
         $this->Sales_model->saveAlasan($this->input, $data['user']);
     }
 
-    public function detailImagePesanan($id)
+    public function detailDesain($barangId)
     {
-        $data['title'] = 'Detail Drawing';
+        $data['title'] = 'Detail Harga Transaksi';
         $data['user'] = $this->session->userdata('user');
 
-        $data['drawing'] = $this->Multipleupload_model->detail_image($id);
+        $data['barang'] = $this->Barang_model->get_id_barang($barangId);
+        $data['images'] = $this->Barang_model->getDataImage($barangId);
+
         $this->load->view('templates/admin_header', $data);
         $this->load->view('templates/admin_sidebar', $data);
         $this->load->view('templates/admin_topbar', $data);
-        $this->load->view('sales/detail_image', $data);
+        $this->load->view('sales/detail_desain', $data);
         $this->load->view('templates/admin_footer', $data);
     }
 
