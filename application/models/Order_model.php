@@ -43,14 +43,52 @@ class Order_model extends CI_Model
 		$this->db->trans_complete();
 	}
 
-	function getOrderList($isSales, $userID = NULL)
+	// function getOrderList($isSales, $userID = NULL)
+	// {
+	// 	$query = $this->db->select('*')->from('order')
+	// 		->order_by('id', 'desc');
+	// 	if ($isSales == FALSE) {
+	// 		$query->where('user_id', $userID);
+	// 	}
+	// 	return $query->get()->result();
+	// }
+
+	function getOrderListQuery($input, $userID)
 	{
 		$query = $this->db->select('*')->from('order')
-			->order_by('id', 'desc');
-		if ($isSales == FALSE) {
-			$query->where('user_id', $userID);
+			->where('user_id', $userID);
+
+
+		if ($input != null) {
+
+			//order nomor
+			if (isset($input['order_nomor']) && $input['order_nomor'] != '') {
+				$query->like('order_nomor', $input['order_nomor']);
+			}
+
+			//status
+			if (isset($input['status']) && $input['status'] != '') {
+				$query->like('status', $input['status']);
+			}
 		}
+
+
+		$query->order_by('id', 'desc');
+		return $query;
+	}
+
+	function getOrderList($limit, $start, $input, $userID)
+	{
+		$query = $this->getOrderListQuery($input, $userID)
+			->limit($limit, $start);
+
 		return $query->get()->result();
+	}
+
+	public function countall($input, $userID)
+	{
+		$query = $this->getOrderListQuery($input, $userID);
+		return $query->count_all_results();
 	}
 
 	public function nomor_order()

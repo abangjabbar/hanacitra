@@ -10,7 +10,19 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Daftar Order
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#cari">FILTER</button>
+                <?php if ($filter['name'] !== null && $filter['name'] !== '') : ?>
+                    <a type="button" class="btn btn-outline-primary" id="filter_name" disabled>Nama Client : <?= $filter['name']; ?> <i class="far fa-times-circle"></i></a>
+                <?php endif; ?>
+                <?php if ($filter['order_nomor'] !== null && $filter['order_nomor'] !== '') : ?>
+                    <a type="button" class="btn btn-outline-primary" id="filter_order_nomor" disabled>Nomor Order : <?= $filter['order_nomor']; ?> <i class="far fa-times-circle"></i></a>
+                <?php endif; ?>
+                <?php if ($filter['company_name'] !== null && $filter['company_name'] !== '') : ?>
+                    <a type="button" class="btn btn-outline-primary" id="filter_company_name" disabled>Nama Perusahaan : <?= $filter['company_name']; ?> <i class="far fa-times-circle"></i></a>
+                <?php endif; ?>
+                <?php if ($filter['status'] !== null && $filter['status'] !== '') : ?>
+                    <a type="button" class="btn btn-outline-primary" id="filter_status" disabled>Status : <?= $filter['status']; ?> <i class="far fa-times-circle"></i></a>
+                <?php endif; ?>
             </div>
             <div class="card-body">
                 <div class="scroll">
@@ -20,6 +32,8 @@
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Nomor Order</th>
+                                    <th scope="col">Nama Client</th>
+                                    <th scope="col">Perusahaan</th>
                                     <th scope="col">Alamat Pengiriman</th>
                                     <th scope="col">Tanggal Pengiriman</th>
                                     <th scope="col">Harga Total</th>
@@ -28,11 +42,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; ?>
-                                <?php foreach ($transaksi as $row) : ?>
+                                <?php $i = $page + 1; ?>
+                                <?php foreach ($transaksi->result()  as $row) : ?>
                                     <tr scope="row">
                                         <td><?= $i; ?></td>
                                         <td><?= $row->order_nomor; ?></td>
+                                        <td><?= $row->name; ?></td>
+                                        <td><?= $row->company_name; ?></td>
                                         <td><?= $row->alamat_pengiriman; ?></td>
                                         <td><?= $row->tgl_pengiriman; ?></td>
                                         <td><?= "Rp " . number_format($row->grand_total  != null ? $row->grand_total : 0, 2, ",", "."); ?></td>
@@ -43,6 +59,12 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col">
+                                <!--Tampilkan pagination-->
+                                <?php echo $pagination; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,115 +72,92 @@
     </div>
 </section>
 
+<!-- Search Modal-->
+<div class="modal fade" id="cari" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">FILTER</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <strong for="inputAddress">Nomor Order</strong>
+                    <input type="text" class="form-control" id="order_nomor" name="harga_item" value="<?= $filter['order_nomor']; ?>" placeholder="Nomor Order" required>
+                </div>
+                <div class="col-md-12">
+                    <strong for="inputAddress">Nama Client</strong>
+                    <input type="text" class="form-control" id="name" name="harga_item" value="<?= $filter['name'];  ?>" placeholder="Nama Client" required>
+                </div>
+                <div class="col-md-12">
+                    <strong for="inputAddress">Nama Perusahaan</strong>
+                    <input type="text" class="form-control" id="company_name" name="harga_item" value="<?= $filter['company_name'];  ?>" placeholder="Nama Perusahaan" required>
+                </div>
+                <div class="col-md-12">
+                    <strong for="inputAddress">Status</strong>
+                    <select id="status" value="<?= $filter['status']; ?>" class="form-control input-lg">
+                        <option value="">Pilih Status</option>
+                        <option value="Menunggu Konfirmasi Admin">Menunggu Konfirmasi Admin</option>
+                        <option value="Menunggu Submit Revisi">Menunggu Submit Revisi</option>
+                        <option value="Order Berhasil, Menunggu Bukti Pembayaran">Order Berhasil, Menunggu Bukti Pembayaran</option>
+                        <option value="Pembayaran Terkonfirmasi">Pembayaran Terkonfirmasi</option>
+                        <option value="Menunggu Konfirmasi Pembayaran Dari Admin">Menunggu Konfirmasi Pembayaran Dari Admin</option>
+                        <option value="Order Sedang Diproses">Order Sedang Diproses</option>
+                        <option value="Order Dikirim">Order Dikirim</option>
+                        <option value="Order Selesai">Order Selesai</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" id="search" data-dismiss="modal">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script src="<?= base_url('assets/js/jquery.3.2.1.min.js'); ?>"></script>
-<!-- <script>
-    $(document).ready(function() {
-        //Only needed for the filename of export files.
-        //Normally set in the title tag of your page.
-        document.title = 'Simple DataTable';
-        // DataTable initialisation
-        $('#example').DataTable({
-            "dom": '<"dt-buttons"Bf><"clear">lirtp',
-            "paging": false,
-            "autoWidth": true,
-            "columnDefs": [{
-                "orderable": false,
-                "targets": 5
-            }],
-            "buttons": [
-                'colvis',
-                'copyHtml5',
-                'csvHtml5',
-                'excelHtml5',
-                'pdfHtml5',
-                'print'
-            ]
-        });
-        //Add row button
-        $('.dt-add').each(function() {
-            $(this).on('click', function(evt) {
-                //Create some data and insert it
-                var rowData = [];
-                var table = $('#example').DataTable();
-                //Store next row number in array
-                var info = table.page.info();
-                rowData.push(info.recordsTotal + 1);
-                //Some description
-                rowData.push('New Order');
-                //Random date
-                var date1 = new Date(2016, 01, 01);
-                var date2 = new Date(2018, 12, 31);
-                var rndDate = new Date(+date1 + Math.random() * (date2 - date1)); //.toLocaleDateString();
-                rowData.push(rndDate.getFullYear() + '/' + (rndDate.getMonth() + 1) + '/' + rndDate.getDate());
-                //Status column
-                rowData.push('NEW');
-                //Amount column
-                rowData.push(Math.floor(Math.random() * 2000) + 1);
-                //Inserting the buttons ???
-                rowData.push('<button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button><button type="button" class="btn btn-danger btn-xs dt-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>');
-                //Looping over columns is possible
-                //var colCount = table.columns()[0].length;
-                //for(var i=0; i <script colCount; i++){			}
+<script type="text/javascript">
+    var filterValue = <?= json_encode($filter); ?>;
 
-                //INSERT THE ROW
-                table.row.add(rowData).draw(false);
-                //REMOVE EDIT AND DELETE EVENTS FROM ALL BUTTONS
-                $('.dt-edit').off('click');
-                $('.dt-delete').off('click');
-                //CREATE NEW CLICK EVENTS
-                $('.dt-edit').each(function() {
-                    $(this).on('click', function(evt) {
-                        $this = $(this);
-                        var dtRow = $this.parents('tr');
-                        $('div.modal-body').innerHTML = '';
-                        $('div.modal-body').append('Row index: ' + dtRow[0].rowIndex + '<br/>');
-                        $('div.modal-body').append('Number of columns: ' + dtRow[0].cells.length + '<br/>');
-                        for (var i = 0; i < dtRow[0].cells.length; i++) {
-                            $('div.modal-body').append('Cell (column, row) ' + dtRow[0].cells[i]._DT_CellIndex.column + ', ' + dtRow[0].cells[i]._DT_CellIndex.row + ' => innerHTML : ' + dtRow[0].cells[i].innerHTML + '<br/>');
-                        }
-                        $('#myModal').modal('show');
-                    });
-                });
-                $('.dt-delete').each(function() {
-                    $(this).on('click', function(evt) {
-                        $this = $(this);
-                        var dtRow = $this.parents('tr');
-                        if (confirm("Are you sure to delete this row?")) {
-                            var table = $('#example').DataTable();
-                            table.row(dtRow[0].rowIndex - 1).remove().draw(false);
-                        }
-                    });
-                });
-            });
-        });
-        //Edit row buttons
-        $('.dt-edit').each(function() {
-            $(this).on('click', function(evt) {
-                $this = $(this);
-                var dtRow = $this.parents('tr');
-                $('div.modal-body').innerHTML = '';
-                $('div.modal-body').append('Row index: ' + dtRow[0].rowIndex + '<br/>');
-                $('div.modal-body').append('Number of columns: ' + dtRow[0].cells.length + '<br/>');
-                for (var i = 0; i < dtRow[0].cells.length; i++) {
-                    $('div.modal-body').append('Cell (column, row) ' + dtRow[0].cells[i]._DT_CellIndex.column + ', ' + dtRow[0].cells[i]._DT_CellIndex.row + ' => innerHTML : ' + dtRow[0].cells[i].innerHTML + '<br/>');
-                }
-                $('#myModal').modal('show');
-            });
-        });
-        //Delete buttons
-        $('.dt-delete').each(function() {
-            $(this).on('click', function(evt) {
-                $this = $(this);
-                var dtRow = $this.parents('tr');
-                if (confirm("Are you sure to delete this row?")) {
-                    var table = $('#example').DataTable();
-                    table.row(dtRow[0].rowIndex - 1).remove().draw(false);
-                }
-            });
-        });
-        $('#myModal').on('hidden.bs.modal', function(evt) {
-            $('.modal .modal-body').empty();
-        });
+
+    function reset(id) {
+        $(id).val('');
+        filter();
+    }
+
+    function filter() {
+
+
+        $.ajax({
+            url: "<?= base_url(); ?>sales/daftarOrder",
+            method: "POST",
+            data: {
+                updateFilter: true,
+                name: $('#name').val(),
+                order_nomor: $('#order_nomor').val(),
+                company_name: $('#company_name').val(),
+                status: $('#status').val()
+            },
+            success: function(data) {
+                // console.log(data);
+                document.open();
+                document.write(data);
+                document.close();
+            }
+        })
+    }
+    $(document).ready(function() {
+        $('#status').val(filterValue.status);
+        $('#search').click(filter);
+        $('#filter_name').click(() => reset('#name'));
+        $('#filter_order_nomor').click(() => reset('#order_nomor'));
+        $('#filter_company_name').click(() => reset('#company_name'));
+        $('#filter_status').click(() => reset('#status'));
+
     });
-</script> -->
+</script>

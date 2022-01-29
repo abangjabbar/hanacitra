@@ -22,14 +22,65 @@ class Produksi_model extends CI_Model
         return $query->get()->result()[0];
     }
 
-    function getOrderList()
+    // function getOrderList()
+    // {
+    //     $status = array("Pembayaran Terkonfirmasi", "Order Sedang Diproses", "Order Dikirim", "Order Selesai");
+    //     $query = $this->db->select('order.*,harga_order.grand_total')->from('order')
+    //         ->join('harga_order', 'order.id = harga_order.order_id', 'LEFT')
+    //         ->where_in('order.status', $status)
+    //         ->order_by('id', 'desc');
+    //     return $query->get()->result();
+    // }
+
+    function getOrderListQuery($input)
     {
         $status = array("Pembayaran Terkonfirmasi", "Order Sedang Diproses", "Order Dikirim", "Order Selesai");
-        $query = $this->db->select('order.*,harga_order.grand_total')->from('order')
+        $query = $this->db->select('order.*,harga_order.grand_total,user.name,user.company_name')->from('order')
             ->join('harga_order', 'order.id = harga_order.order_id', 'LEFT')
-            ->where_in('order.status', $status)
-            ->order_by('id', 'desc');
-        return $query->get()->result();
+            ->join('user', 'order.user_id = user.id', 'INNER')
+            ->where_in('order.status', $status);
+
+
+        if ($input != null) {
+
+            //name
+            if (isset($input['name']) && $input['name'] != '') {
+                $query->like('name', $input['name']);
+            }
+
+            //order nomor
+            if (isset($input['order_nomor']) && $input['order_nomor'] != '') {
+                $query->like('order_nomor', $input['order_nomor']);
+            }
+
+            //company name
+            if (isset($input['company_name']) && $input['company_name'] != '') {
+                $query->like('company_name', $input['company_name']);
+            }
+
+            //status
+            if (isset($input['status']) && $input['status'] != '') {
+                $query->like('status', $input['status']);
+            }
+        }
+
+
+        $query->order_by('id', 'desc');
+        return $query;
+    }
+
+    function getOrderList($limit, $start, $input)
+    {
+        $query = $this->getOrderListQuery($input)
+            ->limit($limit, $start);
+
+        return $query->get();
+    }
+
+    public function countall($input)
+    {
+        $query = $this->getOrderListQuery($input);
+        return $query->count_all_results();
     }
 
     public function set_notifikasi($orderId, $user)

@@ -230,6 +230,7 @@ class Auth extends CI_Controller
     public function logout()
     {
         $this->session->unset_userdata('user');
+        $this->session->unset_userdata('filter');
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Berhasil Log out

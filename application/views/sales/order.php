@@ -222,11 +222,9 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-12">
-                    <div class="col-md-12 mb-3">
-                        <strong for="inputAddress">Alasan</strong>
-                        <textarea class="form-control" id="alasan" name="alasan" value="" placeholder="Alasan" required></textarea>
-                        <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
-                    </div>
+                    <strong for="inputAddress">Alasan</strong>
+                    <textarea class="form-control" id="alasan" name="alasan" value="" placeholder="Alasan" required></textarea>
+                    <?= form_error('harga_item', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>
             <div class="modal-footer">
