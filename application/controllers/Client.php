@@ -44,6 +44,8 @@ class Client extends CI_Controller
         $data['title'] = 'Sunting Profil';
         $data['user'] = $this->session->userdata('user');
 
+        $user = $data['user'];
+
         $this->form_validation->set_rules('name', 'Nama Lengkap', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -86,6 +88,15 @@ class Client extends CI_Controller
             $this->db->where('email', $email);
             $this->db->update('user');
 
+            $user['name'] = $name;
+            $user['telp'] = $telp;
+            $user['company_name'] = $company_name;
+            $user['alamat'] = $alamat;
+            if (isset($new_image)) {
+                $user['image'] = $new_image;
+            }
+            $this->session->set_userdata('user', $user);
+
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Profil anda sudah diperbarui
             </div>');
@@ -127,7 +138,7 @@ class Client extends CI_Controller
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
                     $this->db->set('password', $password_hash);
-                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->where('email', $this->session->userdata('user')['email']);
                     $this->db->update('user');
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">

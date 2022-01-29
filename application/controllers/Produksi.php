@@ -113,7 +113,7 @@ class Produksi extends CI_Controller
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
                     $this->db->set('password', $password_hash);
-                    $this->db->where('email', $this->session->userdata('email'));
+                    $this->db->where('email', $this->session->userdata('user')['email']);
                     $this->db->update('user');
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
